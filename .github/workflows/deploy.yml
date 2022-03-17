@@ -22,7 +22,6 @@ jobs:
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
 
-    https://devcenter.heroku.com/articles/authentication
     - run: |+
           cat >~/.netrc <<EOF
           machine api.heroku.com
