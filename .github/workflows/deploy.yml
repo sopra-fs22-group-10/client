@@ -21,8 +21,7 @@ jobs:
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
-    
-    create .netrc file for heroku authentication
+
     https://devcenter.heroku.com/articles/authentication
     - run: |+
           cat >~/.netrc <<EOF
