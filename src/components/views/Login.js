@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import User from 'models/User';
+import {handleError} from 'helpers/api';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
+import FormField from "components/ui/FormField";
+import {getDomain} from "../../helpers/getDomain";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -13,78 +13,74 @@ however be sure not to clutter your files with an endless amount!
 As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
-const FormField = props => {
-  return (
-    <div className="login field">
-      <label className="login label">
-        {props.label}
-      </label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
-
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
 
 const Login = props => {
-  const history = useHistory();
-  const [name, setName] = useState(null);
-  const [username, setUsername] = useState(null);
+    const history = useHistory();
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
 
-  const doLogin = async () => {
-    try {
-      const requestBody = JSON.stringify({username, name});
-      const response = await api.post('/users', requestBody);
+    const doLogin = async () => {
+        try {
+            const requestBody = JSON.stringify({username, password});
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: requestBody
+            };
+            const response = await fetch(`${getDomain()}/loginrequests`, requestOptions);
+            const userData = await response.json();
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
+            if (response.headers.get("Authentication")==='null' || response.headers.get("Authentication")==null) {
+                throw new Error(`login unsuccessful!: \n ${userData.trace}`)
+            }
 
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
+            console.log("Logged in as user:")
+            console.log(userData)
+            localStorage.setItem('Authentication', response.headers.get("Authentication")); //store authentification
+            localStorage.setItem('UserID', userData.id);
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
-  };
+            // Login successfully worked --> navigate to the route /game in the GameRouter
+            history.push(`/game`);
+        } catch (error) {
+            alert(`Something went wrong during the login: \n${handleError(error)}`);
+        }
+    };
 
-  return (
-    <BaseContainer>
-      <div className="login container">
-        <div className="login form">
-          <FormField
-            label="Username"
-            value={username}
-            onChange={un => setUsername(un)}
-          />
-          <FormField
-            label="Name"
-            value={name}
-            onChange={n => setName(n)}
-          />
-          <div className="login button-container">
-            <Button
-              disabled={!username || !name}
-              width="100%"
-              onClick={() => doLogin()}
-            >
-              Login
-            </Button>
-          </div>
-        </div>
-      </div>
-    </BaseContainer>
-  );
+    return (
+        <BaseContainer>
+            <div className="login container">
+                <div className="login form">
+                    <FormField
+                        label="Username"
+                        value={username}
+                        onChange={un => setUsername(un)}
+                    />
+                    <FormField
+                        label="Password"
+                        value={password}
+                        onChange={pw => setPassword(pw)}
+                    />
+                    <div className="login button-container">
+                        <Button
+                            disabled={!username || !password}
+                            width="100%"
+                            onClick={() => doLogin()}
+                        >
+                            Login
+                        </Button>
+                    </div>
+                    <div className="login button-container">
+                        <Button
+                            width="100%"
+                            onClick={() => history.push('/registration')}
+                        >
+                            Registration
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </BaseContainer>
+    );
 };
 
 /**

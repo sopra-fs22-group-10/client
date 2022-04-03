@@ -10,8 +10,9 @@ import PropTypes from "prop-types";
  * @Guard
  * @param props
  */
+
 export const GameGuard = props => {
-  if (localStorage.getItem("token")) {
+  if (localStorage.getItem("Authentication")!==null){
     return props.children;
   }
   return <Redirect to="/login"/>;
