@@ -20,7 +20,7 @@
     padding-left: 37px;
     padding-right: 37px;
     border-radius: 0.75em;
-    background-color: $background;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);
     transition: opacity 0.5s ease, transform 0.5s ease;
     box-shadow: $dropShadow;
   }
@@ -34,20 +34,20 @@
     padding-left: 15px;
     margin-left: -4px;
     border: none;
-    border-radius: 0.75em;
+    border-radius: 0.25em;
     margin-bottom: 20px;
-    background: transparentize(white, 0.85);
+    background: $accent1;
     color: $textColor;
   }
   &.label {
-    color: $textColor;
-    margin-bottom: 10px;
+    color: $background;
+    margin-bottom: 5px;
     text-transform: lowercase;
     font-weight: 300;
   }
   &.button-container {
     display: flex;
     justify-content: center;
-    margin-top: 2em;
+    margin-top: 1em;
   }
 }
