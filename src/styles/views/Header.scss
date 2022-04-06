@@ -3,11 +3,21 @@
 .header {
   &.container {
     @include center;
+    margin-left: 20px;
+    margin-top: 20px;
+    height: 80px;
+    width: 180px;
+    border: 2px solid $accentDark;
+    border-radius: 0.25em;
+    background: $accent1;
   }
 
   &.title {
     font-weight: bold;
-    color: $background;
-    text-align: center;
+    font-size: 30pt;
+    font-style: italic;
+    line-height: 25pt;
+    color: $accentDark;
+    text-align: left;
   }
 }
