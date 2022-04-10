@@ -1,5 +1,5 @@
 import {Route} from "react-router-dom";
-import Game from "components/views/Game";
+import Dashboard from "components/views/Dashboard";
 import Profile from "components/views/Profile";
 import PropTypes from 'prop-types';
 import {GameGuard} from "../routeProtectors/GameGuard";
@@ -14,7 +14,7 @@ const GameRouter = props => {
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <Route exact path={`${props.base}`}>
                 <GameGuard>
-                    <Game/>
+                    <Dashboard/>
                 </GameGuard>
             </Route>
             <Route exact path={`${props.base}/profile/:pathID`}>

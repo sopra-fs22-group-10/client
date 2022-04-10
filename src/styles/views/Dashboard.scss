@@ -1,0 +1,119 @@
+@import 'styles/theme';
+
+
+.dashboard {
+  &.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: $dropShadow;
+  }
+  &.hr.rounded {
+    border-top: 2px solid $accent1;
+    border-radius: 2px;
+    background-color: $accent1;
+    width: 100%
+  }
+  &.deck-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  &.deck-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  & p,h2 {
+    margin: 0em 0;
+  }
+  &.layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%
+  }
+  &.right {
+    display: flex;
+    flex-direction: column;
+    width: 47%;
+    margin-right: 20px;
+    margin-top: 10px;
+  }
+  &.buttons {
+   display: flex;
+   flex-direction: row;
+  }
+  &.logout {
+    margin-top: 10px;
+  }
+}
+
+.large-button {
+  & p,h2 {
+    margin: 0em 0;
+  }
+  &.container {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+    margin-right: 20px;
+    border-radius: 7px;
+    padding: 8px;
+    height: 217px;
+    width: 160px;
+    background-color: $accentDark;
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+  &.hr.rounded {
+    border-top: 2px solid $accent;
+    border-radius: 2px;
+    background-color: $accent;
+    width: 100%
+  }
+  &.title {
+    color: $accent;
+    text-align: center;
+    font-size: 14pt;
+  }
+  &.image {
+    height: 50%;
+    margin-bottom: 30px;
+  }
+}
+
+.join {
+  &.container {
+    width: 100%;
+    padding: 4px;
+    background-color: $accent1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 7px;
+  }
+  &.field {
+    border: 2px solid $accentDark;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-right: 4px;
+  }
+  &.input {
+    height: 35px;
+    padding-left: 15px;
+    border: none;
+    border-radius: 0.25em;
+    background: $accent1;
+    color: $textColor;
+  }
+}

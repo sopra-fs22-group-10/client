@@ -1,0 +1,12 @@
+@import 'styles/theme';
+
+.half-screen-container {
+  margin-left: 20px;
+  margin-right: 6%;
+  margin-top: 10px;
+  padding: 4px;
+  width: 47%;
+  color: $accent1;
+  border-radius: $borderRadius;
+  background: radial-gradient(closest-corner, $accent3, $accentDark);
+}

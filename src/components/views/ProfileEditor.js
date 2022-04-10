@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {Spinner} from 'components/ui/Spinner';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
 import {useParams} from 'react-router-dom'
@@ -49,7 +48,7 @@ const ProfileEditor = () => {
         fetchUser(pathID, setUser);
     }, []); //[dependencies]); to have it updated when any of the dependencies change
 
-    let content = <Spinner/>;
+    let content;
 
     if (user) {
         content = (
