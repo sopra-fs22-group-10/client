@@ -21,12 +21,6 @@ const ProfileEditor = () => {
         setUser(newUser);
     }
 
-    const changeBd = (bd) => {
-        const newUser = {...user};
-        newUser.birthDate = bd;
-        setUser(newUser);
-    }
-
     const returnToGame = () => {
         history.push(`/game/profile/${pathID}`);
     }
@@ -39,8 +33,6 @@ const ProfileEditor = () => {
             body: requestBody
         };
         await fetch(`${getDomain()}/users/${pathID}`, requestOptions);
-        //const response = await fetch(`${getDomain()}/users/${pathid}`, requestOptions);
-        //const data = await response.json();
         history.push(`/game/profile/${pathID}`);
     }
 

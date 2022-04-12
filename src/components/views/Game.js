@@ -6,6 +6,7 @@ import {useHistory} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
+import {logout} from "../../helpers/logout";
 
 const Player = ({user, hist}) => (
     <div className="player container"
@@ -25,12 +26,6 @@ const Game = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const [users, setUsers] = useState(null);
-
-    const logout = () => {
-        localStorage.removeItem('Authentication');
-        localStorage.removeItem('UserID');
-        history.push('/login');
-    }
 
     useEffect(() => {
         // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
@@ -62,7 +57,7 @@ const Game = () => {
                 </ul>
                 <Button
                     width="100%"
-                    onClick={() => logout()}
+                    onClick={() => logout(history)}
                 >
                     Logout
                 </Button>

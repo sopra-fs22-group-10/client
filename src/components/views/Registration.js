@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
+import {handleError} from 'helpers/api';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
@@ -14,7 +14,7 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-const Registration = props => {
+const Registration = () => {
     const history = useHistory();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -69,14 +69,7 @@ const Registration = props => {
                             Register
                         </Button>
                     </div>
-                    <div className="login button-container">
-                        <Button
-                            width="100%"
-                            onClick={() => history.push('/login')}
-                        >
-                            Login
-                        </Button>
-                    </div>
+                    <label className="login link" onClick={() => history.push('/login')}> Already have an account? Login! </label>
                 </div>
             </div>
         </BaseContainer>
