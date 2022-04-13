@@ -14,7 +14,7 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-const Login = props => {
+const Login = () => {
     const history = useHistory();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -27,7 +27,7 @@ const Login = props => {
                 headers: {'Content-Type': 'application/json'},
                 body: requestBody
             };
-            const response = await fetch(`${getDomain()}/loginrequests`, requestOptions);
+            const response = await fetch(`${getDomain()}/users/login`, requestOptions);
             const userData = await response.json();
 
             if (response.headers.get("Authentication")==='null' || response.headers.get("Authentication")==null) {
@@ -69,19 +69,19 @@ const Login = props => {
                             Login
                         </Button>
                     </div>
-                    <div className="login button-container">
-                        <Button
-                            width="100%"
-                            onClick={() => history.push('/registration')}
-                        >
-                            Registration
-                        </Button>
-                    </div>
+                    <label className="login link" onClick={() => history.push('/registration')}> Don't have an account? Sign up </label>
                 </div>
             </div>
         </BaseContainer>
     );
 };
+
+                        // <Button
+                        //     width="100%"
+                        //     onClick={() => history.push('/registration')}
+                        // >
+                        //     Registration
+                        // </Button>
 
 /**
  * You can get access to the history object's properties via the withRouter.

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import "styles/views/Dashboard.scss";
 import Triangle from "Triangle.svg";
 import Cards from "Cards.svg";
+import {logout} from "../../helpers/logout";
 
 const FormField = props => {
     return (
@@ -26,12 +27,6 @@ const Dashboard = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const [decks, setDecks] = useState(null);
-
-    const logout = () => {
-        localStorage.removeItem('Authentication');
-        localStorage.removeItem('UserID');
-        history.push('/login');
-    }
 
     const host = () => {
     }
@@ -88,7 +83,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="dashboard logout">
-          <Button onClick={() => logout()}>
+          <Button onClick={() => logout(history)}>
           Logout
           </Button>
         </div>

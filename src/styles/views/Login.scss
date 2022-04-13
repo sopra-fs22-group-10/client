@@ -14,10 +14,11 @@
     justify-content: center;
     width: 60%;
     max-width: 30em;
-    height: 20em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
+    padding-top: 25px;
+    padding-bottom: 10px;
     padding-right: 37px;
     border-radius: 0.75em;
     background: radial-gradient(closest-corner, $accent3, $accentDark);
@@ -44,6 +45,20 @@
     margin-bottom: 5px;
     text-transform: lowercase;
     font-weight: 300;
+  }
+  &.link {
+    color: $background;
+    margin-bottom: 5px;
+    margin-top: 12px;
+    text-align: center;
+    font-weight: 300;
+    font-size: small;
+    &:hover{
+      text-decoration: underline;
+    }
+    &:active{
+      text-decoration: underline;
+    }
   }
   &.button-container {
     display: flex;
