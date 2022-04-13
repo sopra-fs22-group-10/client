@@ -1,0 +1,84 @@
+@import 'styles/theme';
+
+.library{
+    &.container{
+        margin-left: 20px;
+        margin-top: 15px;
+        height: 32em;
+        width: 97.5em;
+        background: radial-gradient(closest-corner, $accent3, $accentDark);;
+        padding: 1em;
+        border-radius: $borderRadius;
+    }
+    &.buttons-container{
+        display: flex;
+        flex-direction: row;
+    }
+    &.to-dashboard{
+        width: 16em;
+        margin-right: 70em;
+    }
+    &.to-public{
+        width: 16em;
+        margin-right: 10px;
+    }
+    &.new-deck{
+        width: 16em;
+    }
+    &.title{
+        font-weight: 600;
+        color: $accent1;
+        margin-top: 0;
+    }
+    &.deck-list{
+        width: 100em;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        overflow:auto;
+    }
+}
+
+.deck{
+    &.container{
+        margin-bottom: 20px;       
+        margin-right: 20px;
+        height: 7em;
+        width: 31em;
+        background:$accent1;
+        padding: 10px;
+        border-radius: $borderRadius;
+        display: flex;
+        flex-direction: row;
+    }
+    &.title{
+        font-weight: 500;
+        font-size: 20px;
+        margin-left: 15px;
+        color: black;
+        margin-top: 0;
+    }
+    &.creator{
+        font-weight: 500;
+        margin-top: -10px;
+        margin-left: 15px;
+    }
+    &.button{
+        width: 10em;
+        margin-top: -10px;
+        margin-left: 20em;
+        background-color: $accent3;
+    }
+    &.image-container{
+        height: 5.8em;
+        width: 5.8em;
+        border-radius: 10px;
+        background:$accent2;
+    }
+    &.content-container{
+        display: flex;
+        flex-direction: column;
+    }
+}

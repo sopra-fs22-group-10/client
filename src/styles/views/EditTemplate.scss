@@ -1,0 +1,138 @@
+@import 'styles/theme';
+
+/* The '&' is a shorthand for the containing element,
+  so for example a '&.user-list' inside .game will compile to
+  .game.user-list
+
+  for more information visit https://sass-lang.com/guide
+ */
+
+.editTemplate {
+  &.wraper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &.container {
+    height: 32em;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);;
+    width: 30em;
+    padding: 1.5em;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+  }
+  &.title-container{
+    width: 25.5em;
+    align-items: left;
+    font-weight: 300;
+    margin-left: 5px;
+    color: $accent;
+  }
+  &.themes-container {
+    width: 25em;
+    height: 3em;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    flex-direction: row;
+  }
+  &.theme{
+    width: 3em;
+    height: 3em;
+    margin-right: 10px;
+    border-radius: $borderRadius;
+    background-color: $accent2;
+  }
+  &.stats-list {
+    align-items: center;
+    list-style: none;
+    min-height: 15em;
+    padding-left: 10px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    overflow:auto;
+  }
+  .stats-list::-webkit-scrollbar {/*overall style of the scroll*/
+    width: 10px;     /*size of scroll*/
+    height: 1px;
+  }
+  .stats-list::-webkit-scrollbar-thumb {/*thumb of the scroll*/
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      background: $accent2;
+  }
+  .stats-list::-webkit-scrollbar-track {/*track of the scroll*/
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      background: lighten($background, 5);
+  }
+  &.addStats-button-container {
+    width: 25em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: -5px;
+  }
+  &.button-wraper {
+    width: 26.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 3px;
+  }
+  &.button-container {
+    width: 15em;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 3px;
+  }
+}
+
+.edit-template-stat{
+    &.container {
+        margin: 0.5em 0;
+        width: 25em;
+        padding: 10px;
+        border-radius: $borderRadius;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        background: $accent2
+    }
+    &.select{
+        width: 20em;
+    }
+    &.input {
+        width: 11.5em;
+        height: 35px;
+        padding-left: 15px;
+        margin-left: -4px;
+        border: solid;
+        border-width: 1px;
+        border-radius: 5px;
+        border-color: $accent2;
+        background-color: $accent1;
+        color: $textColor;
+    }
+    &.name {
+        margin-left: 5px;
+        margin-right: 15px;
+        display: flex;
+        align-items: left;
+        width: 10em;
+    }
+    &.value {
+        margin-left: 15px;
+        display: flex;
+        align-items: right;
+        width: 11.5em;
+    }
+}
