@@ -42,7 +42,6 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
         async function fetchData() {
             //get featured public decks and add them to const decks
         }
