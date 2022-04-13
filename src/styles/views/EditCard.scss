@@ -1,0 +1,157 @@
+@import 'styles/theme';
+
+/* The '&' is a shorthand for the containing element,
+  so for example a '&.user-list' inside .game will compile to
+  .game.user-list
+
+  for more information visit https://sass-lang.com/guide
+ */
+
+.editCard {
+  &.wraper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &.container {
+    height: 33em;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);;
+    width: 30em;
+    padding: 1.5em;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+  }
+  &.title-container{
+    width: 25.5em;
+    align-items: left;
+    font-weight: 300;
+    margin-left: 5px;
+    color: $accent;
+    display: flex;
+    flex-direction: row;
+  }
+  &.title{
+    width: 6.5em;
+    margin-top: 7px;
+    margin-bottom: 0;
+    font-weight: 300;
+    color: $accent;
+  }
+  &.title-input{
+    width: 18.5em;
+    height: 35px;
+    padding-left: 15px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: $accent2;
+    background-color: $accent1;
+    color: $textColor;
+  }
+  &.image-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 25em;
+    height: 10em;
+    border-radius: 10px;
+    background-color: $accent1;
+  }
+  &.stats-list {
+    align-items: center;
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+    min-height: 12em;
+    overflow:auto;
+  }
+  .stats-list::-webkit-scrollbar {/*overall style of the scroll*/
+    width: 10px;     /*size of scroll*/
+    height: 1px;
+  }
+  .stats-list::-webkit-scrollbar-thumb {/*thumb of the scroll*/
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      background: $accent2;
+  }
+  .stats-list::-webkit-scrollbar-track {/*track of the scroll*/
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      background: lighten($background, 5);
+  }
+  &.button-wraper {
+    width: 26.3em;
+    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  &.button-container {
+    width: 15em;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.editCard-stat{
+    &.container {
+        margin: 0.5em 0;
+        width: 25em;
+        padding: 10px;
+        border-radius: $borderRadius;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        background: $accent2
+    }
+    &.select{
+        width: 20em;
+    }
+    &.title{
+      width: 7em;
+      margin-top: 7px;
+      margin-bottom: 0;
+      font-weight: 300;
+    }
+    &.unit{
+      margin-left: 10px;
+      margin-top: 7px;
+      margin-bottom: 0;
+      font-weight: 300;
+    }
+    &.input {
+        width: flex;
+        height: 35px;
+        padding-left: 10px;
+        margin-left: -14px;
+        border: solid;
+        border-width: 1px;
+        border-radius: 5px;
+        border-color: $accent2;
+        background-color: $accent1;
+        color: $textColor;
+    }
+    &.name {
+        margin-left: 5px;
+        margin-right: 15px;
+        display: flex;
+        align-items: left;
+        width: 10em;
+    }
+    &.value {
+        margin-left: 15px;
+        display: flex;
+        align-items: right;
+        width: 11.5em;
+    }
+    &.unit-stat-wraper {
+      display: flex;
+      flex-direction: row;
+    }
+}

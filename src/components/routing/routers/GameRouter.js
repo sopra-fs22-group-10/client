@@ -1,10 +1,14 @@
 import {Route} from "react-router-dom";
 import Dashboard from "components/views/Dashboard";
+import DeckLibrary from "components/views/DeckLibrary";
+import DeckOverview from "components/views/DeckOverview";
 import Profile from "components/views/Profile";
 import PropTypes from 'prop-types';
 import {GameGuard} from "../routeProtectors/GameGuard";
 import ProfileEditor from "../../views/ProfileEditor";
 import {ProfileGuard} from "../routeProtectors/ProfileGuard";
+import EditTemplate from "components/views/EditTemplate";
+import EditCard from "components/views/EditCard";
 
 const GameRouter = props => {
     /**
@@ -27,6 +31,26 @@ const GameRouter = props => {
                     <ProfileGuard>
                         <ProfileEditor/>
                     </ProfileGuard>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/deckLibrary`}>
+                <GameGuard>
+                    <DeckLibrary/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/deckOverview`}>
+                <GameGuard>
+                    <DeckOverview/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/deckOverview/editTemplate`}>
+                <GameGuard>
+                    <EditTemplate/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/deckOverview/editCard`}>
+                <GameGuard>
+                    <EditCard/>
                 </GameGuard>
             </Route>
         </div>

@@ -37,6 +37,7 @@ const Dashboard = () => {
     }
 
     const library = () => {
+        history.push(`/game/deckLibrary`);
     }
 
     useEffect(() => {
@@ -83,7 +84,7 @@ const Dashboard = () => {
             <img className="large-button image" src={Cards} alt=""></img>
             <hr className="large-button hr rounded"></hr>
             <h2 className="large-button title">
-              Deck overview
+              Deck Library
             </h2>
           </div>
         </div>

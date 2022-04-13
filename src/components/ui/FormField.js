@@ -8,8 +8,8 @@ const FormField = props => {
             </label>
             <input
                 type={props.label==="Password"?"password":"text"}
+                placeholder={props.placeholder}
                 className="login input"
-                placeholder="enter here.."
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
             />
@@ -18,6 +18,7 @@ const FormField = props => {
 };
 
 FormField.propTypes = {
+    placeholder: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func
