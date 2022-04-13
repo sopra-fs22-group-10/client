@@ -27,12 +27,18 @@ const Dashboard = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const [decks, setDecks] = useState(null);
+    const [joinId, setJoinId] = useState(null);
 
     const host = () => {
+      history.push('/game/deckSelector');
     }
 
     const library = () => {
         history.push(`/game/deckLibrary`);
+    }
+    const join = (id) => {
+    }
+    const publicLibrary = () => {
     }
 
     useEffect(() => {
@@ -58,14 +64,28 @@ const Dashboard = () => {
         <h2>Public Decks</h2>
         <hr className="dashboard hr rounded"></hr>
         {content}
+        <div className="dashboard button-container">
+          <Button onClick={() => publicLibrary()}>
+            show more
+          </Button>
+        </div>
       </HalfScreenContainer>
       <div className="dashboard right">
-        <div className="join container">
-          <FormField className="join field">
-          </FormField>
-          <Button>
-          JOIN
-          </Button>
+        <div className="dashboard top">
+          <div className="join container">
+            <FormField className="join field"
+              onChange={i => setJoinId(i)}
+            >
+            </FormField>
+            <Button onClick={() => join(joinId)}>
+              JOIN
+            </Button>
+          </div>
+          <div className="dashboard logout">
+            <Button onClick={() => logout()}>
+            Logout
+            </Button>
+          </div>
         </div>
         <div className="dashboard buttons">
           <div className="large-button container" onClick={() => host()}>
@@ -82,11 +102,6 @@ const Dashboard = () => {
               Deck Library
             </h2>
           </div>
-        </div>
-        <div className="dashboard logout">
-          <Button onClick={() => logout(history)}>
-          Logout
-          </Button>
         </div>
       </div>
     </div>
