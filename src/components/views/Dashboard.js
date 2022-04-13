@@ -81,7 +81,7 @@ const Dashboard = () => {
             </Button>
           </div>
           <div className="dashboard logout">
-            <Button onClick={() => logout()}>
+            <Button onClick={() => logout(history)}>
             Logout
             </Button>
           </div>
