@@ -1,0 +1,81 @@
+@import 'styles/theme';
+
+/* The '&' is a shorthand for the containing element,
+  so for example a '&.user-list' inside .game will compile to
+  .game.user-list
+
+  for more information visit https://sass-lang.com/guide
+ */
+
+.selector {
+  &.container {
+    margin-top: 10px;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);
+    padding: 1em;
+    width: 40%;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+    color: $accent1;
+  }
+  &.deck-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  &.deck-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  & p,h2 {
+    margin: 0em 0;
+  }
+  &.hr.rounded {
+    border-top: 2px solid $accent1;
+    border-radius: 2px;
+    background-color: $accent1;
+    width: 100%;
+  }
+  &.button-container {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   width: 90%;
+  }
+}
+
+.item {
+  &.container {
+    margin: 0.5em 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: $borderRadius;
+    display: flex;
+    align-items: center;
+    background: $accent3;
+    cursor: pointer;
+    &:hover {
+      background: $accent1
+    }
+    &:checked {
+      background: $accent;
+    }
+  }
+  &.name {
+    font-weight: 300;
+    margin-left: 5px;
+  }
+  &.cards {
+    margin-left: max;
+    margin-right: 0px;
+    font-family: $fontMono;
+    font-weight: 300;
+  }
+  &.image {
+    height: 10px;
+  }
+}

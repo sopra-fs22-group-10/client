@@ -41,12 +41,24 @@
     margin-right: 20px;
     margin-top: 10px;
   }
+  &.top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-right: 20px;
+  }
   &.buttons {
    display: flex;
    flex-direction: row;
   }
   &.logout {
-    margin-top: 10px;
+    margin-left: 4px;
+  }
+  &.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%
   }
 }
 
