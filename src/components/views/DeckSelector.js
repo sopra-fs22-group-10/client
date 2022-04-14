@@ -47,6 +47,7 @@ const DeckSelector = () => {
     }
 
     const host = (deckId) => {
+        history.push(`/game/123123/lobby`);
     }
 
     useEffect(() => {

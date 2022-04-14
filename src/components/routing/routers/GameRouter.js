@@ -10,6 +10,7 @@ import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 import EditTemplate from "components/views/EditTemplate";
 import EditCard from "components/views/EditCard";
 import DeckSelector from "components/views/DeckSelector"
+import Lobby from "components/views/Lobby";
 
 const GameRouter = props => {
     /**
@@ -57,6 +58,11 @@ const GameRouter = props => {
             <Route exact path={`${props.base}/deckSelector`}>
                 <GameGuard>
                     <DeckSelector/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/:pathID/lobby`}>
+                <GameGuard>
+                    <Lobby/>
                 </GameGuard>
             </Route>
         </div>
