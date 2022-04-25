@@ -1,0 +1,50 @@
+@import 'styles/theme';
+
+.game {
+  &.close-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 2em;
+  }
+
+  &.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.label {
+    color: $background;
+    margin-bottom: 5px;
+    text-transform: lowercase;
+    font-weight: 300;
+  }
+
+  &.body {
+    margin: 0;
+    padding: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    font-family: $fontDefault;
+    background-image: none;
+    background-color: $background;
+  }
+}
+
+.card-container {
+  position: absolute;
+  outline: 0px dashed blue;
+
+  & svg{
+    position: absolute;
+    outline: 1px dashed blue;
+  }
+
+  & image{
+    position: absolute;
+    outline: 1px dashed blue;
+  }
+}
+
+//  position: absolute; TODO RESET

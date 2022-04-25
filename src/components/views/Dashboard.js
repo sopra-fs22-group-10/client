@@ -5,8 +5,8 @@ import {useHistory} from 'react-router-dom';
 import HalfScreenContainer from "components/ui/HalfScreenContainer";
 import PropTypes from "prop-types";
 import "styles/views/Dashboard.scss";
-import Triangle from "Triangle.svg";
-import Cards from "Cards.svg";
+import Triangle from "../../styles/graphics/Triangle.svg";
+import Cards from "../../styles/graphics/Cards.svg";
 import {logout} from "../../helpers/logout";
 
 const FormField = props => {
@@ -30,11 +30,11 @@ const Dashboard = () => {
     const [joinId, setJoinId] = useState(null);
 
     const host = () => {
-      history.push('/game/deckSelector');
+      history.push('/menu/deckSelector');
     }
 
     const library = () => {
-        history.push(`/game/deckLibrary`);
+        history.push('/menu/deckLibrary');
     }
     const join = (id) => {
     }

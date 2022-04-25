@@ -42,7 +42,7 @@ const EditCard = () => {
     }
 
     function cancel(){
-        history.push('/game/deckOverview');
+        history.push('/menu/deckOverview');
     }
 
     function addStats(){
