@@ -12,16 +12,16 @@ const DeckLibrary = () => {
   const [deck, setDeck] = useState(deckList);
 
   const toDeckOverview = () => {
-    history.push('/game/deckOverview');
+    history.push('/menu/deckOverview');
   }
   const toDashboard = () => {
-    history.push('/game');
+    history.push('/menu/');
   }
   const toPublic = () => {
-    history.push('/game');
+    history.push('/menu/');
   }
   const createNewDeck = () => {
-    history.push('/game');
+    history.push('/menu/');
   }
 
   const DeckBlock = ({deck}) => (

@@ -32,18 +32,18 @@ const DeckOverview = () => {
   }
 
   const editTemplate = () => {
-    history.push('/game/deckOverview/editTemplate');
+    history.push('/menu/deckOverview/editTemplate');
   }
 
   const editCard = () => {
-    history.push('/game/deckOverview/editCard');
+    history.push('/menu/deckOverview/editCard');
   }
 
   const deleteCard = () => {
   }
 
   const backToLibrary = async () => {
-    history.push('/game/deckLibrary');
+    history.push('/menu/deckLibrary');
   }
 
   function getDefaultVisability(deck){

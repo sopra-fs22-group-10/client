@@ -39,7 +39,7 @@ function EditTemplate(){
     }
 
     const cancel = () => {
-        history.push('/game/deckOverview')
+        history.push('/menu/deckOverview')
     }
 
     const addStats = () => {
