@@ -1,5 +1,9 @@
 import {Route} from "react-router-dom";
+import Dashboard from "components/views/Dashboard";
 import Game from "components/views/Game";
+import DeckLibrary from "components/views/DeckLibrary";
+import DeckOverview from "components/views/DeckOverview";
+import Profile from "components/views/Profile";
 import PropTypes from 'prop-types';
 import {GameGuard} from "../routeProtectors/GameGuard";
 import ProfileEditor from "../../views/ProfileEditor";
@@ -7,29 +11,19 @@ import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 import EditTemplate from "components/views/EditTemplate";
 import EditCard from "components/views/EditCard";
 import DeckSelector from "components/views/DeckSelector"
-import Lobby from "components/views/Lobby";
+import CreateDeck from "components/views/CreateDeck";
+import CreateTemplate from "components/views/CreateTemplate";
+import CreateCard from "components/views/CreateCard";
 
-const GameRouter = props => {
+const MenuRouter = props => {
     /**
      * "this.props.base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
      */
     return (
         <div style={{display: 'flex', flexDirection: 'column'}}>
-            <Route exact path={`${props.base}`}>
+            <Route exact path={`${props.base}/`}>
                 <GameGuard>
                     <Dashboard/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/profile/:pathID`}>
-                <GameGuard>
-                    <Profile/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/profile/:pathID/edit`}>
-                <GameGuard>
-                    <ProfileGuard>
-                        <ProfileEditor/>
-                    </ProfileGuard>
                 </GameGuard>
             </Route>
             <Route exact path={`${props.base}/deckLibrary`}>
@@ -37,17 +31,32 @@ const GameRouter = props => {
                     <DeckLibrary/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview`}>
+            <Route exact path={`${props.base}/deckOverview/:pathID`}>
                 <GameGuard>
                     <DeckOverview/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview/editTemplate`}>
+            <Route exact path={`${props.base}/createDeck`}>
+                <GameGuard>
+                    <CreateDeck/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/editTemplate/:pathID`}>
                 <GameGuard>
                     <EditTemplate/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview/editCard`}>
+            <Route exact path={`${props.base}/createTemplate`}>
+                <GameGuard>
+                    <CreateTemplate/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/createCard`}>
+                <GameGuard>
+                    <CreateCard/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/editCard/:pathID/:pathID`}>
                 <GameGuard>
                     <EditCard/>
                 </GameGuard>
@@ -55,11 +64,6 @@ const GameRouter = props => {
             <Route exact path={`${props.base}/deckSelector`}>
                 <GameGuard>
                     <DeckSelector/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/:pathID/lobby`}>
-                <GameGuard>
-                    <Lobby/>
                 </GameGuard>
             </Route>
         </div>
@@ -70,8 +74,8 @@ const GameRouter = props => {
 * Don't forget to export your component!
  */
 
-GameRouter.propTypes = {
+MenuRouter.propTypes = {
     base: PropTypes.string
 }
 
-export default GameRouter;
+export default MenuRouter;

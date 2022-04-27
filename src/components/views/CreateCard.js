@@ -5,6 +5,8 @@ import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
 import {api, handleError} from 'helpers/api';
 import "styles/views/EditCard.scss";
+import Stat from 'models/Stat';
+import Card from 'models/Card';
 
 const stars_options = [
     { value: 1, label: '1 star' },
@@ -14,11 +16,12 @@ const stars_options = [
     { value: 5, label: '5 stars' }
   ]
 
-const EditCard = () => {
+const CreateCard = () => {
     const history = useHistory();
 
     const [stats, setStats] = useState([]);
     const [name, setName] = useState(undefined);
+    const [newCards, setNewCards] = useState([]);
     const [oldName, setOldName] = useState(undefined);
     const [value1, setValue1] = useState(undefined);
     const [value2, setValue2] = useState(undefined);
@@ -29,19 +32,43 @@ const EditCard = () => {
     const valueDic = {1:[value1, setValue1],2:[value2, setValue2],3:[value3, setValue3],
         4:[value4, setValue4],5:[value5, setValue5]}
 
-    const url = window.location.href;
-    const urlSplit = url.split('/');
-    const deckId = urlSplit[urlSplit.length-2];
-    const cardId = urlSplit[urlSplit.length-1];
+    const confirm = async() => {
+        const newCard = getCard();
+        if(!localStorage.getItem('newStats')){
+            const deckId = localStorage.getItem('deckId');
+            // const requestBody = JSON.stringify(newCard);
+            // const response = await api.post(`/decks/${deckId}/cards`, requestBody);
+            history.push(`/menu/deckOverview/`+deckId);
+        }else{
+            if(localStorage.getItem("editCard")){
+                newCards.splice(getCardIndex(),1);
+            }
+            newCards.push(newCard);
+            newCards.sort(function(a, b){return a.cardId - b.cardId}); 
+    
+            localStorage.setItem("newCards",JSON.stringify(newCards));
+            localStorage.removeItem('editCard');
+            history.push(`/menu/createDeck`);
+        }
+    }
 
-    function confirm(){
+    function getCardIndex(){
+        var editCard = JSON.parse(localStorage.getItem("editCard"));
+        for(var i=0; i<newCards.length; i++){
+            if(editCard.cardId == newCards[i].cardId){
+                return i;
+            }
+        }
     }
 
     function cancel(){
-        history.push(`/menu/deckOverview/${deckId}`);
-    }
-
-    function addStats(){
+        if(!localStorage.getItem('newStats')){
+            const deckId = localStorage.getItem('deckId');
+            history.push(`/menu/deckOverview/`+deckId);
+        }else{
+            localStorage.removeItem('editCard');
+            history.push(`/menu/createDeck`);
+        }
     }
 
     function getStatIndex(stat){
@@ -52,6 +79,34 @@ const EditCard = () => {
         }
     }
 
+    function getCard(){
+        var cardname = name;
+        var statCount = stats.length;
+        var cardstats = [];
+        var editCard = JSON.parse(localStorage.getItem('editCard'));
+        if(editCard){
+            var cardId = editCard.cardId;
+        }else{
+            var cardId = newCards.length+1;
+            console.log(cardId);
+        }
+        for(var i=0; i<statCount; i++){
+            var stat = stats[i];
+            var statname = stat.statname;
+            var stattype = stat.stattype;
+            var valuestypes = stat.valuestypes;
+            if(stattype=='STARS'){
+                var statvalue = valueDic[getStatIndex(stat)][0].value;
+            }else{
+                var statvalue = valueDic[getStatIndex(stat)][0];
+            }
+            const newStat = new Stat({statname, stattype, valuestypes,statvalue});
+            cardstats.push(newStat);
+        }
+        const newCard = new Card({cardId,cardname,cardstats});
+        return newCard;
+    }
+
     function getDefaultStar(stat){
         for(var i=0;i<5;i++){
             if(stars_options[i].value == stat.statvalue){
@@ -60,33 +115,49 @@ const EditCard = () => {
         }
     }
 
+    function disableConfirm(){
+        var statCount = stats.length;
+        var disabled = !name;
+        for(var i=0; i<statCount; i++){
+            var stat = stats[i];
+            var content = valueDic[getStatIndex(stat)][0];
+            disabled = disabled | !content;
+        }
+        return disabled;
+    }
+
     useEffect(() => {
         // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
         async function fetchData() {
           try {
-            let response = response = await api.get('/decks/'+deckId);
-            var cardList = response.data.cardList;
-            
-            //Get the returned users and update the state.
-            for(var i=0;i<cardList.length;i++){
-                if(cardList[i].cardId == cardId){
-                    setStats(cardList[i].cardstats);
-                    setOldName(cardList[i].cardname);
-                    setName(cardList[i].cardname);
+            var card =  JSON.parse(localStorage.getItem("editCard"));
+            if(card){
+                var statsList = card.cardstats;
+                setOldName(card.cardname);
+                setName(card.cardname);
 
-                    var cardstats = cardList[i].cardstats;
-                    for(var i=0;i<cardstats.length;i++){
-                        if(cardstats[i].stattype == 'STARS'){
-                            var oldValue = getDefaultStar(cardstats[i]);
-                            valueDic[i+1][1](oldValue);
-                        }else{
-                            valueDic[i+1][1](cardstats[i].statvalue);
-                        }
+                for(var i=0;i<statsList.length;i++){
+                    if(statsList[i].stattype == 'STARS'){
+                        var oldValue = getDefaultStar(statsList[i]);
+                        valueDic[i+1][1](oldValue);
+                    }else{
+                        valueDic[i+1][1](statsList[i].statvalue);
                     }
                 }
-            }       
-    
-            // See here to get more data.
+            }else{
+                var statsList = JSON.parse(localStorage.getItem("newStats"));
+                if(!statsList){
+                    var deckId = localStorage.getItem('deckId');
+                    let response = response = await api.get('/decks/'+deckId);
+                    var statsList = response.data.template.templatestats;
+                }
+            }
+            setStats(statsList);
+
+            var newCards =  JSON.parse(localStorage.getItem("newCards"));
+            if(newCards){
+                setNewCards(newCards);
+            }
     
             } catch (error) {
             console.error(`Something went wrong: \n${handleError(error)}`);
@@ -142,7 +213,7 @@ const EditCard = () => {
             </p>
             {blockContent(stat)}
         </div>
-    );
+        );
     }   
 
     let editCardView = (
@@ -176,6 +247,7 @@ const EditCard = () => {
                     <Button
                         width="100%"
                         onClick={() => confirm()}
+                        disabled={disableConfirm()}
                     >
                         Confirm
                     </Button>
@@ -189,4 +261,4 @@ const EditCard = () => {
     );
 }
 
-export default EditCard;
+export default CreateCard;

@@ -40,7 +40,7 @@ const Registration = () => {
             localStorage.setItem('UserID', userData.id);
 
             // Registration successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/game`);
+            history.push('/menu/');
         } catch (error) {
             alert(`Something went wrong during the login: \n${handleError(error)}`);
         }
