@@ -31,6 +31,7 @@ const MenuRouter = props => {
                     <DeckLibrary/>
                 </GameGuard>
             </Route>
+            <Route exact path={`${props.base}/deckOverview/:pathID`}>
                 <GameGuard>
                     <DeckOverview/>
                 </GameGuard>
