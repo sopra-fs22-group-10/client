@@ -68,7 +68,7 @@ const DeckSelector = () => {
         console.log(response);
         let gameData = response.json();
         let gameCode = gameData.gameCode;
-        history.push(`/game/{gameCode}/lobby`);
+        history.push(`/game/${gameCode}/lobby`);
 
       } catch (error) {
         console.error(`Something went wrong while starting the session: \n${handleError(error)}`);

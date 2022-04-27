@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/DeckSelector.scss";
 import {getDomain} from 'helpers/getDomain';
-import CardsSmall from 'CardsSmall.svg';
+import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 
 const Deck = ({deck}) => (
   <div className="item container">
