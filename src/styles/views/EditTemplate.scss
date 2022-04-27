@@ -122,23 +122,6 @@
         background-color: $accent1;
         color: $textColor;
     }
-    &.value-input-text {
-      font-weight: 300;
-      margin-left: 3.3em;
-      color: $accent;
-  }
-    &.value-input {
-      width: 12.2em;
-      height: 35px;
-      padding-left: 15px;
-      margin-left: 1.1em;
-      border: solid;
-      border-width: 1px;
-      border-radius: 5px;
-      border-color: $accent2;
-      background-color: $accent1;
-      color: $textColor;
-  }
     &.name {
         margin-left: 5px;
         margin-right: 15px;

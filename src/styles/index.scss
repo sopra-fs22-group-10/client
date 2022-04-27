@@ -10,7 +10,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   font-family: $fontDefault;
-  background-image: linear-gradient(rgba(234,223,206,0.8), rgba(234,223,206,0.6)), url("./graphics/Background.png");
+  background-image: linear-gradient(rgba(234,223,206,0.8), rgba(234,223,206,0.6)), url("../Background.png");
   background-size: cover;
   background-color: $background;
 }

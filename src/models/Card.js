@@ -1,14 +1,15 @@
 /**
  * Card model
  */
-class Card {
+ class Card {
     constructor(data = {}) {
-        this.id = data.id;
-        this.cardname = data.cardname;
+      this.id = data.id;
+      this.cardname = data.cardname;
     }
-
-    setCardname(newCardname) {
-        this.cardname = newCardname;
+  
+    setCardname(newCardname){
+      this.cardname = newCardname;
     }
-}
-export default Card;
+  }
+  export default Card;
+  
