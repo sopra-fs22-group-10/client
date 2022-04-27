@@ -20,6 +20,9 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Switch>
+        <Route exact path="/">
+          <Redirect to={'/login'}/>
+        </Route>
         <Route exact path="/login">
           <LoginGuard>
             <div>
