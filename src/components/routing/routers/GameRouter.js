@@ -1,8 +1,5 @@
 import {Route} from "react-router-dom";
-import Dashboard from "components/views/Dashboard";
-import DeckLibrary from "components/views/DeckLibrary";
-import DeckOverview from "components/views/DeckOverview";
-import Profile from "components/views/Profile";
+import Game from "components/views/Game";
 import PropTypes from 'prop-types';
 import {GameGuard} from "../routeProtectors/GameGuard";
 

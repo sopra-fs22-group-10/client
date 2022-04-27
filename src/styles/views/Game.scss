@@ -1,0 +1,80 @@
+@import 'styles/theme';
+
+.game {
+  &.close-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 2em;
+  }
+
+  &.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &.label {
+    color: $background;
+    margin-bottom: 5px;
+    text-transform: lowercase;
+    font-weight: 300;
+  }
+
+  &.body {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);
+  }
+}
+
+.card {
+  &.rect {
+    position: absolute;
+    opacity: 30%;
+  }
+
+  &.title {
+    pointer-events: none;
+    fill: white;
+    font: italic 17px sans-serif;
+  }
+
+  &.value {
+    pointer-events: none;
+    text-anchor: end;
+    fill: $accent;
+    font: bold 7px sans-serif;
+  }
+
+  &.value-name {
+    pointer-events: none;
+    fill: black;
+    font: 7px sans-serif;
+  }
+
+  &.value-unit {
+    pointer-events: none;
+    text-anchor: end;
+    fill: red;
+    font: 2px sans-serif;
+  }
+}
+
+.card-container {
+  position: absolute;
+
+  & svg{
+    position: absolute;
+  }
+
+  &.username{
+    position: relative;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+}
+
+//  position: absolute; TODO RESET

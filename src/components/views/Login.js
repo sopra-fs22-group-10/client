@@ -6,6 +6,7 @@ import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import FormField from "components/ui/FormField";
 import {getDomain} from "../../helpers/getDomain";
+import Header from "./Header";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -37,10 +38,10 @@ const Login = () => {
             console.log("Logged in as user:")
             console.log(userData)
             localStorage.setItem('Authentication', response.headers.get("Authentication")); //store authentification
-            localStorage.setItem('UserID', userData.id);
+            localStorage.setItem('UserID', userData.userId);
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
-            history.push(`/game`);
+            history.push('/menu/');
         } catch (error) {
             alert(`Something went wrong during the login: \n${handleError(error)}`);
         }
@@ -75,13 +76,6 @@ const Login = () => {
         </BaseContainer>
     );
 };
-
-                        // <Button
-                        //     width="100%"
-                        //     onClick={() => history.push('/registration')}
-                        // >
-                        //     Registration
-                        // </Button>
 
 /**
  * You can get access to the history object's properties via the withRouter.
