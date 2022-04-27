@@ -52,13 +52,6 @@
     fill: black;
     font: 7px sans-serif;
   }
-
-  &.value-unit {
-    pointer-events: none;
-    text-anchor: end;
-    fill: red;
-    font: 2px sans-serif;
-  }
 }
 
 .card-container {
@@ -77,4 +70,18 @@
   }
 }
 
-//  position: absolute; TODO RESET
+.played-card-container {
+  position: absolute;
+
+  & svg{
+    position: absolute;
+  }
+
+  &.username{
+    position: relative;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+}

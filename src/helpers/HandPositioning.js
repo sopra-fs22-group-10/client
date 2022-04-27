@@ -90,14 +90,10 @@ export const getHandTrans = (playerList) => {
     return transformations;
 }
 
-const opponentID = 3; //TODO: get request
-const activePlayerID = 2; //TODO: get request
-const userID = 5; //TODO: get from local storage
-
-export const getPlayedHandTrans = (playerId) => {
-    if (playerId === activePlayerID){
+export const getPlayedHandTrans = (playerId, currentPlayer, opponentPlayer) => {
+    if (playerId === currentPlayer){
         return activePlayedTrans;
-    } else if (playerId === opponentID){
+    } else if (playerId === opponentPlayer){
         return oppPlayedTrans;
     }
 }
