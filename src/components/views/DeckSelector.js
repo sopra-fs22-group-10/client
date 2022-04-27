@@ -1,12 +1,11 @@
 import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
-import {Redirect, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/DeckSelector.scss";
 import {getDomain} from 'helpers/getDomain';
-import CardsSmall from '../../styles/graphics/CardsSmall.svg';
-import AppRouter from "../routing/routers/AppRouter";
+import CardsSmall from 'CardsSmall.svg';
 
 const Deck = ({deck}) => (
   <div className="item container">
@@ -44,7 +43,7 @@ const DeckSelector = () => {
     const [deckId, setDeckId] = useState(null);
 
     const returnToDashboard = () => {
-        history.push('/menu');
+        history.push(`/game`);
     }
 
     const host = async (deckId) => {

@@ -3,8 +3,8 @@ import Select from 'react-select'
 import {useEffect, useState} from 'react';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
-import {api, handleError} from 'helpers/api';
 import "styles/views/EditCard.scss";
+import {statsList,card} from'models/TestEntities';
 
 const stars_options = [
     { value: 1, label: '1 star' },
@@ -17,108 +17,66 @@ const stars_options = [
 const EditCard = () => {
     const history = useHistory();
 
-    const [stats, setStats] = useState([]);
-    const [name, setName] = useState(undefined);
-    const [oldName, setOldName] = useState(undefined);
+    const [stats, setStats] = useState(statsList);
+    const [title, setTitle] = useState(undefined);
+    const [statName1, setStatName1] = useState(undefined);
+    const [statName2, setStatName2] = useState(undefined);
+    const [statName3, setStatName3] = useState(undefined);
+    const [statName4, setStatName4] = useState(undefined);
+    const [statName5, setStatName5] = useState(undefined);
+    const [statName6, setStatName6] = useState(undefined);
     const [value1, setValue1] = useState(undefined);
     const [value2, setValue2] = useState(undefined);
     const [value3, setValue3] = useState(undefined);
     const [value4, setValue4] = useState(undefined);
     const [value5, setValue5] = useState(undefined);
+    const [value6, setValue6] = useState(undefined);
 
+    const statNameDic = {1:[statName1, setStatName1],2:[statName2, setStatName2],
+        3:[statName3, setStatName3],4:[statName4, setStatName4],
+        5:[statName5, setStatName5],6:[statName6, setStatName6]}
     const valueDic = {1:[value1, setValue1],2:[value2, setValue2],3:[value3, setValue3],
-        4:[value4, setValue4],5:[value5, setValue5]}
-
-    const url = window.location.href;
-    const urlSplit = url.split('/');
-    const deckId = urlSplit[urlSplit.length-2];
-    const cardId = urlSplit[urlSplit.length-1];
+        4:[value4, setValue4],5:[value5, setValue5],6:[value6, setValue6]}
 
     function confirm(){
     }
 
     function cancel(){
-        history.push(`/menu/deckOverview/${deckId}`);
+        history.push('/game/deckOverview');
     }
 
     function addStats(){
     }
 
-    function getStatIndex(stat){
-        for(var i=0;i<5;i++){
-            if(stats[i].statname==stat.statname){
-                return i+1;
-            }
-        }
-    }
-
     function getDefaultStar(stat){
         for(var i=0;i<5;i++){
-            if(stars_options[i].value == stat.statvalue){
+            if(stars_options[i].value == stat.value){
                 return stars_options[i];
             }
         }
     }
 
-    useEffect(() => {
-        // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-        async function fetchData() {
-          try {
-            let response = response = await api.get('/decks/'+deckId);
-            var cardList = response.data.cardList;
-            
-            //Get the returned users and update the state.
-            for(var i=0;i<cardList.length;i++){
-                if(cardList[i].cardId == cardId){
-                    setStats(cardList[i].cardstats);
-                    setOldName(cardList[i].cardname);
-                    setName(cardList[i].cardname);
-
-                    var cardstats = cardList[i].cardstats;
-                    for(var i=0;i<cardstats.length;i++){
-                        if(cardstats[i].stattype == 'STARS'){
-                            var oldValue = getDefaultStar(cardstats[i]);
-                            valueDic[i+1][1](oldValue);
-                        }else{
-                            valueDic[i+1][1](cardstats[i].statvalue);
-                        }
-                    }
-                }
-            }       
-    
-            // See here to get more data.
-    
-            } catch (error) {
-            console.error(`Something went wrong: \n${handleError(error)}`);
-            console.error("Details:", error);
-            alert("Something went wrong! See the console for details.");
-          }
-        }
-    
-        fetchData();
-      }, []);
-
     function blockContent(stat){
-        if(stat.stattype == "STARS"){
+        if(stat.type == "stars"){
             return(
                 <Select 
                     defaultValue={getDefaultStar(stat)}
                     className="editCard-stat select"
                     options={stars_options} 
-                    onChange={valueDic[getStatIndex(stat)][1]}
+                    onChange={valueDic[stat.id][1]}
                 />
             );
-        }else if(stat.stattype == "VALUE"){
+        }else if(stat.type == "unit"){
             return(
                 <div className="editCard-stat unit-stat-wraper">
                     <input
                         className="editCard-stat input"
-                        placeholder={stat.statvalue}
-                        value= {valueDic[getStatIndex(stat)][0]}
-                        onChange={e => valueDic[getStatIndex(stat)][1](e.target.value)}
+                        placeholder={stat.value}
+                        value= {statNameDic[stat.id][0]}
+                        onChange={e => statNameDic[stat.id][1](e.target.value)}
                     />
                     <p className="editCard-stat unit">
-                        {stat.valuestypes}
+                        {stat.unit}
                     </p>
                 </div>
             );
@@ -126,9 +84,9 @@ const EditCard = () => {
             return(
                 <input
                     className="editCard-stat input"
-                    placeholder={stat.statvalue}
-                    value= {valueDic[getStatIndex(stat)][0]}
-                    onChange={e => valueDic[getStatIndex(stat)][1](e.target.value)}
+                    placeholder={stat.value}
+                    value= {statNameDic[stat.id][0]}
+                    onChange={e => statNameDic[stat.id][1](e.target.value)}
                 />
             );
         }
@@ -153,9 +111,9 @@ const EditCard = () => {
                 </p>
                 <input
                     className="editCard title-input"
-                    placeholder={oldName}
-                    value= {name}
-                    onChange={e => setName(e.target.value)}
+                    placeholder={card.cardname}
+                    value= {title}
+                    onChange={e => setTitle(e.target.value)}
                 />
             </div>
             <div className="editCard image-container">
