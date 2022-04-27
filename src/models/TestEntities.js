@@ -52,7 +52,7 @@ const testCard = {
             "statvalue": "90",
             "statname": "StatName3",
             "stattype": "NUMBER",
-            "valuestypes": null},
+            "valuestypes": "km/h"},
         {
             "statId": 510,
             "statvalue": "45",
@@ -96,14 +96,28 @@ var playedCards1 = [];
 var playedCards2 = [testCardVisible, testCardVisible];
 var playedCards3 = [testCardVisible, testCardVisible, testCardVisible];
 var playedCards4 = [];
-var playedCards5 = [];
+var playedCards5 = [testCardVisible, testCardVisible, testCardVisible];
 
 var player1 = {playerId:1, username:"Mattia", playerStatus: "active", cards: {hand: hand1, playedCards:playedCards1}};
 var player2 = {playerId:2, username:"Yoli", playerStatus: "active", cards: {hand: hand2, playedCards:playedCards2}};
 var player3 = {playerId:3, username:"Andy", playerStatus: "active", cards: {hand: hand3, playedCards:playedCards3}};
 var player4 = {playerId:4, username:"Tim", playerStatus: "active", cards: {hand: hand4, playedCards:playedCards4}};
 var player5 = {playerId:5, username:"Lloyd", playerStatus: "active", cards: {hand: hand5, playedCards:playedCards5}};
+var player6 = {playerId:6, username:"Inactive", playerStatus: "inactive", cards: {hand: hand5, playedCards:playedCards5}};
 
-const playerList = [player1, player2, player3, player4, player5];
+const playerList = [player1, player2, player3, player4, player5, player6];
+//selected opponent and stat, for win
 export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
-    currentStatName: "PS", roundStatus: "draw", winner:null};
+    currentStatName: "StatName4", roundStatus: "win", winner:null};
+//selected opponent and stat, for loss
+// export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
+//     currentStatName: "StatName4", roundStatus: "lost", winner:null};
+// //selected opponent and stat, for draw
+// export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
+//     currentStatName: "StatName4", roundStatus: "draw", winner:null};
+// //neither opponent nor stat selected
+// export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: null,
+//     currentStatName: null, roundStatus: null, winner:null};
+//selected opponent but not stat
+// export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 5,
+//     currentStatName: null, roundStatus: "win", winner:null};

@@ -25,13 +25,13 @@ export const StatVis = ({stat, yPos}) => {
         case "NUMBER":
             statVis.push(
                 <text className="game card value" x={cardW - cornerRadius} y={yPos}>
-                    {stat.statvalue}
+                    {stat.statvalue} {stat.valuestypes}
                 </text>
             );
             break;
 
         case "VALUE":
-            break; //TODO
+            break; //TODO: how should this visualised?
 
         default:
             break;
