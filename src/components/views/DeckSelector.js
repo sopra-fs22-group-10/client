@@ -47,35 +47,9 @@ const DeckSelector = () => {
         history.push('/menu');
     }
 
-    const host = async (deckId) => {
-      try {
-        let hostId = localStorage.getItem('UserID');
-        let maxPlayers = 5;
-        const requestBody = JSON.stringify({deckId, hostId, maxPlayers});
-        const requestOptions = {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: requestBody
-        };
-        const response = await fetch(`${getDomain()}/session/create`, requestOptions);
-        await new Promise(resolve => setTimeout(resolve, 1000)); // spinner delay
-
-        // This is just some data for you to see what is available.
-        console.log('request to:', response.request.responseURL);
-        console.log('status code:', response.status);
-        console.log('status text:', response.statusText);
-        console.log('requested data:', response.data);
-        console.log(response);
-        let gameData = response.json();
-        let gameCode = gameData.gameCode;
-        history.push(`/game/{gameCode}/lobby`);
-
-      } catch (error) {
-        console.error(`Something went wrong while starting the session: \n${handleError(error)}`);
-        console.error("Details:", error);
-        alert("Something went wrong while starting the session! See the console for details.");
-      }
-      history.push(`/game/{deckId}/lobby`);
+    const host = (deckId) => {
+        history.push('/game');
+        return <AppRouter/>; //TODO: rework
     }
 
     useEffect(() => {
