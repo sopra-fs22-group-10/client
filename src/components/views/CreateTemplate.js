@@ -5,6 +5,7 @@ import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
 import "styles/views/EditTemplate.scss";
+import Stat from 'models/Stat';
 
 const type_options = [
     { value: 'STARS', label: '1-5 Stars' },
@@ -12,7 +13,7 @@ const type_options = [
     { value: 'VALUE', label: 'Value' }
   ]
 
-function EditTemplate(){
+function CreateTemplate(){
     const history = useHistory();
 
     const [stats, setStats] = useState([]);
@@ -32,7 +33,6 @@ function EditTemplate(){
     const [value4, setValue4] = useState(undefined);
     const [value5, setValue5] = useState(undefined);
 
-
     const statNameDic = {1:[statName1, setStatName1],2:[statName2, setStatName2],
         3:[statName3, setStatName3],4:[statName4, setStatName4],
         5:[statName5, setStatName5],6:[statName6, setStatName6],
@@ -46,74 +46,107 @@ function EditTemplate(){
     const url = window.location.href;
     const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
 
-    const confirm = () => {
+    const newStatsList = JSON.parse(localStorage.getItem('newStats'));
+
+    const confirm = async() => {
+        const newStats = getStats();
+        localStorage.setItem("newStats",JSON.stringify(newStats));
+        history.push(`/menu/createDeck`);
     }
 
     const cancel = () => {
-        history.push(`/menu/deckOverview/${deckId}`);
-    }
-
-    const addStats = () => {
+        history.push(`/menu/createDeck`);
     }
 
     function getDefaultType(stat){
-        for(var i=0;i<3;i++){
-            if(type_options[i].value == stat.stattype){
-                return type_options[i];
+        if(stat){
+            for(var i=0;i<3;i++){
+                if(type_options[i].value == stat.stattype){
+                    return type_options[i];
+                }
             }
         }
     }
 
-    function getStatIndex(stat){
-        for(var i=0;i<5;i++){
-            if(stats[i].statname==stat.statname){
-                return i+1;
-            }
-        }
-    }
-
-    function displayValueInput(stat){
-        if(valueDic[getStatIndex(stat)][0]==undefined){
-            if(stat.stattype=="VALUE"){
-                return true;
-            }
-        }else if(valueDic[getStatIndex(stat)][0].value=="VALUE"){
+    function displayValueInput(index){
+        if(valueDic[index][0]==undefined){
+            return false;
+        }else if(valueDic[index][0].value=="VALUE"){
             return true;
         }
         return false;
     }
 
-    useEffect(() => {
-        // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-        async function fetchData() {
-          try {
-            let response = response = await api.get('/decks/'+deckId);
-    
-            // Get the returned users and update the state.
-            let templatestats = response.data.template.templatestats;
-            setStats(templatestats);
-    
-            // See here to get more data.
-            console.log(response.data);
-            } catch (error) {
-            console.error(`Something went wrong: \n${handleError(error)}`);
-            console.error("Details:", error);
-            alert("Something went wrong! See the console for details.");
-          }
+    function statname(stat){
+        if(stat){
+            return(stat.statname);
         }
-    
-        fetchData();
-      }, []);
+        return "";
+    }
 
-    function statBlock(stat){
+    function valueinput(stat){
+        if(stat){
+            return(stat.valuestypes);
+        }
+        return "";
+    }
+
+    function getStats(){
+        const newStats = [];
+        for(var key in valueDic){
+            if(statNameDic[key][0]!=undefined & valueDic[key][0]!=undefined){
+                var statname = statNameDic[key][0];
+                var stattype = valueDic[key][0].value;
+                var valuestypes = null;
+                if(stattype == 'VALUE'){
+                    valuestypes = statNameDic[2*key][0];
+                }
+                const newStat = new Stat({statname, stattype,valuestypes});
+                newStats.push(newStat);
+            }
+        }
+        return newStats;
+    }
+
+    useEffect(() => {
+    // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
+        async function fetchData() {
+            try {
+                var newStats = localStorage.getItem('newStats');
+                if(newStats){
+                    var templatestats = JSON.parse(localStorage.getItem('newStats'));
+                    for(var i=0;i<templatestats.length;i++){
+                        statNameDic[i+1][1](templatestats[i].statname);
+                        valueDic[i+1][1](getDefaultType(templatestats[i]));
+                        if(templatestats[i].stattype == 'VALUE'){
+                            statNameDic[2*(i+1)][1](templatestats[i].valuestypes);
+                        }
+                    }
+                }
+
+                } catch (error) {
+                console.error(`Something went wrong: \n${handleError(error)}`);
+                console.error("Details:", error);
+                alert("Something went wrong! See the console for details.");
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    function statBlock(index){
+        var stat = null
+        if(newStatsList){
+            var stat = newStatsList[index-1];
+        }
         const name_select = (
             <div className="edit-template-stat container">
                 <div className="edit-template-stat name">
                     <input
+                        placeholder={statname(stat)}
                         className="edit-template-stat input"
-                        placeholder={stat.statname}
-                        value= {statNameDic[getStatIndex(stat)][0]}
-                        onChange={e => statNameDic[getStatIndex(stat)][1](e.target.value)}
+                        value= {statNameDic[index][0]}
+                        onChange={e => statNameDic[index][1](e.target.value)}
                     />
                 </div>
                 <div className="edit-template-stat value">
@@ -121,21 +154,21 @@ function EditTemplate(){
                         defaultValue={getDefaultType(stat)}
                         className="edit-template-stat select"
                         options={type_options} 
-                        onChange={valueDic[getStatIndex(stat)][1]}
+                        onChange={valueDic[index][1]}
                     />
                 </div>
             </div>
         );
         const valueInput = (
             <input
+                placeholder={valueinput(stat)}
                 className="edit-template-stat value-input"
-                placeholder={stat.valuestypes}
-                value= {statNameDic[2*getStatIndex(stat)][0]}
-                onChange={e => statNameDic[2*getStatIndex(stat)][1](e.target.value)}
+                value= {statNameDic[2*index][0]}
+                onChange={e => statNameDic[2*index][1](e.target.value)}
             />
         );
 
-        if(displayValueInput(stat)){
+        if(displayValueInput(index)){
             return(
                 <div>
                     {name_select}
@@ -166,16 +199,12 @@ function EditTemplate(){
                 Stats
             </div>
             <ul className="editTemplate stats-list">
-                {stats.map(stat => statBlock(stat))}
+                {statBlock(1)}
+                {statBlock(2)}
+                {statBlock(3)}
+                {statBlock(4)}
+                {statBlock(5)}
             </ul>
-            <div className="editTemplate addStats-button-container">
-                <Button
-                width="100%"
-                onClick={() => addStats()}
-                >
-                    Add Stats
-                </Button>
-            </div>
             <div className="editTemplate button-wraper">
                 <div className="editTemplate button-container">
                     <Button
@@ -189,6 +218,7 @@ function EditTemplate(){
                     <Button
                         width="100%"
                         onClick={() => confirm()}
+                        disabled={getStats().length==0}
                     >
                         Confirm
                     </Button>
@@ -202,4 +232,4 @@ function EditTemplate(){
     );
 }
 
-export default memo(EditTemplate);
+export default memo(CreateTemplate);
