@@ -11,6 +11,9 @@ import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 import EditTemplate from "components/views/EditTemplate";
 import EditCard from "components/views/EditCard";
 import DeckSelector from "components/views/DeckSelector"
+import CreateDeck from "components/views/CreateDeck";
+import CreateTemplate from "components/views/CreateTemplate";
+import CreateCard from "components/views/CreateCard";
 
 const MenuRouter = props => {
     /**
@@ -28,17 +31,31 @@ const MenuRouter = props => {
                     <DeckLibrary/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview`}>
                 <GameGuard>
                     <DeckOverview/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview/editTemplate`}>
+            <Route exact path={`${props.base}/createDeck`}>
+                <GameGuard>
+                    <CreateDeck/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/editTemplate/:pathID`}>
                 <GameGuard>
                     <EditTemplate/>
                 </GameGuard>
             </Route>
-            <Route exact path={`${props.base}/deckOverview/editCard`}>
+            <Route exact path={`${props.base}/createTemplate`}>
+                <GameGuard>
+                    <CreateTemplate/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/createCard`}>
+                <GameGuard>
+                    <CreateCard/>
+                </GameGuard>
+            </Route>
+            <Route exact path={`${props.base}/editCard/:pathID/:pathID`}>
                 <GameGuard>
                     <EditCard/>
                 </GameGuard>
