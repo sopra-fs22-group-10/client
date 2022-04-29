@@ -3,30 +3,24 @@ import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
-import "styles/views/DeckSelector.scss";
+import {useParams} from 'react-router-dom';
+import "styles/views/Lobby.scss";
 import {getDomain} from 'helpers/getDomain';
 import CardsSmall from '../../styles/graphics/CardsSmall.svg';
+import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
+import Deck from "models/Deck";
 
-const Deck = ({deck}) => (
-  <div className="item container">
-    <div className="item name">{deck.name}</div>
-    <div className="item cards">{deck.cards}</div>
-    <img className="item image" src={CardsSmall} alt=""></img>
-  </div>
-);
-
-async function fetchUserDecks(userId, setDecksFunc) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc) {
     try {
-        const response = await api.get(`/decks/users/${userId}`);
-        await new Promise(resolve => setTimeout(resolve, 1000)); // spinner delay
-        setDecksFunc(response.data);
+        const requestOptions = {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+        const data = await response.json();
+        setPlayersFunc(data.userList);
+        setMaxFunc(data.maxPlayers);
 
-        // This is just some data for you to see what is available.
-        console.log('request to:', response.request.responseURL);
-        console.log('status code:', response.status);
-        console.log('status text:', response.statusText);
-        console.log('requested data:', response.data);
-        console.log(response);
     } catch (error) {
         console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
         console.error("Details:", error);
@@ -34,65 +28,169 @@ async function fetchUserDecks(userId, setDecksFunc) {
     }
 }
 
-const DeckSelector = () => {
+async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
+    try {
+        const requestOptions = {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const firstResponse = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+        const firstData = await firstResponse.json();
+        const deckId = firstData.deckId;
+        setHostIdFunc(firstData.hostId);
+        console.log('deck Id: ', deckId)
+
+        const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions);
+        const data = await response.json();
+        console.log('data: ', data);
+        setDeckFunc(data);
+
+    } catch (error) {
+        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the decks! See the console for details.");
+    }
+}
+
+const Lobby = () => {
     const history = useHistory();
     // use react-router-dom's hook to access the history
     const userID = localStorage.getItem('UserID');
+    const {pathID} = useParams();
+    console.log(pathID);
 
-    const [decks, setDecks] = useState(null);
+    const [deck, setDeck] = useState(null);
     const [deckId, setDeckId] = useState(null);
+    const [players, setPlayers] = useState(null);
+    const [max, setMax] = useState(null);
+    const [hostId, setHostId] = useState(null);
 
-    const returnToDashboard = () => {
-        history.push(`/game`);
+    const endSession = async () => {
+      try {
+        const requestOptions = {
+                        method: 'DELETE',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+
+        history.push(`/menu`);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the decks! See the console for details.");
+      }
     }
 
-    const host = (deckId) => {
-        history.push(`/game/123123/lobby`);
+    const leave = async () => {
+      history.push(`/menu`);
+    }
+
+    const start = async () => {
+      try {
+        const requestOptions = {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+
+        history.push(`play`);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the decks! See the console for details.");
+      }
     }
 
     useEffect(() => {
-        fetchUserDecks(userID, setDecks);
-    }, []); //[dependencies]); to have it updated when any of the dependencies change
+      const interval = setInterval(() => {
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+      getDeck(pathID, setDeck, setHostId);
+    }, []);
 
     let content;
+    let count;
+    let playdeck;
+    let buttons;
 
-    if (decks) {
+    if (players) {
       content = (
-        <ul className="selector deck-list">
-          {decks.map(deck => (
-            <div onClick="setDeckId(deck.id);deck.checked = true;">
-              <Deck
-                deck={deck}
-                key={deck.id}
-              >
-              </Deck>
+        <ul className="lobby player-list">
+          {players.map(player => (
+            <div className="player container">
+              <p className="player name">{player}</p>
             </div>
           ))}
         </ul>
         );
+        const numPlayers = players.length;
+      count = (
+        <p className="lobby dark">{numPlayers}/{max}</p>
+      );
+    }
+
+    if (deck) {
+      const numCards = deck.cardList.length;
+      playdeck = (
+        <div className="play-deck container">
+          <img className="play-deck image" src={EmptyPicture} alt=''></img>
+          <h2 className="play-deck title">{deck.deckname}</h2>
+          <div className="play-deck cards">
+            <p className="play-deck cards-num">{numCards}</p>
+            <img className="play-deck card-icon" src={CardsSmall} alt=''></img>
+          </div>
+        </div>
+      );
+
+      if (hostId == userID){
+        buttons = (
+          <div className="lobby button-container">
+            <Button className="lobby cancel" onClick={() => endSession()}>
+              CANCEL
+            </Button>
+            <Button className="lobby start" onClick={() => start()}>
+              START GAME
+            </Button>
+          </div>
+        );
+      } else {
+        buttons = (
+          <div className="lobby button-container">
+            <Button className="lobby cancel" onClick={() => leave()}>
+              LEAVE
+            </Button>
+          </div>
+        );
+      }
     }
 
     return (
-        <BaseContainer className="selector container">
-            <h2>Select Deck</h2>
-            <hr className="selector hr rounded"/>
-            {content}
-            <hr className="selector hr rounded"/>
-            <div className="selector button-container">
-              <Button
-                onClick={() => returnToDashboard()}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => host()}
-              >
-                Host Game
-              </Button>
+        <BaseContainer className="lobby container">
+          <div className="lobby left">
+            <div className="lobby header">
+              <p>Game Code:</p>
+              <h2 className="lobby code">{pathID}</h2>
             </div>
-            {content}
+            <div className="lobby players">
+              <div className="lobby players-header">
+                <p className="lobby dark">Players</p>
+                {count}
+              </div>
+              <hr className="lobby hr rounded"/>
+              {content}
+            </div>
+          </div>
+          <div className="lobby right">
+            {playdeck}
+            {buttons}
+          </div>
         </BaseContainer>
     );
 }
 
-export default DeckSelector;
+export default Lobby;

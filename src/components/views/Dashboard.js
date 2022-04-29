@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
+import {getDomain} from 'helpers/getDomain';
 import HalfScreenContainer from "components/ui/HalfScreenContainer";
 import PropTypes from "prop-types";
 import "styles/views/Dashboard.scss";
@@ -36,7 +37,24 @@ const Dashboard = () => {
     const library = () => {
         history.push('/menu/deckLibrary');
     }
-    const join = (id) => {
+    const join = async (joinId) => {
+      try {
+        let userId = localStorage.getItem('UserID');
+        let username = 'user1'; //temporary!!!!
+        const requestBody = JSON.stringify({userId, username});
+        const requestOptions = {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                        body: requestBody
+        };
+        const response = await fetch(`${getDomain()}/session/join/${joinId}`, requestOptions);
+        history.push(`/game/${joinId}/lobby`);
+
+      } catch (error) {
+        console.error(`Something went wrong while joining the session: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while joining the session! See the console for details.");
+      }
     }
     const publicLibrary = () => {
     }

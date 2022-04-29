@@ -21,6 +21,7 @@
     color: $accent1;
   }
   &.deck-list {
+    width: 100%;
     list-style: none;
     padding-left: 0;
   }
@@ -43,23 +44,27 @@
    display: flex;
    flex-direction: row;
    align-items: center;
-   justify-content: space-between;
+   justify-content: center;
    width: 90%;
   }
 }
 
 .item {
+  &.case {
+    width: 100%;
+  }
   &.container {
     margin: 0.5em 0;
     width: 100%;
     padding: 10px;
     border-radius: $borderRadius;
+    justify-content: space-between;
     display: flex;
     align-items: center;
-    background: $accent3;
+    background: $accent1;
     cursor: pointer;
     &:hover {
-      background: $accent1
+      background: $background;
     }
     &:checked {
       background: $accent;
@@ -67,15 +72,17 @@
   }
   &.name {
     font-weight: 300;
+    color: $accent5;
     margin-left: 5px;
   }
   &.cards {
-    margin-left: max;
-    margin-right: 0px;
+    margin-left: auto;
+    margin-right: 3px;
     font-family: $fontMono;
     font-weight: 300;
+    color: $accent5;
   }
   &.image {
-    height: 10px;
+    height: 25px;
   }
 }
