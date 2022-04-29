@@ -62,7 +62,7 @@
     &.edit-picture-container {
         margin-top: 10px;
         height: 13em;
-        width: 21em;
+        width: 100%;
         padding: 10px;
         border-radius: $borderRadius;
         display: flex;
@@ -164,7 +164,7 @@
         width: 12em;
         padding: 10px;
         border-radius: $borderRadius;
-        font-size: 17px;
+        font-size: 1.06em;
         color: $accent5;
         background: lighten($background, 5);
     }

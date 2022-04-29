@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Deck from 'models/Deck';
 
 const DeckOverview = () => {
   // use react-router-dom's hook to access the history
@@ -29,8 +30,8 @@ const DeckOverview = () => {
   const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
 
   const visability_options = [
-    { value: 'Private', label: 'Private' },
-    { value: 'Public', label: 'Public' }
+    { value: 'PRIVATE', label: 'Private' },
+    { value: 'PUBLIC', label: 'Public' }
   ]
 
   const fairness_options = [
@@ -39,7 +40,9 @@ const DeckOverview = () => {
   ]
 
   const confirm = () => {
-    
+    var newDeck = new Deck(deck);
+    newDeck.setDeckName(deckName);
+    newDeck.setStatus(visability.value);
   }
 
   const editPicture = () => {
