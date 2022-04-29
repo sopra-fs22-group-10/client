@@ -37,7 +37,7 @@ const Registration = () => {
             console.log("Logged in as user:")
             console.log(userData)
             localStorage.setItem('Authentication', response.headers.get("Authentication")); //store authentification
-            localStorage.setItem('UserID', userData.id);
+            localStorage.setItem('UserID', userData.userId);
 
             // Registration successfully worked --> navigate to the route /game in the GameRouter
             history.push('/menu/');

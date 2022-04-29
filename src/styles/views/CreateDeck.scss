@@ -1,6 +1,6 @@
 @import 'styles/theme';
 
-.overview {
+.create-overview {
     &.container {
         display: flex;
         flex-direction: row;
@@ -12,21 +12,20 @@
     &.deck-container {
         margin-left: 20px;
         margin-top: 15px;
-        height: 32em;
-        width: 71.1em;
+        height: 38em;
+        width:  72.5%;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1.5em;
         border-radius: $borderRadius;
         display: flex;
         flex-direction: row;
-        justify-content: center;
         box-shadow: $dropShadow;
         overflow:auto;
     }
     &.card-list {
-        width: 57em;
+        width: 100%;
         margin-top: 25px;
-        margin-left: -35px;
+        margin-left: 0;
         list-style: none;
         display: flex;
         flex-direction: row;
@@ -50,8 +49,8 @@
     &.edit-container {
         margin-left: 1em;
         margin-top: 15px;
-        height: 32em;
-        width: 24em;
+        height: 38em;
+        width: 24.5%;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1.5em;
         border-radius: $borderRadius;
@@ -77,7 +76,7 @@
         font-weight: 300;
     }
     &.edit-input {
-        height: 50px;
+        height: 40px;
         padding-left: 15px;
         border: none;
         border-radius: 0.25em;
@@ -85,13 +84,12 @@
         color: $textColor;
     }
     &.edit-button{
-        margin-top: 15px;
+        margin-top: 30px;
     }
 }
 
-.card {
+.create-card {
     &.container {
-        margin-left: 15px;
         margin-right: 5px;
         margin-bottom: 10px;
         height: 14em;
@@ -133,7 +131,7 @@
     }
 }
 
-.template {
+.create-template {
     &.container{
         margin-left: 5px;
         margin-top: 25px;

@@ -2,10 +2,12 @@
 
 .library{
     &.container{
+        display: flex;
+        flex-direction: column;
         margin-left: 20px;
+        margin-right: 20px;
         margin-top: 15px;
-        height: 32em;
-        width: 97.5em;
+        height: 38em;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1em;
         border-radius: $borderRadius;
@@ -13,29 +15,38 @@
     &.buttons-container{
         display: flex;
         flex-direction: row;
+        align-items: auto;
     }
     &.to-dashboard{
         width: 16em;
-        margin-right: 70em;
+        margin-top: 5px;
+        margin-left: 12px;
+        margin-right: 60%;
     }
     &.to-public{
         width: 16em;
+        margin-top: 5px;
         margin-right: 10px;
     }
     &.new-deck{
         width: 16em;
+        margin-top: 5px;
+        margin-right: 13px;
     }
     &.title{
         font-weight: 600;
         color: $accent1;
-        margin-top: 0;
+        margin-left: 13px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
     &.deck-list{
-        width: 100em;
         list-style: none;
         padding: 0;
         display: flex;
         flex-direction: row;
+        margin-left: 2px;
+        margin-right: 2px;
         flex-flow: row wrap;
         overflow:auto;
     }
@@ -44,9 +55,10 @@
 .deck{
     &.container{
         margin-bottom: 20px;       
-        margin-right: 20px;
+        margin-right: 10px;
+        margin-left: 10px;
         height: 7em;
-        width: 31em;
+        width: 32%;
         background:$accent1;
         padding: 10px;
         border-radius: $borderRadius;
@@ -65,10 +77,25 @@
         margin-top: -10px;
         margin-left: 15px;
     }
-    &.button{
-        width: 10em;
-        margin-top: -10px;
-        margin-left: 20em;
+    &.text-container{
+        width: 70%;
+    }
+    &.button-container{
+        flex-direction: row;
+        margin-left: 70%;
+        width: 130%;
+        margin-top: -13px;
+    }
+    &.view-deck{
+        height: 2.5em;
+        width: 45%;
+        background-color: $accent;
+        margin-left:0;
+        margin-right: 10px;
+    }
+    &.delete-deck{
+        height: 2.5em;
+        width: 45%;
         background-color: $accent3;
     }
     &.image-container{

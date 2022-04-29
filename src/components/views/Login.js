@@ -39,6 +39,7 @@ const Login = () => {
             console.log(userData)
             localStorage.setItem('Authentication', response.headers.get("Authentication")); //store authentification
             localStorage.setItem('UserID', userData.userId);
+            console.log(localStorage.getItem('UserID'));
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push('/menu/');

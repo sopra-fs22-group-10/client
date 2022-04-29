@@ -44,7 +44,6 @@ function CreateTemplate(){
     // the maximum number of stats allowed is 5
 
     const url = window.location.href;
-    const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
 
     const newStatsList = JSON.parse(localStorage.getItem('newStats'));
 
@@ -93,15 +92,15 @@ function CreateTemplate(){
 
     function getStats(){
         const newStats = [];
-        for(var key in valueDic){
+        for(var key=1;key<6;key++){
             if(statNameDic[key][0]!=undefined & valueDic[key][0]!=undefined){
                 var statname = statNameDic[key][0];
                 var stattype = valueDic[key][0].value;
                 var valuestypes = null;
                 if(stattype == 'VALUE'){
-                    valuestypes = statNameDic[2*key][0];
+                    valuestypes = statNameDic[key+5][0];
                 }
-                const newStat = new Stat({statname, stattype,valuestypes});
+                const newStat = new Stat({statname, stattype, valuestypes});
                 newStats.push(newStat);
             }
         }
@@ -114,12 +113,14 @@ function CreateTemplate(){
             try {
                 var newStats = localStorage.getItem('newStats');
                 if(newStats){
-                    var templatestats = JSON.parse(localStorage.getItem('newStats'));
+                    var templatestats = JSON.parse(newStats);
                     for(var i=0;i<templatestats.length;i++){
                         statNameDic[i+1][1](templatestats[i].statname);
                         valueDic[i+1][1](getDefaultType(templatestats[i]));
                         if(templatestats[i].stattype == 'VALUE'){
-                            statNameDic[2*(i+1)][1](templatestats[i].valuestypes);
+                            statNameDic[i+6][1](templatestats[i].valuestypes);
+                        }else if(templatestats[i].stattype == 'STARS'){
+                            statNameDic[i+6][1](getDefaultType(stats[i]));
                         }
                     }
                 }
@@ -163,8 +164,8 @@ function CreateTemplate(){
             <input
                 placeholder={valueinput(stat)}
                 className="edit-template-stat value-input"
-                value= {statNameDic[2*index][0]}
-                onChange={e => statNameDic[2*index][1](e.target.value)}
+                value= {statNameDic[index+5][0]}
+                onChange={e => statNameDic[index+5][1](e.target.value)}
             />
         );
 

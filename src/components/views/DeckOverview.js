@@ -75,7 +75,11 @@ const DeckOverview = () => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        let response = response = await api.get('/decks/'+deckId);
+        let response = await api.get('/decks/'+deckId,{
+          headers:{
+            'Authentication':localStorage.getItem("Authentication")
+          }
+        });
 
         // Get the returned users and update the state.
         setDeck(response.data);
@@ -122,15 +126,22 @@ const DeckOverview = () => {
     );
   }
 
+  function statBlock(stat){
+    return(
+      <div className="template stat">
+        {stat.statname}
+      </div>
+    );
+  }
+
   let templateBlock = null;
   if(template != undefined & JSON.stringify(template) != "{}"){
     templateBlock = (
       <div className="template container">
         <h3 className="template title">Card Template</h3>
-        <p className="template text">Theme:</p>
-        <div className="template theme"></div>
-        <p className="template text">Number of stats:</p>
-        <p className="template text">{template.templatestats.length}</p>
+        <ul className="template stat-list">
+          {template.templatestats.map(stat => statBlock(stat))}
+        </ul>
         <Button
           className="template edit-button"
           onClick={() => editTemplate(deck.deckId)}
@@ -146,18 +157,16 @@ const DeckOverview = () => {
   let deckView = (
     <div className="overview deck-container">
       <div className = 'overview deck-view'>
-        <div>
+        <div className = 'overview template'>
           {templateBlock}
           <Button
             className="template button"
-            width="100%"
             onClick={() => createCard()}
           >
             add new card
           </Button>
           <Button
             className="template button"
-            width="100%"
             onClick={() => backToLibrary()}
           >
             back to library

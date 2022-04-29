@@ -4,29 +4,32 @@
     &.container {
         display: flex;
         flex-direction: row;
+        align-items: left;
     }
     &.deck-view{
         display: flex;
         flex-direction: row;
     }
+    &.template{
+        display: flex;
+        flex-direction: column;
+    }
     &.deck-container {
         margin-left: 20px;
         margin-top: 15px;
-        height: 32em;
-        width: 71.1em;
+        height: 38em;
+        width: 72.5%;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1.5em;
         border-radius: $borderRadius;
         display: flex;
         flex-direction: row;
-        justify-content: center;
         box-shadow: $dropShadow;
         overflow:auto;
     }
     &.card-list {
-        width: 57em;
-        margin-top: 25px;
-        margin-left: -35px;
+        width: 100%;
+        margin-top: 20px;
         list-style: none;
         display: flex;
         flex-direction: row;
@@ -50,8 +53,8 @@
     &.edit-container {
         margin-left: 1em;
         margin-top: 15px;
-        height: 32em;
-        width: 24em;
+        height: 38em;
+        width: 24.5%;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1.5em;
         border-radius: $borderRadius;
@@ -77,7 +80,7 @@
         font-weight: 300;
     }
     &.edit-input {
-        height: 50px;
+        height: 40px;
         padding-left: 15px;
         border: none;
         border-radius: 0.25em;
@@ -85,13 +88,12 @@
         color: $textColor;
     }
     &.edit-button{
-        margin-top: 15px;
+        margin-top: 30px;
     }
 }
 
 .card {
     &.container {
-        margin-left: 15px;
         margin-right: 5px;
         margin-bottom: 10px;
         height: 14em;
@@ -135,49 +137,50 @@
 
 .template {
     &.container{
-        margin-left: 5px;
-        margin-top: 25px;
+        margin-left: 15px;
+        margin-top: 20px;
         margin-bottom: 10px;
-        height: 14em;
         width: 12em;
+        height: 14em;
         padding: 10px;
         border-radius: $borderRadius;
         display: flex;
         flex-direction: column;
         background: lighten($background, 5);
     }
-    &.themes-container{
-        display: flex;
-        flex-direction: row;
-    }
-    &.theme{
-        height: 3em;
-        width: 3em;
-        margin-left: 10px;
-        margin-top: 0px;
-        margin-bottom: 5px;
-        background-color: $accent1;
-    }
     &.edit-button{
-        margin-top: 5px;
         margin-left: 7px;
         width: 6em;
+        margin-top: 5px;
+    }
+    &.stat{
+        text-align: left;
+        color: $accent4;
+        background-color: $accent1;
+        padding-left: 8px;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 7px;
+        margin-left: -2em;
+    }
+    &.stat-list{
+        min-height: 60%;
     }
     &.button{
-        width: 12em;
-        margin-left: 5px;
+        width: 14.8em;
         display: flex;
         flex-direction: column;
+        margin-left: 15px;
         align-items: center;
-        margin-top: 15px;
-        margin-bottom: 3px;
+        margin-top: 5px;
+        margin-bottom: 10px;
     }
     &.title{
         margin-left: 7px;
         text-align: left;
         color: $accentDark;
         margin-top: 0;
-        margin-bottom: 5px;
+        margin-bottom: -7px;
     }
     &.text{
         margin-left: 7px;

@@ -64,7 +64,11 @@ const EditCard = () => {
         // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
         async function fetchData() {
           try {
-            let response = response = await api.get('/decks/'+deckId);
+            let response = await api.get('/decks/'+deckId,{
+                headers:{
+                  'Authentication':localStorage.getItem("Authentication")
+                }
+              });
             var cardList = response.data.cardList;
             
             //Get the returned users and update the state.
