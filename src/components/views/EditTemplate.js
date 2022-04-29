@@ -87,11 +87,25 @@ function EditTemplate(){
         // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
         async function fetchData() {
           try {
-            let response = response = await api.get('/decks/'+deckId);
+            let response = await api.get('/decks/'+deckId,{
+                headers:{
+                  'Authentication':localStorage.getItem("Authentication")
+                }
+              });
     
             // Get the returned users and update the state.
             let templatestats = response.data.template.templatestats;
             setStats(templatestats);
+
+            for(var i=0;i<templatestats.length;i++){
+                statNameDic[i+1][1](templatestats[i].statname);
+                valueDic[i+1][1](getDefaultType(templatestats[i]));
+                if(templatestats[i].stattype == 'VALUE'){
+                    statNameDic[i+6][1](templatestats[i].valuestypes);
+                }else if(templatestats[i].stattype == 'STARS'){
+                    statNameDic[i+6][1](getDefaultType(templatestats[i]));
+                }
+            }
     
             // See here to get more data.
             console.log(response.data);
@@ -130,8 +144,8 @@ function EditTemplate(){
             <input
                 className="edit-template-stat value-input"
                 placeholder={stat.valuestypes}
-                value= {statNameDic[2*getStatIndex(stat)][0]}
-                onChange={e => statNameDic[2*getStatIndex(stat)][1](e.target.value)}
+                value= {statNameDic[getStatIndex(stat)+5][0]}
+                onChange={e => statNameDic[getStatIndex(stat)+5][1](e.target.value)}
             />
         );
 

@@ -36,8 +36,16 @@ const CreateCard = () => {
         const newCard = getCard();
         if(!localStorage.getItem('newStats')){
             const deckId = localStorage.getItem('deckId');
-            // const requestBody = JSON.stringify(newCard);
-            // const response = await api.post(`/decks/${deckId}/cards`, requestBody);
+            var card = new Card(newCard);
+            card.setCardId(null);
+            card.setImage('sth');
+            console.log(card);
+            const requestBody_createCard = JSON.stringify(card);
+            const response_createCard = await api.post(`/decks/${deckId}/cards`, requestBody_createCard,{
+                headers:{
+                    'Authentication':localStorage.getItem("Authentication")
+                }
+            });
             history.push(`/menu/deckOverview/`+deckId);
         }else{
             if(localStorage.getItem("editCard")){
@@ -88,7 +96,6 @@ const CreateCard = () => {
             var cardId = editCard.cardId;
         }else{
             var cardId = newCards.length+1;
-            console.log(cardId);
         }
         for(var i=0; i<statCount; i++){
             var stat = stats[i];
@@ -148,7 +155,11 @@ const CreateCard = () => {
                 var statsList = JSON.parse(localStorage.getItem("newStats"));
                 if(!statsList){
                     var deckId = localStorage.getItem('deckId');
-                    let response = response = await api.get('/decks/'+deckId);
+                    let response = await api.get('/decks/'+deckId,{
+                        headers:{
+                          'Authentication':localStorage.getItem("Authentication")
+                        }
+                      });
                     var statsList = response.data.template.templatestats;
                 }
             }

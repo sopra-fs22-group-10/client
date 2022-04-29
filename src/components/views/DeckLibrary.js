@@ -35,7 +35,6 @@ const DeckLibrary = () => {
         setDecks(response.data.deckList);
 
         // See here to get more data.
-        console.log(response);
         } catch (error) {
         console.error(`Something went wrong: \n${handleError(error)}`);
         console.error("Details:", error);
@@ -55,12 +54,20 @@ const DeckLibrary = () => {
           <h3 className="deck title">{deck.deckname}</h3>
           <h5 className="deck creator">Status: {deck.deckstatus}</h5>
         </div>
-        <Button
-          className="deck button"
-          onClick={() => viewDeck(deck.deckId)}
-        >
-          view deck
-        </Button>
+        <div className="deck button-container">
+          <Button
+            className="deck view-deck"
+            onClick={() => viewDeck(deck.deckId)}
+          >
+            view deck
+          </Button>
+          <Button
+            className="deck delete-deck"
+            onClick={() => viewDeck(deck.deckId)}
+          >
+            delete deck
+          </Button>
+        </div>
       </div>
     </div>
   );
