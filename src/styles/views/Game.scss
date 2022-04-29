@@ -22,29 +22,66 @@
   }
 
   &.body {
-    margin: 0;
-    padding: 0;
-    min-width: 100vw;
-    min-height: 100vh;
-    font-family: $fontDefault;
-    background-image: none;
-    background-color: $background;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(closest-corner, $accent3, $accentDark);
+  }
+}
+
+.card {
+  &.rect {
+    position: absolute;
+    opacity: 30%;
+  }
+
+  &.title {
+    pointer-events: none;
+    fill: white;
+    font: italic 17px sans-serif;
+  }
+
+  &.value {
+    pointer-events: none;
+    text-anchor: end;
+    fill: $accent;
+    font: bold 7px sans-serif;
+  }
+
+  &.value-name {
+    pointer-events: none;
+    fill: black;
+    font: 7px sans-serif;
   }
 }
 
 .card-container {
   position: absolute;
-  outline: 0px dashed blue;
 
   & svg{
     position: absolute;
-    outline: 1px dashed blue;
   }
 
-  & image{
-    position: absolute;
-    outline: 1px dashed blue;
+  &.username{
+    position: relative;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    text-align: center;
   }
 }
 
-//  position: absolute; TODO RESET
+.played-card-container {
+  position: absolute;
+
+  & svg{
+    position: absolute;
+  }
+
+  &.username{
+    position: relative;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+}

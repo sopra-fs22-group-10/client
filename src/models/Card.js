@@ -1,7 +1,7 @@
 /**
  * Card model
  */
- class Card {
+class Card {
     constructor(data = {}) {
       this.cardId = data.cardId;
       this.cardname = data.cardname;
@@ -17,6 +17,5 @@
     setImage(newImage){
       this.image = newImage;
     }
-  }
-  export default Card;
-  
+}
+export default Card;

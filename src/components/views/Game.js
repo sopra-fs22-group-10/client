@@ -1,145 +1,69 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
 import CloseX from "../../styles/graphics/CloseX.svg";
-import CardDummy from "../../styles/graphics/CardDummy.svg";
-import {handList} from "../../models/TestEntities";
+import {HandVis} from "../../helpers/HandVis";
+import {getHandTrans} from "../../helpers/HandPositioning";
+import {testSession} from "../../models/TestEntities"; //TODO: remove
 
-const cardH = 150;
-const cardW = 100;
-const contourW = 5;
+export const selectStat = (statName) => {
+    console.log(statName);
+    //TODO add stat selection request, make it only work for userId === currentPlayerId
+}
 
+export const selectOpponent = (opponentId) => {
+    console.log(opponentId);
+    //TODO add opponent selection request, make it only work for userId === currentPlayerId
+}
 
-const Card = ({transform}) => (
-    <svg xmlns="http://www.w3.org/2000/svg"
-         width={cardW+2*contourW}
-         height={cardH+2*contourW}
-         viewBox={`-${contourW} -${contourW} ${cardW+contourW} ${cardH+contourW}`} //TODO: fix border
-         style={transform}>
-
-        <path d="
-            M10,0
-            A10,10 0 0,0 0,10
-            V140
-            A10,10 0 0,0 10,150
-            H90
-            A10,10 0 0,0 100,140
-            V10
-            A10,10 0 0,0 90,0
-            Z"
-            stroke-width={contourW}
-            stroke="black"
-            fill="#ff8b5d"/>
-
-        <text x="20" y="35" className="small">Test</text>
-
-    </svg>
-    //<img className="game card-container image" src={CardDummy} alt="" style={transform} ></img>
-);
-
-const Hand = ({cards, transform}) => (
-    <div id="cardContainer" className="game card-container" style={transform}>
-        {cards}
-    </div>
-)
+const getActivePlayers = (playerList) => {
+    const activePlayers = [];
+    for (const player of playerList){
+        if (player.playerStatus==="active"){
+            activePlayers.push(player);
+        }
+    }
+    return activePlayers;
+}
 
 const Game = () => {
+    //TODO handle inactive players
 
     // use react-router-dom's hook to access the history
     const history = useHistory();
-    const [hands, setHands] = useState(handList);
-
     const quit = () => {
         history.push('/menu/');
     }
 
-    const handWidth = 20;
-    const cardWidth = 1/4*handWidth;
-    const cardHeight = cardWidth*CardDummy.height/CardDummy.width;
-    const cardShift= 1/5*cardWidth;
+    const [session, setSession] = useState(testSession); //TODO: use GET
+    const activePlayers = getActivePlayers(session.playerList);
 
-    const topBorder = 10;
-    const bottomBorder = 10;
-    const sideBorder = 10;
-    const cornerRadius = 20;
-    const sideLength = 100-(bottomBorder+topBorder+cornerRadius);
-    const arcLength = cornerRadius*Math.PI/2;
-    const topLength = 100-2*sideBorder-2*cornerRadius;
-    const lineLength = 2*sideLength+2*arcLength+topLength;
-
-    const getTrans = (linePos) => {
-        let x = sideBorder; // set start position
-        let y = 100-bottomBorder;
-        let rot = 0;
-        if (linePos < sideLength){
-            y -= linePos;
-            rot = 90;
-        } else if (linePos < sideLength+arcLength){
-            let angle = 2*Math.PI*(linePos-sideLength)/(4*arcLength);
-            x += (1-Math.cos(angle))*cornerRadius;
-            y = topBorder+(1-Math.sin(angle))*cornerRadius;
-            rot = 90-angle/(2*Math.PI)*360;
-        } else if (linePos < sideLength+arcLength+topLength){
-            x = sideBorder+cornerRadius+(linePos-sideLength-arcLength);
-            y = topBorder;
-        } else if (linePos < sideLength+2*arcLength+topLength){
-            let angle = 2*Math.PI*(linePos-sideLength-arcLength-topLength)/(4*arcLength);
-            x = sideBorder+cornerRadius*(1+Math.sin(angle))+topLength;
-            y = topBorder+(1-Math.cos(angle))*cornerRadius;
-            rot = 360-angle/(2*Math.PI)*360;
-        } else if (linePos <= lineLength){
-            x = 100-sideBorder;
-            y -= (lineLength-linePos);
-            rot = 360-90;
-        }
-        return {x, y, rot};
+    //Generate code for Hand visualisation
+    let handVis = [];
+    const handTransformations = getHandTrans(activePlayers);
+    for (let i=0; i<activePlayers.length; i++) {
+        handVis.push(
+            <HandVis
+                key={i}
+                player={activePlayers[i]}
+                transform={handTransformations[i]}
+                selectedStat={session.currentStatName}
+                hasWon={activePlayers[i].playerId===session.currentPlayer && session.roundStatus==="win"
+                        || activePlayers[i].playerId===session.opponentPlayer && session.roundStatus==="lost"}
+                currentPlayer={session.currentPlayer}
+                opponentPlayer={session.opponentPlayer}
+            />
+        );
     }
 
-    const linePositions = [];
-    for (let i = 1; i <= hands.length; i++) {
-        linePositions.push(i*lineLength/(hands.length+1));
-    }
-
-    const handTransformations = [];
-    for (const linePos of linePositions) {
-        handTransformations.push(getTrans(linePos));
-    }
-
-    let handCode = [];
-    for (let i = 0; i < hands.length; i++) {
-        const hand = hands[i];
-        const handTrans = handTransformations[i];
-
-        let cardCode = [];
-        for (const value of hand) {
-            const cardTransform = {
-                left: `${cardShift*value.pos + (handWidth-((hand.cardAmount()-1)*(cardShift)+cardWidth))/2}vw`,
-                width: `${cardWidth}vw`,
-                height: `${cardHeight}vw`
-            }
-            cardCode.push(<Card transform={cardTransform} />);
-        }
-
-        const handTransform = {
-            left: `${handTrans.x-handWidth/2}vw`,
-            top: `${handTrans.y}vh`,
-            transform: `rotate(-${handTrans.rot}deg)`,
-            width: `${handWidth}vw`,
-            height: `${cardHeight}vw`
-        }
-
-        handCode.push(<Hand cards={cardCode} transform={handTransform} />);
-    }
-
-    let content = (
+    return (
         <body className="game body">
-            <div className="game close-container">
-                <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
-            </div>
-            {handCode}
-        </body>);
-
-    return (content);
+        <div className="game close-container">
+            <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
+        </div>
+        {handVis}
+        </body>
+    );
 }
 
 export default Game;
