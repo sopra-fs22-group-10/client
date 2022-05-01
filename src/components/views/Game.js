@@ -12,7 +12,7 @@ import {testSession} from "../../models/TestEntities"; //TODO: remove
 export const selectStat = async (statName) => {
     const pathID = localStorage.getItem('pathID');
     console.log(statName);
-    const currentPlayerId = 0;
+    var currentPlayerId = 0;
     const playerId = localStorage.getItem('userId');
     try {
         const requestOptions = {
@@ -92,14 +92,11 @@ const getActivePlayers = (playerList) => {
 }
 
 const Game = () => {
-    //TODO handle inactive players
-
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const {pathID} = useParams();
     localStorage.setItem('pathID', pathID);
     var roundEnd = Boolean(false);
-    const UserId = localStorage.getItem('UserId');
     const [session, setSession] = useState(testSession);
     var activePlayers = getActivePlayers(session.playerList);
 
