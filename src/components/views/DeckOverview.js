@@ -4,6 +4,14 @@ import {useHistory} from 'react-router-dom';
 import {api, handleError} from 'helpers/api';
 import "styles/views/DeckOverview.scss";
 import Select from 'react-select'
+import * as React from 'react';
+import MUIButton from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Deck from 'models/Deck';
 
 const DeckOverview = () => {
   // use react-router-dom's hook to access the history
@@ -15,13 +23,15 @@ const DeckOverview = () => {
   const [visability, setVisability] = useState(undefined);
   const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
+  const [open, setOpen] = useState(false);
+
 
   const url = window.location.href;
   const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
 
   const visability_options = [
-    { value: 'Private', label: 'Private' },
-    { value: 'Public', label: 'Public' }
+    { value: 'PRIVATE', label: 'Private' },
+    { value: 'PUBLIC', label: 'Public' }
   ]
 
   const fairness_options = [
@@ -30,12 +40,31 @@ const DeckOverview = () => {
   ]
 
   const confirm = () => {
+    var newDeck = new Deck(deck);
+    newDeck.setDeckName(deckName);
+    newDeck.setStatus(visability.value);
   }
 
   const editPicture = () => {
   }
 
-  const deleteCard = () => {
+  const deleteCard = async() => {
+    var cardId = localStorage.getItem("cardId");
+    let response_deleteCard = await api.delete('/decks/'+deckId+'/cards/'+cardId,{
+      headers:{
+        'Authentication':localStorage.getItem("Authentication")
+      }
+    });
+    let response_getDeck = await api.get('/decks/'+deckId,{
+      headers:{
+        'Authentication':localStorage.getItem("Authentication")
+      }
+    });
+    setDeck(response_getDeck.data);
+    setCardList(response_getDeck.data.cardList);
+
+    localStorage.removeItem("cardId");
+    setOpen(false);
   }
 
   const createCard = () => {
@@ -71,6 +100,15 @@ const DeckOverview = () => {
     history.push(`/menu/editCard/${deckId}/${cardId}`);
   }
 
+  function openDialogue(cardId){
+    localStorage.setItem("cardId",cardId);
+    setOpen(true);
+  }
+  function closeDialogue(){
+    localStorage.removeItem("cardId");
+    setOpen(false);
+  }
+
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
@@ -100,6 +138,32 @@ const DeckOverview = () => {
     fetchData();
   }, []);
 
+  const Dialogue = () => (
+    <div>
+      <Dialog
+        open={open}
+        onClose={closeDialogue}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this card?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <MUIButton onClick={closeDialogue}>Cancel</MUIButton>
+          <MUIButton onClick={deleteCard} autoFocus>
+            Confirm
+          </MUIButton>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+
   function cardBlock(card){
     return(
       <div className="card container">
@@ -117,7 +181,7 @@ const DeckOverview = () => {
           <Button
             className="card delete-button"
             width="100%"
-            onClick={() => deleteCard()}
+            onClick={() => openDialogue(card.cardId)}
           >
             delete
           </Button>
@@ -222,6 +286,7 @@ const DeckOverview = () => {
   if (cardList) {
     overview = (
       <div className="overview container">
+        <Dialogue/>
         {deckView}
         {editDeckView}
       </div>

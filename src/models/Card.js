@@ -14,6 +14,14 @@ class Card {
       this.cardId = newId;
     }
 
+    setCardName(newName){
+      this.cardname = newName;
+    }
+
+    setCardStats(newStats){
+      this.cardstats = newStats;
+    }
+
     setImage(newImage){
       this.image = newImage;
     }

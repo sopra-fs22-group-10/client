@@ -12,5 +12,9 @@ class Deck {
     setCardname(newDeckname){
       this.deckname = newDeckname;
     }
+
+    setStatus(newStatus){
+      this.deckstatus = newStatus;
+    }
   }
   export default Deck;

@@ -3,12 +3,20 @@ import {Button} from 'components/ui/Button';
 import {api, handleError} from 'helpers/api';
 import {useHistory} from 'react-router-dom';
 import "styles/views/DeckLibrary.scss";
+import * as React from 'react';
+import MUIButton from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const DeckLibrary = () => {
   const history = useHistory();
 
   // objects for test
   const [decks, setDecks] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const toDashboard = () => {
     history.push('/menu');
@@ -22,6 +30,29 @@ const DeckLibrary = () => {
   function viewDeck(deckId){
     history.push(`/menu/deckOverview/${deckId}`);
   }
+  function openDialogue(deckId){
+    localStorage.setItem("deckId",deckId);
+    setOpen(true);
+  }
+  function closeDialogue(){
+    localStorage.removeItem("deckId");
+    setOpen(false);
+  }
+
+  const deleteDeck = async() => {
+    var deckId = localStorage.getItem("deckId");
+    let response_deleteDeck = await api.delete('/decks/'+deckId,{
+      headers:{
+        'Authentication':localStorage.getItem("Authentication")
+      }
+    });
+    const userId = localStorage.getItem('UserID');
+    let response_getDecks = await api.get('/users/'+userId);
+    setDecks(response_getDecks.data.deckList);
+    
+    localStorage.removeItem("deckId");
+    setOpen(false);
+  }
 
 
   useEffect(() => {
@@ -29,7 +60,7 @@ const DeckLibrary = () => {
     async function fetchData() {
       try {
         const userId = localStorage.getItem('UserID');
-        let response = response = await api.get('/users/'+userId);
+        let response = await api.get('/users/'+userId);
 
         // Get the returned users and update the state.
         setDecks(response.data.deckList);
@@ -44,6 +75,32 @@ const DeckLibrary = () => {
 
     fetchData();
   }, []);
+
+  const Dialogue = () => (
+    <div>
+      <Dialog
+        open={open}
+        onClose={closeDialogue}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this deck?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <MUIButton onClick={closeDialogue}>Cancel</MUIButton>
+          <MUIButton onClick={deleteDeck} autoFocus>
+            Confirm
+          </MUIButton>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 
   const DeckBlock = ({deck}) => (
     <div className="deck container">
@@ -63,7 +120,7 @@ const DeckLibrary = () => {
           </Button>
           <Button
             className="deck delete-deck"
-            onClick={() => viewDeck(deck.deckId)}
+            onClick={() => openDialogue(deck.deckId)}
           >
             delete deck
           </Button>
@@ -74,6 +131,7 @@ const DeckLibrary = () => {
 
   return (
     <div className='library container'>
+      <Dialogue/>
       <h3 className='library title'>
         Deck Library
       </h3>
