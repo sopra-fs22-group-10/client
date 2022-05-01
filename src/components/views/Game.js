@@ -11,25 +11,28 @@ import {testSession} from "../../models/TestEntities"; //TODO: remove
 
 export const selectStat = async (statName) => {
     const pathID = localStorage.getItem('pathID');
-    console.log(statName);
+    let currentStatName = statName;
     var currentPlayerId = 0;
-    const playerId = localStorage.getItem('userId');
+    const playerId = localStorage.getItem('UserID');
     try {
         const requestOptions = {
                         method: 'GET',
                         headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
         };
-        const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         const data = await response.json();
-        currentPlayerId = data.currentPlayerId;
+        currentPlayerId = data.currentPlayer;
     } catch (error) {
          console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
          console.error("Details:", error);
          alert("Something went wrong while fetching game information! See the console for details.");
     }
+    console.log(currentPlayerId);
+    console.log(playerId);
+    console.log(currentPlayerId == playerId);
     if (currentPlayerId == playerId){
         try {
-            const requestBody = JSON.stringify({statName});
+            const requestBody = JSON.stringify({currentStatName});
             const requestOptions = {
                             method: 'PUT',
                             headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
@@ -47,9 +50,8 @@ export const selectStat = async (statName) => {
 export const selectOpponent = async (opponentId) => {
     const pathID = localStorage.getItem('pathID');
     let opponentPlayer = opponentId;
-    console.log(opponentId);
     var currentPlayerId = 0;
-    const playerId = localStorage.getItem('userId');
+    const playerId = localStorage.getItem('UserID');
     try {
         const requestOptions = {
                         method: 'GET',
@@ -58,7 +60,6 @@ export const selectOpponent = async (opponentId) => {
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         const data = await response.json();
         currentPlayerId = data.currentPlayer;
-        console.log('currentId', currentPlayerId);
     } catch (error) {
          console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
          console.error("Details:", error);
@@ -132,7 +133,6 @@ const Game = () => {
                 const data = await response.json();
                 await setSessionFunc(data);
                 activePlayers = getActivePlayers(session.playerList);
-                console.log('active: ', activePlayers)
 
 
             } catch (error) {
@@ -150,9 +150,7 @@ const Game = () => {
                 const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
                 const data = await response.json();
                 let newData = Object.assign({}, session);
-                console.log('only new', newData);
-                newData.assign(data);
-                console.log('with new', newData)
+                Object.assign(newData, data);
                 await setSessionFunc(newData);
             } catch (error) {
                  console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
@@ -163,15 +161,12 @@ const Game = () => {
 
         const interval = setInterval(() => {
             if (roundEnd === true) {
-              console.log('SessionEnd');
               fetchSessionEnd(pathID, setSession);
             } else {
-              console.log('session normal');
               fetchSession(pathID, setSession);
             }
-            console.log('session: ', session);
             roundEnd = (session.opponentPlayer != null);
-        }, 5000);
+        }, 500);
 
         return () => clearInterval(interval);
     }, []);
