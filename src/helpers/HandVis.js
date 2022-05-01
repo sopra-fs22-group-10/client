@@ -12,7 +12,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     let playedCardsVis = [];
     const hand = player.hand;
     const hasPlayedCards = [currentPlayer, opponentPlayer].includes(player.playerId);
-    const playedCards = player.cards.playedCards;
+    const playedCards = player.playedCards;
 
     let cardVis = [];
     for (let cardIndex=0; cardIndex<hand.length; cardIndex++) {
