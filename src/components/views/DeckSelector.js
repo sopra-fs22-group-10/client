@@ -63,7 +63,7 @@ const DeckSelector = () => {
       try {
         let hostId = localStorage.getItem('UserID');
         let maxPlayers = 6;
-        let hostUsername = 'user'; //temporary!!!!
+        let hostUsername = localStorage.getItem('Username');
         const requestBody = JSON.stringify({deckId, hostId, maxPlayers, hostUsername});
         const requestOptions = {
                         method: 'POST',

@@ -40,7 +40,7 @@ const Dashboard = () => {
     const join = async (joinId) => {
       try {
         let userId = localStorage.getItem('UserID');
-        let username = 'user1'; //temporary!!!!
+        let username = localStorage.getItem('Username'); //temporary!!!!
         const requestBody = JSON.stringify({userId, username});
         const requestOptions = {
                         method: 'POST',
