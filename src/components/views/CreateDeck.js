@@ -12,7 +12,7 @@ const CreateDeck = () => {
 
   const [deck, setDeck] = useState({});
   const [template, setTemplate] = useState(undefined);
-  const [deckName, setDeckName] = useState(undefined);
+  const [deckName, setDeckName] = useState("");
   const [visability, setVisability] = useState(undefined);
   const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
@@ -26,6 +26,26 @@ const CreateDeck = () => {
     { value: 'ON', label: 'on' },
     { value: 'OFF', label: 'off' }
   ]
+
+  const defaultVisability = () => {
+    if(!visability){
+      return null;
+    }else if(visability.value == "PRIVATE"){
+      return(visability_options[0]);
+    }else{
+      return(visability_options[1]);
+    }
+  }
+
+  const defaultFairness = () => {
+    if(!fairness){
+      return null;
+    }if(fairness.value == "ON"){
+      return(fairness_options[0]);
+    }else{
+      return(fairness_options[1]);
+    }
+  }
 
   const confirm = async() => {
     var deckname = deckName;
@@ -62,9 +82,7 @@ const CreateDeck = () => {
         }
       });
     }
-
-    localStorage.removeItem("newCards");
-    localStorage.removeItem("newStats");
+    clearDeck();
     history.push('/menu/deckLibrary');
 
   }
@@ -94,6 +112,14 @@ const CreateDeck = () => {
     localStorage.setItem("fairness",fairness.value);
   }
 
+  function clearDeck(){
+    localStorage.removeItem("deckname");
+    localStorage.removeItem("visability");
+    localStorage.removeItem("fairness");
+    localStorage.removeItem("newCards");
+    localStorage.removeItem("newStats");
+  }
+
   const createCard = () => {
     saveDeck();
     history.push(`/menu/createCard`);
@@ -105,8 +131,7 @@ const CreateDeck = () => {
   }
 
   const backToLibrary = () => {
-    localStorage.removeItem("newCards");
-    localStorage.removeItem("newStats");
+    clearDeck();
     history.push('/menu/deckLibrary');
   }
 
@@ -282,12 +307,14 @@ const CreateDeck = () => {
         />
         <p className="create-overview edit-text">Visability</p>
         <Select 
+          defaultValue={defaultVisability}
           className="create-overview edit-select"
           options={visability_options} 
           onChange= {setVisability}
         />
         <p className="create-overview edit-text">Fairness</p>
         <Select 
+          defaultValue={defaultFairness}
           className="create-overview edit-select"
           options={fairness_options} 
           onChange={setFairness}

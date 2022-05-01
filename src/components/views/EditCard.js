@@ -128,6 +128,7 @@ const EditCard = () => {
             for(var i=0;i<cardstats.length;i++){
                 if(cardstats[i].stattype == 'STARS'){
                     var oldValue = getDefaultStar(cardstats[i]);
+                    console.log(oldValue);
                     valueDic[i+1][1](oldValue);
                 }else{
                     valueDic[i+1][1](cardstats[i].statvalue);

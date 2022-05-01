@@ -99,13 +99,13 @@ const DeckLibrary = () => {
           className= "library to-dashboard"
           onClick={() => toDashboard()}
         >
-          back to dashboard
+          To dashboard
         </Button>
         <Button
           className= "library to-public"
           onClick={() => toPublic()}
         >
-          go to public decks
+          To public decks
         </Button>
         <Button
           className= "library new-deck"
