@@ -108,8 +108,12 @@ const CreateDeck = () => {
 
   function saveDeck(){
     localStorage.setItem("deckname",deckName);
-    localStorage.setItem("visability",visability.value);
-    localStorage.setItem("fairness",fairness.value);
+    if(visability){
+      localStorage.setItem("visability",visability.value);
+    }
+    if(fairness){
+      localStorage.setItem("fairness",fairness.value);
+    }
   }
 
   function clearDeck(){
