@@ -10,7 +10,7 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Deck from "models/Deck";
 
-async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, setHasGame) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, code) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -19,8 +19,11 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, s
         const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
         const data = await response.json();
         setPlayersFunc(data.userList);
-        setMaxFunc(data.maxPlayers);
-        setHasGame(data.hasGame);
+        await setMaxFunc(data.maxPlayers);
+        console.log('in func: ', data.hasGame);
+        if (data.hasGame) {
+            playFunc(code);
+        }
 
     } catch (error) {
         console.error(`Something went wrong while fetching the players: \n${handleError(error)}`);
@@ -66,7 +69,7 @@ const Lobby = () => {
     const [players, setPlayers] = useState(null);
     const [max, setMax] = useState(null);
     const [hostId, setHostId] = useState(null);
-    const [hasGame, setHasGame] = useState(Boolean);
+    //const [hasGame, setHasGame] = useState(Boolean);
 
     const endSession = async () => {
       try {
@@ -86,6 +89,10 @@ const Lobby = () => {
 
     const leave = async () => {
       history.push(`/menu`);
+    }
+
+    const play = async (code) => {
+      history.push(`play`);
     }
 
     const start = async () => {
@@ -108,11 +115,7 @@ const Lobby = () => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-          fetchPlayers(pathID, setPlayers, setMax, setDeckId, setHasGame);
-          if(hasGame == true) {
-            history.push(`play`);
-          }
-
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId, play, pathID);
       }, 1000);
 
         return () => clearInterval(interval);
