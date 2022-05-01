@@ -11,20 +11,20 @@ const CreateDeck = () => {
   const history = useHistory();
 
   const [deck, setDeck] = useState({});
-  const [template, setTemplate] = useState({});
+  const [template, setTemplate] = useState(undefined);
   const [deckName, setDeckName] = useState(undefined);
   const [visability, setVisability] = useState(undefined);
   const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
 
   const visability_options = [
-    { value: 'Private', label: 'Private' },
-    { value: 'Public', label: 'Public' }
+    { value: 'PRIVATE', label: 'Private' },
+    { value: 'PUBLIC', label: 'Public' }
   ]
 
   const fairness_options = [
-    { value: 'on', label: 'on' },
-    { value: 'off', label: 'off' }
+    { value: 'ON', label: 'on' },
+    { value: 'OFF', label: 'off' }
   ]
 
   const confirm = async() => {
@@ -88,11 +88,19 @@ const CreateDeck = () => {
     }
   }
 
+  function saveDeck(){
+    localStorage.setItem("deckname",deckName);
+    localStorage.setItem("visability",visability.value);
+    localStorage.setItem("fairness",fairness.value);
+  }
+
   const createCard = () => {
+    saveDeck();
     history.push(`/menu/createCard`);
   }
 
   const createTemplate = () => {
+    saveDeck();
     history.push(`/menu/createTemplate`);
   }
 
@@ -103,10 +111,12 @@ const CreateDeck = () => {
   }
 
   function editTemplate(){
+    saveDeck();
     history.push(`/menu/createTemplate`);
   }
 
   function editCard(card){
+    saveDeck();
     localStorage.setItem('editCard',JSON.stringify(card));
     history.push(`/menu/createCard`);
   }
@@ -123,6 +133,29 @@ const CreateDeck = () => {
         }
         if(newCards){
             setCardList(JSON.parse(newCards));
+        }
+
+        var deckname = localStorage.getItem('deckname');
+        if(deckname){
+          setDeckName(deckname);
+        }
+        var deckVisability = localStorage.getItem('visability');
+        if(deckVisability){
+          if(deckVisability == "PUBLIC"){
+            setVisability(visability_options[1]); 
+          }else{
+            setVisability(visability_options[0]);
+          }
+          console.log(visability);
+        }
+        var deckFairness = localStorage.getItem('fairness');
+        if(deckFairness){
+          if(deckFairness == "ON"){
+            setFairness(fairness_options[0]);
+          }else{
+            setFairness(fairness_options[1]);
+          }
+          console.log(fairness);
         }
 
         } catch (error) {
@@ -170,7 +203,7 @@ const CreateDeck = () => {
   }
 
   let templateBlock = null;
-  if(JSON.stringify(template) != "{}"){
+  if(template){
     templateBlock = (
       <div>
         <div className="create-template container">

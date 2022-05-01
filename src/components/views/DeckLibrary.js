@@ -4,12 +4,6 @@ import {api, handleError} from 'helpers/api';
 import {useHistory} from 'react-router-dom';
 import "styles/views/DeckLibrary.scss";
 import * as React from 'react';
-import MUIButton from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 
 const DeckLibrary = () => {
   const history = useHistory();
@@ -30,17 +24,8 @@ const DeckLibrary = () => {
   function viewDeck(deckId){
     history.push(`/menu/deckOverview/${deckId}`);
   }
-  function openDialogue(deckId){
-    localStorage.setItem("deckId",deckId);
-    setOpen(true);
-  }
-  function closeDialogue(){
-    localStorage.removeItem("deckId");
-    setOpen(false);
-  }
 
-  const deleteDeck = async() => {
-    var deckId = localStorage.getItem("deckId");
+  const deleteDeck = async(deckId) => {
     let response_deleteDeck = await api.delete('/decks/'+deckId,{
       headers:{
         'Authentication':localStorage.getItem("Authentication")
@@ -76,32 +61,6 @@ const DeckLibrary = () => {
     fetchData();
   }, []);
 
-  const Dialogue = () => (
-    <div>
-      <Dialog
-        open={open}
-        onClose={closeDialogue}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to delete this deck?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <MUIButton onClick={closeDialogue}>Cancel</MUIButton>
-          <MUIButton onClick={deleteDeck} autoFocus>
-            Confirm
-          </MUIButton>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-
   const DeckBlock = ({deck}) => (
     <div className="deck container">
       <div className="deck image-container">
@@ -120,7 +79,7 @@ const DeckLibrary = () => {
           </Button>
           <Button
             className="deck delete-deck"
-            onClick={() => openDialogue(deck.deckId)}
+            onClick={() => deleteDeck(deck.deckId)}
           >
             delete deck
           </Button>
@@ -131,7 +90,6 @@ const DeckLibrary = () => {
 
   return (
     <div className='library container'>
-      <Dialogue/>
       <h3 className='library title'>
         Deck Library
       </h3>
