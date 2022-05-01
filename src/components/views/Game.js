@@ -9,6 +9,8 @@ import {useParams} from 'react-router-dom';
 import {getDomain} from 'helpers/getDomain';
 import {testSession} from "../../models/TestEntities"; //TODO: remove
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 export const selectStat = async (statName) => {
     const pathID = localStorage.getItem('pathID');
     let currentStatName = statName;
@@ -159,11 +161,12 @@ const Game = () => {
             }
         }
 
-        const interval = setInterval(() => {
+        const interval = setInterval(async () => {
             if (roundEnd === true) {
-              fetchSessionEnd(pathID, setSession);
+                fetchSessionEnd(pathID, setSession);
             } else {
-              fetchSession(pathID, setSession);
+                fetchSession(pathID, setSession);
+                await delay(5000);
             }
             roundEnd = (session.opponentPlayer != null);
         }, 500);
