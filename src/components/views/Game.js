@@ -12,7 +12,7 @@ import {testSession} from "../../models/TestEntities"; //TODO: remove
 export const selectStat = async (statName) => {
     const pathID = localStorage.getItem('pathID');
     console.log(statName);
-    const currentPlayerId = 0;
+    var currentPlayerId = 0;
     const playerId = localStorage.getItem('userId');
     try {
         const requestOptions = {
@@ -46,6 +46,7 @@ export const selectStat = async (statName) => {
 
 export const selectOpponent = async (opponentId) => {
     const pathID = localStorage.getItem('pathID');
+    let opponentPlayer = opponentId;
     console.log(opponentId);
     var currentPlayerId = 0;
     const playerId = localStorage.getItem('userId');
@@ -54,9 +55,10 @@ export const selectOpponent = async (opponentId) => {
                         method: 'GET',
                         headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
         };
-        const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         const data = await response.json();
-        currentPlayerId = data.currentPlayerId;
+        currentPlayerId = data.currentPlayer;
+        console.log('currentId', currentPlayerId);
     } catch (error) {
          console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
          console.error("Details:", error);
@@ -64,13 +66,15 @@ export const selectOpponent = async (opponentId) => {
     }
     if (currentPlayerId == playerId){
         try {
-            const requestBody = JSON.stringify({opponentId});
+            const requestBody = JSON.stringify({opponentPlayer});
             const requestOptions = {
                             method: 'PUT',
                             headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
                             body: requestBody
             };
             const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
+            const data = await response.json();
+            console.log('response for put opponent: ', data);
         } catch (error) {
             console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
             console.error("Details:", error);
@@ -148,7 +152,11 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
                 const data = await response.json();
-                await setSessionFunc(data);
+                let newData = Object.assign({}, session);
+                console.log('only new', newData);
+                newData.assign(data);
+                console.log('with new', newData)
+                await setSessionFunc(newData);
             } catch (error) {
                  console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
                  console.error("Details:", error);
@@ -165,7 +173,6 @@ const Game = () => {
               fetchSession(pathID, setSession);
             }
             console.log('session: ', session);
-
             roundEnd = (session.opponentPlayer != null);
         }, 5000);
 

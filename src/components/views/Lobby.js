@@ -10,7 +10,7 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Deck from "models/Deck";
 
-async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, setHasGame) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -20,6 +20,7 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc) {
         const data = await response.json();
         setPlayersFunc(data.userList);
         setMaxFunc(data.maxPlayers);
+        setHasGame(data.hasGame);
 
     } catch (error) {
         console.error(`Something went wrong while fetching the players: \n${handleError(error)}`);
@@ -45,6 +46,7 @@ async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
         console.log('data: ', data);
         setDeckFunc(data);
 
+
     } catch (error) {
         console.error(`Something went wrong while fetching the deck: \n${handleError(error)}`);
         console.error("Details:", error);
@@ -64,6 +66,7 @@ const Lobby = () => {
     const [players, setPlayers] = useState(null);
     const [max, setMax] = useState(null);
     const [hostId, setHostId] = useState(null);
+    const [hasGame, setHasGame] = useState(Boolean);
 
     const endSession = async () => {
       try {
@@ -105,7 +108,11 @@ const Lobby = () => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-          fetchPlayers(pathID, setPlayers, setMax, setDeckId);
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId, setHasGame);
+          if(hasGame == true) {
+            history.push(`play`);
+          }
+
       }, 1000);
 
         return () => clearInterval(interval);
