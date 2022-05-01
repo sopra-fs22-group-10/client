@@ -5,7 +5,7 @@ import {selectOpponent} from "../components/views/Game";
 
 export const cardShift= 1/5*cardWidth;
 
-const userId = localStorage.getItem('UserID');
+const userId = parseInt(localStorage.getItem('UserID'));
 
 export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
     let handVis = [];
