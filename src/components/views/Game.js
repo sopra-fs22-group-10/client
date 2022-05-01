@@ -98,10 +98,10 @@ const Game = () => {
     const history = useHistory();
     const {pathID} = useParams();
     localStorage.setItem('pathID', pathID);
-    let roundEnd = Boolean(false);
+    var roundEnd = Boolean(false);
     const UserId = localStorage.getItem('UserId');
-    const [session, setSession] = useState(null);
-    let activePlayers = new Array();
+    const [session, setSession] = useState(testSession);
+    var activePlayers = getActivePlayers(session.playerList);
 
     const quit = async () => {
       try {
@@ -121,7 +121,7 @@ const Game = () => {
     }
 
     useEffect(() => {
-        async function fetchSession(pathID, setSession){
+        async function fetchSession(pathID){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -129,15 +129,15 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
                 const data = await response.json();
-                console.log(data);
-                setSession(data);
+                return data;
+
             } catch (error) {
                  console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
                  console.error("Details:", error);
                  alert("Something went wrong while fetching game information! See the console for details.");
             }
         }
-        async function fetchSessionEnd(pathID, setSession){
+        async function fetchSessionEnd(pathID){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -145,23 +145,25 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
                 const data = await response.json();
-                setSession(data);
+                return data
             } catch (error) {
                  console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
                  console.error("Details:", error);
-                 alert("Something went wrong while fetching game information! See the console for details.");
+                 alert("Something went wrong while fetching round information! See the console for details.");
             }
         }
         const interval = setInterval(() => {
-            if (roundEnd) {
-              fetchSessionEnd(pathID, setSession);
+            if (roundEnd === true) {
+              console.log('SessionEnd');
+              fetchSessionEnd(pathID).then(r => setSession(r));
             } else {
-              fetchSession(pathID, setSession);
+              console.log('session normal');
+              fetchSession(pathID).then(r => console.log('r: ', r));
             }
             console.log('session: ', session);
             activePlayers = getActivePlayers(session.playerList);
-            roundEnd = (session.opponentPlayer != null);
-        }, 5000);
+            roundEnd = (session.opponentPlayer == null);
+        }, 12000);
 
         return () => clearInterval(interval);
     }, []);

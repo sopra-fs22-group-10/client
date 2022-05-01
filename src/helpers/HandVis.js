@@ -10,7 +10,7 @@ const userID = 5; //TODO: get from local storage
 export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
     let handVis = [];
     let playedCardsVis = [];
-    const hand = player.cards.hand;
+    const hand = player.hand;
     const hasPlayedCards = [currentPlayer, opponentPlayer].includes(player.playerId);
     const playedCards = player.cards.playedCards;
 

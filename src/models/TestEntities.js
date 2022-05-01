@@ -98,17 +98,20 @@ var playedCards3 = [testCardVisible, testCardVisible, testCardVisible];
 var playedCards4 = [];
 var playedCards5 = [testCardVisible, testCardVisible, testCardVisible];
 
-var player1 = {playerId:1, username:"Mattia", playerStatus: "active", cards: {hand: hand1, playedCards:playedCards1}};
-var player2 = {playerId:2, username:"Yoli", playerStatus: "active", cards: {hand: hand2, playedCards:playedCards2}};
-var player3 = {playerId:3, username:"Andy", playerStatus: "active", cards: {hand: hand3, playedCards:playedCards3}};
-var player4 = {playerId:4, username:"Tim", playerStatus: "active", cards: {hand: hand4, playedCards:playedCards4}};
-var player5 = {playerId:5, username:"Lloyd", playerStatus: "active", cards: {hand: hand5, playedCards:playedCards5}};
-var player6 = {playerId:6, username:"Inactive", playerStatus: "inactive", cards: {hand: hand5, playedCards:playedCards5}};
+var player1 = {playerId:1, username:"Mattia", playerStatus: "ACTIVE", cards: {hand: hand1, playedCards:playedCards1}};
+var player2 = {playerId:2, username:"Yoli", playerStatus: "ACTIVE", cards: {hand: hand2, playedCards:playedCards2}};
+var player3 = {playerId:3, username:"Andy", playerStatus: "ACTIVE", cards: {hand: hand3, playedCards:playedCards3}};
+var player4 = {playerId:4, username:"Tim", playerStatus: "ACTIVE", cards: {hand: hand4, playedCards:playedCards4}};
+var player5 = {playerId:5, username:"Lloyd", playerStatus: "ACTIVE", cards: {hand: hand5, playedCards:playedCards5}};
+var player6 = {playerId:6, username:"Inactive", playerStatus: "INACTIVE", cards: {hand: hand5, playedCards:playedCards5}};
 
 const playerList = [player1, player2, player3, player4, player5, player6];
 //selected opponent and stat, for win
-export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
-    currentStatName: "StatName4", roundStatus: "win", winner:null};
+//export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
+    //currentStatName: "StatName4", roundStatus: "win", winner:null};
+    export const testSession = {"currentPlayer":1,"opponentPlayer":null,"playerList":[{"playerId":1,"playerName":"user","playerStatus":"ACTIVE","hand":[{"cardId":13,"cardname":"Cardname53","image":"randomimage53","cardstats":[{"statId":10,"statvalue":"5","statname":"StatName1","stattype":"STARS","valuestypes":null},{"statId":11,"statvalue":"8","statname":"StatName2","stattype":"NUMBER","valuestypes":null},{"statId":12,"statvalue":"20","statname":"StatName3","stattype":"VALUE","valuestypes":"1"}]}],"playedCards":[]},{"playerId":19,"playerName":"user1","playerStatus":"ACTIVE","hand":[{"cardId":5,"cardname":"Cardname51","image":"randomimage51","cardstats":[{"statId":2,"statvalue":"5","statname":"StatName1","stattype":"STARS","valuestypes":null},{"statId":3,"statvalue":"10","statname":"StatName2","stattype":"NUMBER","valuestypes":null},{"statId":4,"statvalue":"100","statname":"StatName3","stattype":"VALUE","valuestypes":"1"}]}],"playedCards":[]}],"winner":null}
+
+
 //selected opponent and stat, for loss
 // export const testSession = {playerList: playerList, currentPlayer: 2, opponentPlayer: 3,
 //     currentStatName: "StatName4", roundStatus: "lost", winner:null};
