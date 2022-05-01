@@ -3,6 +3,7 @@
 .game {
   &.close-container {
     position: absolute;
+    cursor: pointer;
     right: 10px;
     top: 10px;
     height: 2em;

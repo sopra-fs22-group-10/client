@@ -5,14 +5,14 @@ import {selectOpponent} from "../components/views/Game";
 
 export const cardShift= 1/5*cardWidth;
 
-const userID = 5; //TODO: get from local storage
+const userID = localStorage.getItem('UserId');
 
 export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
     let handVis = [];
     let playedCardsVis = [];
-    const hand = player.cards.hand;
+    const hand = player.hand;
     const hasPlayedCards = [currentPlayer, opponentPlayer].includes(player.playerId);
-    const playedCards = player.cards.playedCards;
+    const playedCards = player.playedCards;
 
     let cardVis = [];
     for (let cardIndex=0; cardIndex<hand.length; cardIndex++) {
@@ -45,7 +45,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     handVis.push(
         <div className="game card-container" style={transform}>
             <h1 className="game card-container username" style={usernameStyle}>
-                {player.username}
+                {player.playerName}
             </h1>
             {cardVis}
         </div>);

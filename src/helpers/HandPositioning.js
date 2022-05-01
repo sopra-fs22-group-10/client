@@ -7,6 +7,8 @@ export const cardWidth = 1/4*handWidth;
 export const cardHeight = cardWidth*cardH/cardW;
 export const zoomScale = 3;
 
+const userId = parseInt(localStorage.getItem("UserID"));
+
 const topBorder = 5;
 const bottomBorder = 5;
 const sideBorder = 5;
@@ -67,8 +69,7 @@ const activePlayedTrans = {
     width: `${handWidth}vw`,
     height: `${zoomScale*cardHeight}vw`};
 
-export const getHandTrans = (playerList) => {
-    const UserID = 5; //TODO: get from local storage
+export const getHandTrans = (playerList, UserID) => {
 
     const linePositions = [];
     for (let i = 1; i <= playerList.length-1; i++) {
@@ -79,7 +80,7 @@ export const getHandTrans = (playerList) => {
     let linePosIndex = 0;
     for (const player of playerList) {
         let transformation = null;
-        if (player.playerId === UserID) {
+        if (player.playerId === userId) {
             transformation = ownHandTrans;
         } else {
             transformation = getTransformation(linePositions[linePosIndex])

@@ -10,7 +10,7 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Deck from "models/Deck";
 
-async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, setHasGame) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -20,11 +20,12 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc) {
         const data = await response.json();
         setPlayersFunc(data.userList);
         setMaxFunc(data.maxPlayers);
+        setHasGame(data.hasGame);
 
     } catch (error) {
-        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error(`Something went wrong while fetching the players: \n${handleError(error)}`);
         console.error("Details:", error);
-        alert("Something went wrong while fetching the decks! See the console for details.");
+        alert("Something went wrong while fetching the players! See the console for details.");
     }
 }
 
@@ -45,10 +46,11 @@ async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
         console.log('data: ', data);
         setDeckFunc(data);
 
+
     } catch (error) {
-        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error(`Something went wrong while fetching the deck: \n${handleError(error)}`);
         console.error("Details:", error);
-        alert("Something went wrong while fetching the decks! See the console for details.");
+        alert("Something went wrong while fetching the deck! See the console for details.");
     }
 }
 
@@ -64,6 +66,7 @@ const Lobby = () => {
     const [players, setPlayers] = useState(null);
     const [max, setMax] = useState(null);
     const [hostId, setHostId] = useState(null);
+    const [hasGame, setHasGame] = useState(Boolean);
 
     const endSession = async () => {
       try {
@@ -75,9 +78,9 @@ const Lobby = () => {
 
         history.push(`/menu`);
       } catch (error) {
-        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error(`Something went wrong while deleting the session: \n${handleError(error)}`);
         console.error("Details:", error);
-        alert("Something went wrong while fetching the decks! See the console for details.");
+        alert("Something went wrong while deleting the session! See the console for details.");
       }
     }
 
@@ -92,19 +95,25 @@ const Lobby = () => {
                         headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
         };
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+        const data = await response.json();
+        console.log(data);
 
         history.push(`play`);
       } catch (error) {
-        console.error(`Something went wrong while fetching the decks: \n${handleError(error)}`);
+        console.error(`Something went wrong while starting the game: \n${handleError(error)}`);
         console.error("Details:", error);
-        alert("Something went wrong while fetching the decks! See the console for details.");
+        alert("Something went wrong while starting the game! See the console for details.");
       }
     }
 
     useEffect(() => {
       const interval = setInterval(() => {
-          fetchPlayers(pathID, setPlayers, setMax, setDeckId);
-        }, 1000);
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId, setHasGame);
+          if(hasGame == true) {
+            history.push(`play`);
+          }
+
+      }, 1000);
 
         return () => clearInterval(interval);
     }, []);
