@@ -5,12 +5,6 @@ import {api, handleError} from 'helpers/api';
 import "styles/views/DeckOverview.scss";
 import Select from 'react-select'
 import * as React from 'react';
-import MUIButton from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Deck from 'models/Deck';
 
 const DeckOverview = () => {
@@ -48,8 +42,7 @@ const DeckOverview = () => {
   const editPicture = () => {
   }
 
-  const deleteCard = async() => {
-    var cardId = localStorage.getItem("cardId");
+  const deleteCard = async(cardId) => {
     let response_deleteCard = await api.delete('/decks/'+deckId+'/cards/'+cardId,{
       headers:{
         'Authentication':localStorage.getItem("Authentication")
@@ -100,14 +93,6 @@ const DeckOverview = () => {
     history.push(`/menu/editCard/${deckId}/${cardId}`);
   }
 
-  function openDialogue(cardId){
-    localStorage.setItem("cardId",cardId);
-    setOpen(true);
-  }
-  function closeDialogue(){
-    localStorage.removeItem("cardId");
-    setOpen(false);
-  }
 
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
@@ -138,32 +123,6 @@ const DeckOverview = () => {
     fetchData();
   }, []);
 
-  const Dialogue = () => (
-    <div>
-      <Dialog
-        open={open}
-        onClose={closeDialogue}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure you want to delete this card?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <MUIButton onClick={closeDialogue}>Cancel</MUIButton>
-          <MUIButton onClick={deleteCard} autoFocus>
-            Confirm
-          </MUIButton>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-
   function cardBlock(card){
     return(
       <div className="card container">
@@ -181,7 +140,7 @@ const DeckOverview = () => {
           <Button
             className="card delete-button"
             width="100%"
-            onClick={() => openDialogue(card.cardId)}
+            onClick={() => deleteCard(card.cardId)}
           >
             delete
           </Button>
@@ -286,7 +245,6 @@ const DeckOverview = () => {
   if (cardList) {
     overview = (
       <div className="overview container">
-        <Dialogue/>
         {deckView}
         {editDeckView}
       </div>
