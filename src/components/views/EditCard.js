@@ -21,7 +21,7 @@ const EditCard = () => {
 
     const [stats, setStats] = useState([]);
     const [name, setName] = useState(undefined);
-    const [oldImg, setOldImg] = useState(undefined);
+    const [pic, setPic] = useState(undefined);
     const [oldName, setOldName] = useState(undefined);
     const [value1, setValue1] = useState(undefined);
     const [value2, setValue2] = useState(undefined);
@@ -36,6 +36,10 @@ const EditCard = () => {
     const urlSplit = url.split('/');
     const deckId = urlSplit[urlSplit.length-2];
     const cardId = urlSplit[urlSplit.length-1];
+
+    const searchImage = () => {
+
+    }
 
     async function confirm(){
         var newCard = getCard();
@@ -59,7 +63,7 @@ const EditCard = () => {
         const card = new Card();
         card.setCardId(cardId);
         card.setCardName(name);
-        card.setImage(oldImg);
+        card.setImage(pic);
 
         var statCount = stats.length;
         var cardstats = [];
@@ -122,7 +126,7 @@ const EditCard = () => {
             var cardList = response.data.cardList;
             var currentCard = getCurrentCard(cardList);
 
-            setOldImg(currentCard.image);
+            setPic(currentCard.image);
 
             var cardstats = currentCard.cardstats;
             for(var i=0;i<cardstats.length;i++){
@@ -194,6 +198,28 @@ const EditCard = () => {
     );
     }   
 
+    function imageBlock(){
+        if(pic != 'sth'){
+            return(
+                <img className= "editCard image"
+                    src={pic}
+                    onClick = {() => searchImage()}
+                ></img>
+            );
+        }else{
+            return(
+                <Button 
+                    className="editCard search-image-button"
+                    onClick={() => searchImage()}
+                >
+                    <h2 className="editCard search-image-text">
+                        + Add Image
+                    </h2>
+                </Button> 
+            );
+        }
+    }
+
     let editCardView = (
         <div className="editCard container">
             <div className="editCard title-container">
@@ -207,8 +233,7 @@ const EditCard = () => {
                     onChange={e => setName(e.target.value)}
                 />
             </div>
-            <div className="editCard image-container">
-            </div>
+            {imageBlock()}
             <ul className="editCard stats-list">
                 {stats.map(stat => statBlock(stat))}
             </ul>
