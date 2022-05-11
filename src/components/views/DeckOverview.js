@@ -108,6 +108,12 @@ const DeckOverview = () => {
         setDeck(response.data);
         setTemplate(response.data.template);
         setCardList(response.data.cardList);
+        if(response.data.deckstatus == "PUBLIC"){
+          setVisability(visability_options[0]);
+          console.log(visability);
+        }else{
+          setVisability(visability_options[0]);
+        }
         setVisability(response.data.deckstatus);
         setDeckName(response.data.deckname);
 
