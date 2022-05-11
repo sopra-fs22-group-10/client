@@ -132,10 +132,8 @@ const DeckOverview = () => {
   function cardBlock(card){
     return(
       <div className="card container">
-        <img 
-          className="card image"
-          src={card.image}
-        ></img>
+        <div className="card image-container">
+        </div>
         <h3 className="card text">{card.cardname}</h3>
         <div className="card button-container">
           <Button

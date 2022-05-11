@@ -14,7 +14,6 @@ import DeckSelector from "components/views/DeckSelector"
 import CreateDeck from "components/views/CreateDeck";
 import CreateTemplate from "components/views/CreateTemplate";
 import CreateCard from "components/views/CreateCard";
-import SearchImage from "components/views/SearchImage";
 
 const MenuRouter = props => {
     /**
@@ -60,11 +59,6 @@ const MenuRouter = props => {
             <Route exact path={`${props.base}/editCard/:pathID/:pathID`}>
                 <GameGuard>
                     <EditCard/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/searchImage`}>
-                <GameGuard>
-                    <SearchImage/>
                 </GameGuard>
             </Route>
             <Route exact path={`${props.base}/deckSelector`}>

@@ -33,19 +33,6 @@
     display: flex;
     flex-direction: row;
   }
-  &.search-image-text{
-    color: $accent4;
-    text-align: center;
-    margin-top: 25px;
-  }
-  &.search-image-button{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 30.5em;
-    height: 13em;
-    border-radius: 10px;
-    background-color: $accent1;
-  }
   &.title{
     width: 6.5em;
     margin-top: 7px;
@@ -64,7 +51,7 @@
     background-color: $accent1;
     color: $textColor;
   }
-  &.image{
+  &.image-container{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 25em;

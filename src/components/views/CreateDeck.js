@@ -72,6 +72,7 @@ const CreateDeck = () => {
     for(var i=0;i<cardList.length;i++){
       var card = new Card(cardList[i]);
       card.setCardId(null);
+      card.setImage('sth');
       console.log(card);
       const requestBody_createCard = JSON.stringify(card);
       console.log(requestBody_createCard);
@@ -199,10 +200,8 @@ const CreateDeck = () => {
   function cardBlock(card){
     return(
       <div className="create-card container">
-        <img 
-          className="card image"
-          src={card.image}
-        ></img>
+        <div className="create-card image-container">
+        </div>
         <h3 className="create-card text">{card.cardname}</h3>
         <div className="create-card button-container">
           <Button
