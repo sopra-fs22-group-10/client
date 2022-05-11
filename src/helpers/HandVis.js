@@ -58,11 +58,6 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
 
             let cardVisibility = "hidden"
             if (cardIndex!==playedCards.length-1 || [userId, currentPlayer].includes(player.playerId) || !(selectedStat===null || typeof selectedStat === 'undefined')){ //TODO fix if null is returned as string
-                console.log("cardIndex!==playedCards.length-1: ", cardIndex!==playedCards.length-1,  "[userID, currentPlayer].includes(player.playerId):", [userId, currentPlayer].includes(player.playerId), "selectedStat!==null:", !(selectedStat===null || typeof selectedStat === 'undefined'));
-                console.log("user: ", userId, "current player:", currentPlayer, "handPlayer:", player.playerId);
-                console.log("sel stat:", selectedStat);
-                console.log("sel stat===null:", selectedStat===null);
-                console.log("sel stat===nullSTR:", selectedStat==="null");
                 cardVisibility = "shown"
             }
 

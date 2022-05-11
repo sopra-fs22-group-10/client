@@ -29,9 +29,7 @@ export const selectStat = async (statName) => {
          console.error("Details:", error);
          alert("Something went wrong while fetching game information! See the console for details.");
     }
-    console.log(currentPlayerId);
-    console.log(playerId);
-    console.log(currentPlayerId == playerId);
+
     if (currentPlayerId == playerId){
         try {
             const requestBody = JSON.stringify({currentStatName});
