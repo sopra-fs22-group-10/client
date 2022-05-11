@@ -15,11 +15,11 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     const playedCards = player.playedCards;
 
     let cardVis = [];
-    for (let cardIndex=0; cardIndex<hand.length; cardIndex++) {
+    for (let cardIndex=hand.length-1; cardIndex>=0; cardIndex--) {
         let card = hand[cardIndex];
 
         let cardVisibility = "hidden"
-        if (cardIndex===hand.length-1 && player.playerId===userId && !hasPlayedCards){
+        if (cardIndex===0 && player.playerId===userId && !hasPlayedCards){
             cardVisibility = "shown"
         }
 
