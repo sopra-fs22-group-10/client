@@ -9,7 +9,7 @@ class Deck {
       Object.assign(this, data);
     }
   
-    setDeckname(newDeckname){
+    setCardname(newDeckname){
       this.deckname = newDeckname;
     }
 

@@ -38,8 +38,7 @@ const EditCard = () => {
     const cardId = urlSplit[urlSplit.length-1];
 
     const searchImage = () => {
-        localStorage.setItem("isEdit",deckId+"/"+cardId);
-        history.push(`/menu/searchImage`);
+
     }
 
     async function confirm(){
@@ -50,12 +49,10 @@ const EditCard = () => {
             'Authentication':localStorage.getItem("Authentication")
             }
         });
-        localStorage.removeItem("selected pic");
         history.push(`/menu/deckOverview/${deckId}`);
     }
 
     function cancel(){
-        localStorage.removeItem("selected pic");
         history.push(`/menu/deckOverview/${deckId}`);
     }
 
@@ -142,11 +139,7 @@ const EditCard = () => {
                 }
             }     
     
-            var picture = localStorage.getItem("selected pic");
-            localStorage.removeItem("isEdit");
-            if(picture){
-                setPic(picture);
-            }
+            // See here to get more data.
     
             } catch (error) {
             console.error(`Something went wrong: \n${handleError(error)}`);
@@ -206,26 +199,24 @@ const EditCard = () => {
     }   
 
     function imageBlock(){
-        if(pic){
-            if(pic.includes('http')){
-                return(
-                    <img className= "editCard image"
-                        src={pic}
-                        onClick = {() => searchImage()}
-                    ></img>
-                );
-            }else{
-                return(
-                    <Button 
-                        className="editCard search-image-button"
-                        onClick={() => searchImage()}
-                    >
-                        <h2 className="editCard search-image-text">
-                            + Add Image
-                        </h2>
-                    </Button> 
-                );
-            }
+        if(pic != 'sth'){
+            return(
+                <img className= "editCard image"
+                    src={pic}
+                    onClick = {() => searchImage()}
+                ></img>
+            );
+        }else{
+            return(
+                <Button 
+                    className="editCard search-image-button"
+                    onClick={() => searchImage()}
+                >
+                    <h2 className="editCard search-image-text">
+                        + Add Image
+                    </h2>
+                </Button> 
+            );
         }
     }
 

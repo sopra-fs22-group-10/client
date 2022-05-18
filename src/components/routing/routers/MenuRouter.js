@@ -15,8 +15,6 @@ import CreateDeck from "components/views/CreateDeck";
 import CreateTemplate from "components/views/CreateTemplate";
 import CreateCard from "components/views/CreateCard";
 import SearchImage from "components/views/SearchImage";
-import ViewDeck from "components/views/ViewDeck";
-import ViewCard from "components/views/ViewCard";
 
 const MenuRouter = props => {
     /**
@@ -32,16 +30,6 @@ const MenuRouter = props => {
             <Route exact path={`${props.base}/deckLibrary`}>
                 <GameGuard>
                     <DeckLibrary/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/viewDeck/:pathID`}>
-                <GameGuard>
-                    <ViewDeck/>
-                </GameGuard>
-            </Route>
-            <Route exact path={`${props.base}/viewCard/:pathID/:pathID`}>
-                <GameGuard>
-                    <ViewCard/>
                 </GameGuard>
             </Route>
             <Route exact path={`${props.base}/deckOverview/:pathID`}>

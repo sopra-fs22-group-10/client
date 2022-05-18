@@ -51,12 +51,7 @@ const SearchImage = () => {
 
     function selectPic(pic){
         localStorage.setItem("selected pic",pic.urls.full);
-        if(localStorage.getItem("isEdit")){
-            var ids = localStorage.getItem("isEdit");
-            history.push(`/menu/editCard/`+ids);
-        }else{
-            history.push(`/menu/createCard`);
-        }
+        history.push(`/menu/createCard`);
     }
 
     function picsList(){
