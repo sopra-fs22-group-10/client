@@ -46,7 +46,12 @@ const SearchImage = () => {
     };
 
     function cancel(){
-        history.push(`/menu/createCard`);
+        if(localStorage.getItem("isEdit")){
+            var ids = localStorage.getItem("isEdit");
+            history.push(`/menu/editCard/`+ids);
+        }else{
+            history.push(`/menu/createCard`);
+        }
     }
 
     function selectPic(pic){
