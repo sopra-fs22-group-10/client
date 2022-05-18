@@ -1,6 +1,7 @@
 import {useEffect, useState, useLayoutEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
+import {Button} from 'components/ui/Button';
 import CloseX from "../../styles/graphics/CloseX.svg";
 import {handleError} from 'helpers/api';
 import {HandVis} from "../../helpers/HandVis";
@@ -103,6 +104,7 @@ const Game = () => {
     localStorage.setItem('pathID', pathID);
     var roundEnd = Boolean(false);
     const [session, setSession] = useState(testSession);
+    var winnerName;
     var activePlayers = getActivePlayers(session.playerList);
 
     const quit = async () => {
@@ -124,6 +126,10 @@ const Game = () => {
     const leave = async () => {
         localStorage.removeItem('pathID');
         history.push(`/menu`);
+    }
+
+    const lobby = async () => {
+        history.push(`/game/${pathID}/lobby`)
     }
 
     useEffect(() => {
@@ -199,13 +205,34 @@ const Game = () => {
             />
         );
     }
+    let game;
+    if(session.winner) {
+        let winner = session.playerList.find(element => element.playerId === session.winner);
+        winnerName = winner.playerName;
+        game = (
+          <div className="game container">
+            <div className="game window">
+              <h2>{winnerName} has won!</h2>
+              <Button onClick={() => lobby()}>
+                Back to Lobby
+              </Button>
+            </div>
+          </div>
+        );
+    } else {
+        game = (
+          <div>
+            {handVis}
+          </div>
+        );
+    }
 
     return (
         <div className="game body">
         <div className="game close-container">
             <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
         </div>
-        {handVis}
+          {game}
         </div>
     );
 }
