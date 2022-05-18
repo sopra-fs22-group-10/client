@@ -197,12 +197,22 @@ const CreateDeck = () => {
   }, []);
 
   function cardBlock(card){
+    let image = null;
+    if(card.image.includes('http')){
+      image = (
+        <img 
+        className="card image"
+        src={card.image}
+        ></img>
+      );
+    }else{
+      image = (
+        <div className="card image"></div>
+      );
+    }
     return(
       <div className="create-card container">
-        <img 
-          className="card image"
-          src={card.image}
-        ></img>
+        {image}
         <h3 className="create-card text">{card.cardname}</h3>
         <div className="create-card button-container">
           <Button
