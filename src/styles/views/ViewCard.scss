@@ -7,7 +7,7 @@
   for more information visit https://sass-lang.com/guide
  */
 
-.editCard {
+.viewCard {
   &.wraper{
     display: flex;
     flex-direction: column;
@@ -33,25 +33,12 @@
     display: flex;
     flex-direction: row;
   }
-  &.search-image-text{
-    color: $accent4;
-    text-align: center;
-    margin-top: 25px;
-  }
-  &.search-image-button{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 30.5em;
-    height: 19.8em;
-    border-radius: 10px;
-    background-color: $accent1;
-  }
   &.title{
-    width: 6.5em;
-    margin-top: 7px;
+    margin-top: 0;
     margin-bottom: 0;
-    font-weight: 300;
-    color: $accent;
+    font-size: 25px;
+    justify-content: left;
+    color: $accent1;
   }
   &.title-input{
     width: 18.5em;
@@ -102,7 +89,7 @@
     align-items: center;
   }
   &.button-container {
-    width: 15em;
+    width: 100%;
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -112,10 +99,11 @@
   }
 }
 
-.editCard-stat{
+.viewCard-stat{
     &.container {
         margin: 0.5em 0;
         width: 25em;
+        height: 3em;
         padding: 10px;
         border-radius: $borderRadius;
         margin-right: 10px;
@@ -123,32 +111,18 @@
         align-items: center;
         background: $accent2
     }
-    &.select{
-        width: 20em;
-    }
     &.title{
-      width: 7em;
+      width: 10em;
       margin-top: 7px;
       margin-bottom: 0;
-      font-weight: 300;
+      font-weight: 500;
     }
-    &.unit{
+    &.value{
+      text-align: right;
       margin-left: 10px;
       margin-top: 7px;
       margin-bottom: 0;
       font-weight: 300;
-    }
-    &.input {
-        width: flex;
-        height: 35px;
-        padding-left: 10px;
-        margin-left: -14px;
-        border: solid;
-        border-width: 1px;
-        border-radius: 5px;
-        border-color: $accent2;
-        background-color: $accent1;
-        color: $textColor;
     }
     &.name {
         margin-left: 5px;
@@ -156,12 +130,6 @@
         display: flex;
         align-items: left;
         width: 10em;
-    }
-    &.value {
-        margin-left: 15px;
-        display: flex;
-        align-items: right;
-        width: 11.5em;
     }
     &.unit-stat-wraper {
       display: flex;

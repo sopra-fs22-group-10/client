@@ -242,24 +242,26 @@ const CreateCard = () => {
     }   
 
     function imageBlock(){
-        if(pic != 'sth'){
-            return(
-                <img className= "editCard image"
-                    src={pic}
-                    onClick = {() => searchImage()}
-                ></img>
-            );
-        }else{
-            return(
-                <Button 
-                    className="editCard search-image-button"
-                    onClick={() => searchImage()}
-                >
-                    <h2 className="editCard search-image-text">
-                        + Add Image
-                    </h2>
-                </Button> 
-            );
+        if(pic){
+            if(pic.includes('http')){
+                return(
+                    <img className= "editCard image"
+                        src={pic}
+                        onClick = {() => searchImage()}
+                    ></img>
+                );
+            }else{
+                return(
+                    <Button 
+                        className="editCard search-image-button"
+                        onClick={() => searchImage()}
+                    >
+                        <h2 className="editCard search-image-text">
+                            + Add Image
+                        </h2>
+                    </Button> 
+                );
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 @import 'styles/theme';
 
-.overview {
+.viewDeck {
     &.container {
         display: flex;
         flex-direction: row;
@@ -14,8 +14,17 @@
         display: flex;
         flex-direction: column;
     }
+    &.title{
+        margin-left: 15px;
+        text-align: left;
+        font-size: 25px;
+        color: $accent1;
+        margin-top: 0;
+        margin-bottom: -7px;
+    }
     &.deck-container {
-        margin-left: 20px;
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 15px;
         height: 38em;
         width: 72.5%;
@@ -29,7 +38,7 @@
     }
     &.card-list {
         width: 100%;
-        margin-top: 20px;
+        margin-top: 37px;
         list-style: none;
         display: flex;
         flex-direction: row;
@@ -50,49 +59,9 @@
         border-radius: 10px;
         background: lighten($background, 5);
     }
-    &.edit-container {
-        margin-left: 1em;
-        margin-top: 15px;
-        height: 38em;
-        width: 24.5%;
-        background: radial-gradient(closest-corner, $accent3, $accentDark);
-        padding: 1.5em;
-        border-radius: $borderRadius;
-        display: flex;
-        flex-direction: column;
-        align-items: left;
-        box-shadow: $dropShadow;
-    }
-    &.edit-picture-container {
-        margin-top: 10px;
-        height: 13em;
-        width: 100%;
-        padding: 10px;
-        border-radius: $borderRadius;
-        display: flex;
-        align-items: center;
-        background: $accent1;
-    }
-    &.edit-text {
-        color: $background;
-        margin-bottom: 5px;
-        text-transform: lowercase;
-        font-weight: 300;
-    }
-    &.edit-input {
-        height: 40px;
-        padding-left: 15px;
-        border: none;
-        border-radius: 0.25em;
-        background: $accent1;
-        color: $textColor;
-    }
-    &.edit-button{
-        margin-top: 30px;
-    }
 }
 
-.card {
+.view-card {
     &.container {
         margin-right: 5px;
         margin-bottom: 10px;
@@ -123,22 +92,9 @@
         margin-bottom: auto;
         height: 50px;
     }
-    &.button-container{
-        display: flex;
-        flex-direction: row;
-    }
-    &.edit-button{
-        margin-right: 5px;
-        background-color: $accent;
-    }
-    &.delete-button{
-        margin-left: 5px;
-        margin-right: 5px;
-        background-color: $accent2;
-    }
 }
 
-.template {
+.view-template {
     &.container{
         margin-left: 15px;
         margin-top: 20px;
