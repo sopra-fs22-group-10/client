@@ -55,7 +55,7 @@
         margin-top: 15px;
         height: 38em;
         width: 24.5%;
-        background: radial-gradient(closest-corner, $accent3, $accentDark);;
+        background: radial-gradient(closest-corner, $accent3, $accentDark);
         padding: 1.5em;
         border-radius: $borderRadius;
         display: flex;
@@ -96,7 +96,7 @@
     &.container {
         margin-right: 5px;
         margin-bottom: 10px;
-        height: 14em;
+        height: 15.5em;
         width: 12em;
         padding: 10px;
         border-radius: $borderRadius;
@@ -105,8 +105,8 @@
         align-items: left;
         background: lighten($background, 5);
     }
-    &.image-container{
-        height:8em;
+    &.image{
+        height:6.5em;
         width: 10em;
         background-color: $accent1;
         border-radius: $borderRadius;
@@ -115,10 +115,13 @@
         margin-left: 5px;
     }
     &.text{
+        display: flex;
         margin-left: 7px;
         text-align: left;
         color: $accentDark;
         margin-top: 0;
+        margin-bottom: auto;
+        height: 50px;
     }
     &.button-container{
         display: flex;
@@ -155,13 +158,16 @@
     }
     &.stat{
         text-align: left;
+        font-size:5px;
         color: $accent4;
         background-color: $accent1;
-        padding-left: 8px;
-        width: 100%;
+        padding-left: 5px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        width: 32em;
         border-radius: 10px;
         margin-bottom: 7px;
-        margin-left: -2em;
+        margin-left: -7em;
     }
     &.stat-list{
         min-height: 60%;
