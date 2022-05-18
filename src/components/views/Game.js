@@ -1,25 +1,98 @@
-import {useState} from 'react';
+import {useEffect, useState, useLayoutEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
+import {Button} from 'components/ui/Button';
 import CloseX from "../../styles/graphics/CloseX.svg";
+import {handleError} from 'helpers/api';
 import {HandVis} from "../../helpers/HandVis";
 import {getHandTrans} from "../../helpers/HandPositioning";
+import {useParams} from 'react-router-dom';
+import {getDomain} from 'helpers/getDomain';
 import {testSession} from "../../models/TestEntities"; //TODO: remove
 
-export const selectStat = (statName) => {
-    console.log(statName);
-    //TODO add stat selection request, make it only work for userId === currentPlayerId
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+export const selectStat = async (statName) => {
+    const pathID = localStorage.getItem('pathID');
+    let currentStatName = statName;
+    var currentPlayerId = 0;
+    const playerId = localStorage.getItem('UserID');
+    try {
+        const requestOptions = {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+        const data = await response.json();
+        currentPlayerId = data.currentPlayer;
+    } catch (error) {
+         console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+         console.error("Details:", error);
+         alert("Something went wrong while fetching game information! See the console for details.");
+    }
+    console.log(currentPlayerId);
+    console.log(playerId);
+    console.log(currentPlayerId == playerId);
+    if (currentPlayerId == playerId){
+        try {
+            const requestBody = JSON.stringify({currentStatName});
+            const requestOptions = {
+                            method: 'PUT',
+                            headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                            body: requestBody
+            };
+            const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
+        } catch (error) {
+            console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+            console.error("Details:", error);
+            alert("Something went wrong while fetching game information! See the console for details.");
+        }
+    }
 }
 
-export const selectOpponent = (opponentId) => {
-    console.log(opponentId);
-    //TODO add opponent selection request, make it only work for userId === currentPlayerId
+export const selectOpponent = async (opponentId) => {
+    const pathID = localStorage.getItem('pathID');
+    let opponentPlayer = opponentId;
+    var currentPlayerId = 0;
+    const playerId = localStorage.getItem('UserID');
+    try {
+        const requestOptions = {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+        const data = await response.json();
+        currentPlayerId = data.currentPlayer;
+    } catch (error) {
+         console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+         console.error("Details:", error);
+         alert("Something went wrong while fetching game information! See the console for details.");
+    }
+    if (currentPlayerId == playerId){
+        try {
+            const requestBody = JSON.stringify({opponentPlayer});
+            const requestOptions = {
+                            method: 'PUT',
+                            headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                            body: requestBody
+            };
+            const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
+            const data = await response.json();
+            console.log('response for put opponent: ', data);
+        } catch (error) {
+            console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+            console.error("Details:", error);
+            alert("Something went wrong while fetching game information! See the console for details.");
+        }
+    }
 }
+
+
 
 const getActivePlayers = (playerList) => {
     const activePlayers = [];
     for (const player of playerList){
-        if (player.playerStatus==="active"){
+        if (player.playerStatus==="ACTIVE"){
             activePlayers.push(player);
         }
     }
@@ -27,16 +100,95 @@ const getActivePlayers = (playerList) => {
 }
 
 const Game = () => {
-    //TODO handle inactive players
-
     // use react-router-dom's hook to access the history
     const history = useHistory();
-    const quit = () => {
-        history.push('/menu/');
+    const {pathID} = useParams();
+    localStorage.setItem('pathID', pathID);
+    var roundEnd = Boolean(false);
+    const [session, setSession] = useState(testSession);
+    var winnerName;
+    var activePlayers = getActivePlayers(session.playerList);
+
+    const quit = async () => {
+      try {
+        const requestOptions = {
+                        method: 'DELETE',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+        console.log('deleted game');
+        localStorage.removeItem('pathID');
+        history.push(`/menu`);
+      } catch (error) {
+        console.error(`Something went wrong while deleting the game: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while deleting the game! See the console for details.");
+      }
+    }
+    const leave = async () => {
+        localStorage.removeItem('pathID');
+        history.push(`/menu`);
     }
 
-    const [session, setSession] = useState(testSession); //TODO: use GET
-    const activePlayers = getActivePlayers(session.playerList);
+    const lobby = async () => {
+        history.push(`/game/${pathID}/lobby`)
+    }
+
+    useEffect(() => {
+        async function fetchSession(pathID, setSessionFunc, leaveFunc){
+            try {
+                const requestOptions = {
+                                method: 'GET',
+                                headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                };
+                const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+                const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
+                await setSessionFunc(data);
+                activePlayers = getActivePlayers(session.playerList);
+
+
+            } catch (error) {
+                 console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+                 console.error("Details:", error);
+                 alert("Something went wrong while fetching game information! See the console for details.");
+            }
+        }
+
+        async function fetchSessionEnd(pathID, setSessionFunc, leaveFunc){
+            try {
+                const requestOptions = {
+                                method: 'GET',
+                                headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                };
+                const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
+                const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
+                let newData = Object.assign({}, session);
+                Object.assign(newData, data);
+                await setSessionFunc(newData);
+            } catch (error) {
+                 console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
+                 console.error("Details:", error);
+                 alert("Something went wrong while fetching round information! See the console for details.");
+            }
+        }
+
+        const interval = setInterval(async () => {
+            if (roundEnd === true) {
+              fetchSessionEnd(pathID, setSession, leave);
+            } else {
+              fetchSession(pathID, setSession, leave);
+            }
+            roundEnd = (session.opponentPlayer != null);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, []);
 
     //Generate code for Hand visualisation
     let handVis = [];
@@ -55,14 +207,35 @@ const Game = () => {
             />
         );
     }
+    let game;
+    if(session.winner) {
+        let winner = session.playerList.find(element => element.playerId === session.winner);
+        winnerName = winner.playerName;
+        game = (
+          <div className="game container">
+            <div className="game window">
+              <h2>{winnerName} has won!</h2>
+              <Button onClick={() => lobby()}>
+                Back to Lobby
+              </Button>
+            </div>
+          </div>
+        );
+    } else {
+        game = (
+          <div>
+            {handVis}
+          </div>
+        );
+    }
 
     return (
-        <body className="game body">
+        <div className="game body">
         <div className="game close-container">
             <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
         </div>
-        {handVis}
-        </body>
+          {game}
+        </div>
     );
 }
 

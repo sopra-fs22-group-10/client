@@ -3,6 +3,7 @@
 .game {
   &.close-container {
     position: absolute;
+    cursor: pointer;
     right: 10px;
     top: 10px;
     height: 2em;
@@ -26,18 +27,42 @@
     height: 100vh;
     background: radial-gradient(closest-corner, $accent3, $accentDark);
   }
+  &.container {
+    margin-top: 10px;
+    padding: 1em;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  &.window {
+    margin-top: 5em;
+    background: $accent1;
+    padding: 1em;
+    width: 55%;
+    height: auto;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+    color: $accent4;
+  }
 }
 
 .card {
   &.rect {
     position: absolute;
     opacity: 30%;
+    cursor: pointer;
   }
 
   &.title {
     pointer-events: none;
     fill: white;
-    font: italic 17px sans-serif;
+    font: italic 12px sans-serif;
   }
 
   &.value {

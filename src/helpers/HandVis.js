@@ -5,21 +5,21 @@ import {selectOpponent} from "../components/views/Game";
 
 export const cardShift= 1/5*cardWidth;
 
-const userID = 5; //TODO: get from local storage
+const userId = parseInt(localStorage.getItem('UserID'));
 
 export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
     let handVis = [];
     let playedCardsVis = [];
-    const hand = player.cards.hand;
+    const hand = player.hand;
     const hasPlayedCards = [currentPlayer, opponentPlayer].includes(player.playerId);
-    const playedCards = player.cards.playedCards;
+    const playedCards = player.playedCards;
 
     let cardVis = [];
     for (let cardIndex=0; cardIndex<hand.length; cardIndex++) {
         let card = hand[cardIndex];
 
         let cardVisibility = "hidden"
-        if (cardIndex===hand.length-1 && player.playerId===userID && !hasPlayedCards){
+        if (cardIndex===hand.length-1 && player.playerId===userId && !hasPlayedCards){
             cardVisibility = "shown"
         }
 
@@ -45,7 +45,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     handVis.push(
         <div className="game card-container" style={transform}>
             <h1 className="game card-container username" style={usernameStyle}>
-                {player.username}
+                {player.playerName}
             </h1>
             {cardVis}
         </div>);
@@ -57,7 +57,12 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
             let card = playedCards[cardIndex];
 
             let cardVisibility = "hidden"
-            if (cardIndex!==playedCards.length-1 || [userID, currentPlayer].includes(player.playerId) || selectedStat!==null){ //TODO fix if null is returned as string
+            if (cardIndex!==playedCards.length-1 || [userId, currentPlayer].includes(player.playerId) || !(selectedStat===null || typeof selectedStat === 'undefined')){ //TODO fix if null is returned as string
+                console.log("cardIndex!==playedCards.length-1: ", cardIndex!==playedCards.length-1,  "[userID, currentPlayer].includes(player.playerId):", [userId, currentPlayer].includes(player.playerId), "selectedStat!==null:", !(selectedStat===null || typeof selectedStat === 'undefined'));
+                console.log("user: ", userId, "current player:", currentPlayer, "handPlayer:", player.playerId);
+                console.log("sel stat:", selectedStat);
+                console.log("sel stat===null:", selectedStat===null);
+                console.log("sel stat===nullSTR:", selectedStat==="null");
                 cardVisibility = "shown"
             }
 

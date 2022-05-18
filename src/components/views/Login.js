@@ -38,6 +38,7 @@ const Login = () => {
             console.log("Logged in as user:")
             console.log(userData)
             localStorage.setItem('Authentication', response.headers.get("Authentication")); //store authentification
+            localStorage.setItem('Username', userData.username);
             localStorage.setItem('UserID', userData.userId);
             console.log(localStorage.getItem('UserID'));
 

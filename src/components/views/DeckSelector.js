@@ -9,21 +9,33 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import AppRouter from "../routing/routers/AppRouter";
 
 const Deck = ({deck}) => (
-  <div className="item container">
-    <div className="item name">{deck.name}</div>
-    <div className="item cards">{deck.cards}</div>
+  <div className="item container" onClick={() => deck.checked = true}>
+    <p className="item name">{deck.deckname}</p>
+    <div className="item cards">{deck.cardList.length}</div>
     <img className="item image" src={CardsSmall} alt=""></img>
   </div>
 );
 
-async function fetchUserDecks(userId, setDecksFunc) {
+async function fetchUserDecks(userID, setDecksFunc) {
     try {
-        const response = await api.get(`/decks/users/${userId}`);
-        await new Promise(resolve => setTimeout(resolve, 1000)); // spinner delay
-        setDecksFunc(response.data);
+        const requestOptions = {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/decks/users/${userID}`, requestOptions);
+        const data = await response.json();
+        console.log('response is:', response);
+        console.log('data is: ', data);
+
+        data.forEach((item) => {
+          console.log('ID: ' + item.deckId);
+          console.log('NAME: ' + item.deckname);
+        });
+
+        setDecksFunc(data);
 
         // This is just some data for you to see what is available.
-        console.log('request to:', response.request.responseURL);
+        //console.log('request to:', response.request.responseURL);
         console.log('status code:', response.status);
         console.log('status text:', response.statusText);
         console.log('requested data:', response.data);
@@ -51,23 +63,17 @@ const DeckSelector = () => {
       try {
         let hostId = localStorage.getItem('UserID');
         let maxPlayers = 6;
-        const requestBody = JSON.stringify({deckId, hostId, maxPlayers});
+        let hostUsername = localStorage.getItem('Username');
+        const requestBody = JSON.stringify({deckId, hostId, maxPlayers, hostUsername});
         const requestOptions = {
                         method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
                         body: requestBody
         };
         const response = await fetch(`${getDomain()}/session/create`, requestOptions);
         await new Promise(resolve => setTimeout(resolve, 1000)); // spinner delay
-
-        // This is just some data for you to see what is available.
-        console.log('request to:', response.request.responseURL);
-        console.log('status code:', response.status);
-        console.log('status text:', response.statusText);
-        console.log('requested data:', response.data);
-        console.log(response);
-        let gameData = response.json();
-        let gameCode = gameData.gameCode;
+        const gameData = await response.json();
+        const gameCode = gameData.gameCode;
         history.push(`/game/${gameCode}/lobby`);
 
       } catch (error) {
@@ -75,7 +81,6 @@ const DeckSelector = () => {
         console.error("Details:", error);
         alert("Something went wrong while starting the session! See the console for details.");
       }
-      history.push(`/game/{deckId}/lobby`);
     }
 
     useEffect(() => {
@@ -88,10 +93,10 @@ const DeckSelector = () => {
       content = (
         <ul className="selector deck-list">
           {decks.map(deck => (
-            <div onClick="setDeckId(deck.id);deck.checked = true;">
+            <div className="item case" onClick={() => host(deck.deckId)}>
               <Deck
                 deck={deck}
-                key={deck.id}
+                key={deck.deckId}
               >
               </Deck>
             </div>
@@ -112,13 +117,7 @@ const DeckSelector = () => {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={() => host()}
-              >
-                Host Game
-              </Button>
             </div>
-            {content}
         </BaseContainer>
     );
 }
