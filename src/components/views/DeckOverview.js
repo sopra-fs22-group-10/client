@@ -17,8 +17,6 @@ const DeckOverview = () => {
   const [visability, setVisability] = useState(undefined);
   const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
-  const [open, setOpen] = useState(false);
-
 
   const url = window.location.href;
   const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
@@ -35,8 +33,9 @@ const DeckOverview = () => {
 
   const confirm = () => {
     var newDeck = new Deck(deck);
-    newDeck.setDeckName(deckName);
+    newDeck.setDeckname(deckName);
     newDeck.setStatus(visability.value);
+    history.push('/menu/deckLibrary');
   }
 
   const editPicture = () => {
@@ -57,7 +56,6 @@ const DeckOverview = () => {
     setCardList(response_getDeck.data.cardList);
 
     localStorage.removeItem("cardId");
-    setOpen(false);
   }
 
   const createCard = () => {
@@ -66,6 +64,7 @@ const DeckOverview = () => {
   }
 
   const backToLibrary = async () => {
+    localStorage.removeItem("deckId");
     history.push('/menu/deckLibrary');
   }
 
@@ -109,12 +108,10 @@ const DeckOverview = () => {
         setTemplate(response.data.template);
         setCardList(response.data.cardList);
         if(response.data.deckstatus == "PUBLIC"){
-          setVisability(visability_options[0]);
-          console.log(visability);
+          setVisability(visability_options[1]);
         }else{
           setVisability(visability_options[0]);
         }
-        setVisability(response.data.deckstatus);
         setDeckName(response.data.deckname);
 
         // See here to get more data.
@@ -130,12 +127,22 @@ const DeckOverview = () => {
   }, []);
 
   function cardBlock(card){
+    let image = null;
+    if(card.image.includes('http')){
+      image = (
+        <img 
+        className="card image"
+        src={card.image}
+        ></img>
+      );
+    }else{
+      image = (
+        <div className="card image"></div>
+      );
+    }
     return(
       <div className="card container">
-        <img 
-          className="card image"
-          src={card.image}
-        ></img>
+        {image}
         <h3 className="card text">{card.cardname}</h3>
         <div className="card button-container">
           <Button
