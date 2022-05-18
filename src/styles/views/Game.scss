@@ -27,6 +27,29 @@
     height: 100vh;
     background: radial-gradient(closest-corner, $accent3, $accentDark);
   }
+  &.container {
+    margin-top: 10px;
+    padding: 1em;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  &.window {
+    margin-top: 5em;
+    background: $accent1;
+    padding: 1em;
+    width: 55%;
+    height: auto;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+    color: $accent4;
+  }
 }
 
 .card {
