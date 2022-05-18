@@ -21,6 +21,7 @@ const CreateCard = () => {
 
     const [stats, setStats] = useState([]);
     const [name, setName] = useState(undefined);
+    const [pic, setPic] = useState('sth');
     const [newCards, setNewCards] = useState([]);
     const [oldName, setOldName] = useState(undefined);
     const [value1, setValue1] = useState(undefined);
@@ -32,13 +33,16 @@ const CreateCard = () => {
     const valueDic = {1:[value1, setValue1],2:[value2, setValue2],3:[value3, setValue3],
         4:[value4, setValue4],5:[value5, setValue5]}
 
+    const searchImage = () => {
+        history.push(`/menu/searchImage`);
+    }
+
     const confirm = async() => {
         const newCard = getCard();
         if(!localStorage.getItem('newStats')){
             const deckId = localStorage.getItem('deckId');
             var card = new Card(newCard);
             card.setCardId(null);
-            card.setImage('sth');
             console.log(card);
             const requestBody_createCard = JSON.stringify(card);
             const response_createCard = await api.post(`/decks/${deckId}/cards`, requestBody_createCard,{
@@ -46,6 +50,7 @@ const CreateCard = () => {
                     'Authentication':localStorage.getItem("Authentication")
                 }
             });
+            localStorage.removeItem("selected pic");
             history.push(`/menu/deckOverview/`+deckId);
         }else{
             if(localStorage.getItem("editCard")){
@@ -55,6 +60,7 @@ const CreateCard = () => {
             newCards.sort(function(a, b){return a.cardId - b.cardId}); 
     
             localStorage.setItem("newCards",JSON.stringify(newCards));
+            localStorage.removeItem("selected pic");
             localStorage.removeItem('editCard');
             history.push(`/menu/createDeck`);
         }
@@ -77,6 +83,7 @@ const CreateCard = () => {
             localStorage.removeItem('editCard');
             history.push(`/menu/createDeck`);
         }
+        localStorage.removeItem("selected pic");
     }
 
     function getStatIndex(stat){
@@ -90,6 +97,7 @@ const CreateCard = () => {
     function getCard(){
         var cardname = name;
         var statCount = stats.length;
+        var image = pic;
         var cardstats = [];
         var editCard = JSON.parse(localStorage.getItem('editCard'));
         if(editCard){
@@ -110,7 +118,7 @@ const CreateCard = () => {
             const newStat = new Stat({statname, stattype, valuestypes,statvalue});
             cardstats.push(newStat);
         }
-        const newCard = new Card({cardId,cardname,cardstats});
+        const newCard = new Card({cardId,cardname,image,cardstats});
         return newCard;
     }
 
@@ -142,6 +150,7 @@ const CreateCard = () => {
                 var statsList = card.cardstats;
                 setOldName(card.cardname);
                 setName(card.cardname);
+                setPic(card.image);
 
                 for(var i=0;i<statsList.length;i++){
                     if(statsList[i].stattype == 'STARS'){
@@ -168,6 +177,11 @@ const CreateCard = () => {
             var newCards =  JSON.parse(localStorage.getItem("newCards"));
             if(newCards){
                 setNewCards(newCards);
+            }
+
+            var picture = localStorage.getItem("selected pic");
+            if(picture){
+                setPic(picture);
             }
     
             } catch (error) {
@@ -227,6 +241,30 @@ const CreateCard = () => {
         );
     }   
 
+    function imageBlock(){
+        if(pic){
+            if(pic.includes('http')){
+                return(
+                    <img className= "editCard image"
+                        src={pic}
+                        onClick = {() => searchImage()}
+                    ></img>
+                );
+            }else{
+                return(
+                    <Button 
+                        className="editCard search-image-button"
+                        onClick={() => searchImage()}
+                    >
+                        <h2 className="editCard search-image-text">
+                            + Add Image
+                        </h2>
+                    </Button> 
+                );
+            }
+        }
+    }
+
     let editCardView = (
         <div className="editCard container">
             <div className="editCard title-container">
@@ -240,8 +278,7 @@ const CreateCard = () => {
                     onChange={e => setName(e.target.value)}
                 />
             </div>
-            <div className="editCard image-container">
-            </div>
+            {imageBlock()}
             <ul className="editCard stats-list">
                 {stats.map(stat => statBlock(stat))}
             </ul>
