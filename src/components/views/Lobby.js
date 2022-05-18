@@ -10,7 +10,7 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Deck from "models/Deck";
 
-async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, code) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -19,6 +19,7 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, p
         const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
         const data = await response.json();
         setPlayersFunc(data.userList);
+        setHostIdFunc(data.hostId);
         await setMaxFunc(data.maxPlayers);
         console.log('in func: ', data.hasGame);
         if (data.hasGame) {
@@ -71,13 +72,13 @@ const Lobby = () => {
     const [hostId, setHostId] = useState(null);
     //const [hasGame, setHasGame] = useState(Boolean);
 
-    const endSession = async () => {
+    const leave = async () => {
       try {
         const requestOptions = {
-                        method: 'DELETE',
+                        method: 'PUT',
                         headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
         };
-        const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
+        const response = await fetch(`${getDomain()}/session/leave/${pathID}`, requestOptions);
 
         history.push(`/menu`);
       } catch (error) {
@@ -85,10 +86,6 @@ const Lobby = () => {
         console.error("Details:", error);
         alert("Something went wrong while deleting the session! See the console for details.");
       }
-    }
-
-    const leave = async () => {
-      history.push(`/menu`);
     }
 
     const play = async (code) => {
@@ -115,14 +112,14 @@ const Lobby = () => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-          fetchPlayers(pathID, setPlayers, setMax, setDeckId, play, pathID);
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId, play, setHostId, pathID);
       }, 1000);
 
         return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
-      getDeck(pathID, setDeck, setHostId);
+      //getDeck(pathID, setDeck, setHostId);
     }, []);
 
     let content;
@@ -158,27 +155,27 @@ const Lobby = () => {
           </div>
         </div>
       );
+    }
 
-      if (hostId == userID){
-        buttons = (
-          <div className="lobby button-container">
-            <Button className="lobby cancel" onClick={() => endSession()}>
-              CANCEL
-            </Button>
-            <Button className="lobby start" onClick={() => start()}>
-              START GAME
-            </Button>
-          </div>
-        );
-      } else {
-        buttons = (
-          <div className="lobby button-container">
-            <Button className="lobby cancel" onClick={() => leave()}>
-              LEAVE
-            </Button>
-          </div>
-        );
-      }
+    if (hostId == userID){
+      buttons = (
+        <div className="lobby button-container">
+          <Button className="lobby cancel" onClick={() => leave()}>
+            LEAVE
+          </Button>
+          <Button className="lobby start" onClick={() => start()}>
+            START GAME
+          </Button>
+        </div>
+      );
+    } else {
+      buttons = (
+        <div className="lobby button-container">
+          <Button className="lobby cancel" onClick={() => leave()}>
+            LEAVE
+          </Button>
+        </div>
+      );
     }
 
     return (

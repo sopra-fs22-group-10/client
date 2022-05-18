@@ -121,9 +121,13 @@ const Game = () => {
         alert("Something went wrong while deleting the game! See the console for details.");
       }
     }
+    const leave = async () => {
+        localStorage.removeItem('pathID');
+        history.push(`/menu`);
+    }
 
     useEffect(() => {
-        async function fetchSession(pathID, setSessionFunc){
+        async function fetchSession(pathID, setSessionFunc, leaveFunc){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -131,6 +135,9 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
                 const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
                 await setSessionFunc(data);
                 activePlayers = getActivePlayers(session.playerList);
 
@@ -141,7 +148,8 @@ const Game = () => {
                  alert("Something went wrong while fetching game information! See the console for details.");
             }
         }
-        async function fetchSessionEnd(pathID, setSessionFunc){
+
+        async function fetchSessionEnd(pathID, setSessionFunc, leaveFunc){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -149,6 +157,9 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
                 const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
                 let newData = Object.assign({}, session);
                 Object.assign(newData, data);
                 await setSessionFunc(newData);
@@ -161,9 +172,9 @@ const Game = () => {
 
         const interval = setInterval(() => {
             if (roundEnd === true) {
-              fetchSessionEnd(pathID, setSession);
+              fetchSessionEnd(pathID, setSession, leave);
             } else {
-              fetchSession(pathID, setSession);
+              fetchSession(pathID, setSession, leave);
             }
             roundEnd = (session.opponentPlayer != null);
         }, 500);
