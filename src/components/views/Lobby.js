@@ -161,7 +161,7 @@ const Lobby = () => {
       buttons = (
         <div className="lobby button-container">
           <Button className="lobby cancel" onClick={() => leave()}>
-            LEAVE
+            LEAVEE
           </Button>
           <Button className="lobby start" onClick={() => start()}>
             START GAME
