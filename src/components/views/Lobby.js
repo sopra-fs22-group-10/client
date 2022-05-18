@@ -10,7 +10,7 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Deck from "models/Deck";
 
-async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code) {
+async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code, setMin) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -19,9 +19,13 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, p
         const response = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
         const data = await response.json();
         setPlayersFunc(data.userList);
+        if (data.userList.length > 1 && data.userList.length < 7) {
+          setMin(true);
+        } else {
+          setMin(false);
+        }
         setHostIdFunc(data.hostId);
         await setMaxFunc(data.maxPlayers);
-        console.log('in func: ', data.hasGame);
         if (data.hasGame) {
             playFunc(code);
         }
@@ -43,11 +47,9 @@ async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
         const firstData = await firstResponse.json();
         const deckId = firstData.deckId;
         setHostIdFunc(firstData.hostId);
-        console.log('deck Id: ', deckId)
 
         const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions);
         const data = await response.json();
-        console.log('data: ', data);
         setDeckFunc(data);
 
 
@@ -63,13 +65,13 @@ const Lobby = () => {
     // use react-router-dom's hook to access the history
     const userID = localStorage.getItem('UserID');
     const {pathID} = useParams();
-    console.log(pathID);
 
     const [deck, setDeck] = useState(null);
     const [deckId, setDeckId] = useState(null);
     const [players, setPlayers] = useState(null);
     const [max, setMax] = useState(null);
     const [hostId, setHostId] = useState(null);
+    const [min, setMin] = useState(null);
     //const [hasGame, setHasGame] = useState(Boolean);
 
     const leave = async () => {
@@ -100,7 +102,6 @@ const Lobby = () => {
         };
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         const data = await response.json();
-        console.log(data);
 
         history.push(`play`);
       } catch (error) {
@@ -112,7 +113,7 @@ const Lobby = () => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-          fetchPlayers(pathID, setPlayers, setMax, setDeckId, play, setHostId, pathID);
+          fetchPlayers(pathID, setPlayers, setMax, setDeckId, play, setHostId, pathID, setMin);
       }, 1000);
 
         return () => clearInterval(interval);
@@ -163,7 +164,9 @@ const Lobby = () => {
           <Button className="lobby cancel" onClick={() => leave()}>
             LEAVE
           </Button>
-          <Button className="lobby start" onClick={() => start()}>
+          <Button className="lobby start"
+          onClick={() => start()}
+          disabled={!min}>
             START GAME
           </Button>
         </div>
