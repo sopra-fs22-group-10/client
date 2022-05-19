@@ -19,7 +19,7 @@ export const getPlayedCardTransform = ({cardPos, cardAmount, isActive}) => {
 
 export const getCardTransform = ({cardPos, cardAmount}) => {
     return {
-        left: `${cardShift*cardPos + (handWidth-((cardAmount-1)*(cardShift)+cardWidth))/2}vw`,
+        left: `${cardShift*(cardAmount-1-cardPos) + (handWidth-((cardAmount-1)*(cardShift)+cardWidth))/2}vw`,
         width: `${cardWidth}vw`,
         height: `${cardHeight}vw`}
 }

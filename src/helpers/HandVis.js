@@ -15,11 +15,11 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     const playedCards = player.playedCards;
 
     let cardVis = [];
-    for (let cardIndex=0; cardIndex<hand.length; cardIndex++) {
+    for (let cardIndex=hand.length-1; cardIndex>=0; cardIndex--) {
         let card = hand[cardIndex];
 
         let cardVisibility = "hidden"
-        if (cardIndex===hand.length-1 && player.playerId===userId && !hasPlayedCards){
+        if (cardIndex===0 && player.playerId===userId && !hasPlayedCards){
             cardVisibility = "shown"
         }
 
@@ -58,11 +58,6 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
 
             let cardVisibility = "hidden"
             if (cardIndex!==playedCards.length-1 || [userId, currentPlayer].includes(player.playerId) || !(selectedStat===null || typeof selectedStat === 'undefined')){ //TODO fix if null is returned as string
-                console.log("cardIndex!==playedCards.length-1: ", cardIndex!==playedCards.length-1,  "[userID, currentPlayer].includes(player.playerId):", [userId, currentPlayer].includes(player.playerId), "selectedStat!==null:", !(selectedStat===null || typeof selectedStat === 'undefined'));
-                console.log("user: ", userId, "current player:", currentPlayer, "handPlayer:", player.playerId);
-                console.log("sel stat:", selectedStat);
-                console.log("sel stat===null:", selectedStat===null);
-                console.log("sel stat===nullSTR:", selectedStat==="null");
                 cardVisibility = "shown"
             }
 
