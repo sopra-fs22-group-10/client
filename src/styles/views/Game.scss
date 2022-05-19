@@ -53,28 +53,37 @@
 }
 
 .card {
+  &.background {
+    fill: #ceb791;
+  }
+  &.stroke {
+    fill-opacity: 0%;
+    stroke: $background;
+    stroke-width: 2px;
+  }
+
   &.rect {
     position: absolute;
-    opacity: 30%;
+    fill: $background;
     cursor: pointer;
   }
 
   &.title {
     pointer-events: none;
-    fill: white;
-    font: italic 12px sans-serif;
+    fill: $accentDark;
+    font: bold 12px sans-serif;
   }
 
   &.value {
     pointer-events: none;
     text-anchor: end;
-    fill: $accent;
+    fill: $accentDark;
     font: bold 7px sans-serif;
   }
 
   &.value-name {
     pointer-events: none;
-    fill: black;
+    fill: $accent5;
     font: 7px sans-serif;
   }
 }
