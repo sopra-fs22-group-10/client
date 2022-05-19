@@ -26,13 +26,9 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
         return statStyle;
     }
 
-    const cardContent = ([ //TODO: FIX TEXT
-        // <text className="game card title" x={cornerRadius} y={2*cornerRadius}>
-        //            {cardInfo.cardname}
-        // </text>,
-        <g> %TODO for making text scale to right size
-            <path id="svg-text" d={`M ${cornerRadius} ${2*cornerRadius} H 90`} fill="transparent" stroke="lightgray" />
-
+    const cardTitle = (
+        <g>
+            <path id="svg-text" d={`M ${cornerRadius} ${2*cornerRadius} H 90`} fill="transparent" stroke="transparent" />
             <text font-size="10">
                 <textPath
                     xlinkHref="#svg-text"
@@ -40,7 +36,10 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                     lengthAdjust="spacingAndGlyphs"
                 >{cardInfo.cardname}</textPath>
             </text>
-        </g>,
+        </g>)
+
+    const cardContent = ([
+        cardTitle,
 
         cardInfo.cardstats.map(
             (stat, index) =>
