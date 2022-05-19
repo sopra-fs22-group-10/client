@@ -4,9 +4,11 @@ import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
 import HalfScreenContainer from "components/ui/HalfScreenContainer";
 import PropTypes from "prop-types";
+import {getDomain} from 'helpers/getDomain';
 import "styles/views/Dashboard.scss";
 import Triangle from "../../styles/graphics/Triangle.svg";
 import Cards from "../../styles/graphics/Cards.svg";
+import LookingGlass from "../../styles/graphics/looking_glass.svg";
 import {logout} from "../../helpers/logout";
 
 const FormField = props => {
@@ -37,7 +39,24 @@ const Dashboard = () => {
     const library = () => {
         history.push('/menu/deckLibrary');
     }
-    const join = (id) => {
+    const join = async (joinId) => {
+      try {
+        let userId = localStorage.getItem('UserID');
+        let username = localStorage.getItem('Username'); //temporary!!!!
+        const requestBody = JSON.stringify({userId, username});
+        const requestOptions = {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                        body: requestBody
+        };
+        const response = await fetch(`${getDomain()}/session/join/${joinId}`, requestOptions);
+        history.push(`/game/${joinId}/lobby`);
+
+      } catch (error) {
+        console.error(`Something went wrong while joining the session: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while joining the session! See the console for details.");
+      }
     }
     const publicLibrary = () => {
     }
@@ -151,10 +170,7 @@ const Dashboard = () => {
         <h2>Public Decks</h2>
         <hr className="dashboard hr rounded"></hr>
         <div className="search search-field-container">
-            <label className="search label"> 
-                {" "}
-                🔎
-            </label>
+            <img className="search image" src={LookingGlass} alt=""></img>
             <input
                 className="search input"
                 placeholder="Input keyword..."

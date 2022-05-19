@@ -1,5 +1,6 @@
 import {StatVis} from "./StatVis";
 import {selectStat} from "../components/views/Game";
+import "styles/views/Game.scss";
 
 export const cardH = 150;
 export const cardW = 100;
@@ -15,15 +16,15 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
         let statStyle = {}; //Stat highlighting
         if (statName === selectedStat && isCurrentPlayed){
             if (hasWon){
-                statStyle = {fill: "green", opacity: "50%"};
+                statStyle = {fill: "green", opacity: "80%"};
             }else
-                statStyle = {fill: "white", opacity: "50%"};
+                statStyle = {fill: "white", opacity: "80%"};
         }
         return statStyle;
     }
 
     const cardContent = ([
-        <text className="game card title" x={cornerRadius} y={2*cornerRadius}>
+        <text className="game card title" x={6} y={17}>
             {cardInfo.cardname}
         </text>,
 
@@ -69,8 +70,19 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                     A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},0
                     Z`}
                   strokeWidth={contourW}
-                  stroke="black"
-                  fill="#ff8b5d"/>
+                  className="card background"/>
+
+            <path d={`
+                M${cornerRadius},3
+                A${cornerRadius},${cornerRadius} 0 0,0 3,${cornerRadius}
+                V${cardH-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cornerRadius},${cardH-3}
+                H${cardW-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-3},${cardH-cornerRadius}
+                V${cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},3
+                Z`}
+                className="card stroke"/>
 
             {cardContent}
         </svg>
@@ -78,11 +90,11 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
 
     const cardBack = (
         <svg xmlns="http://www.w3.org/2000/svg"
-             width={cardW+2*contourW}
-             height={cardH+2*contourW}
-             viewBox={`-${contourW} -${contourW} ${cardW+2*contourW} ${cardH+2*contourW}`}
-             style={transform}
-             onClick={onClick}>
+            width={cardW+2*contourW}
+            height={cardH+2*contourW}
+            viewBox={`-${contourW} -${contourW} ${cardW+2*contourW} ${cardH+2*contourW}`}
+            style={transform}
+            onClick={onClick}>
 
             <path d={`
                     M${cornerRadius},0
@@ -94,10 +106,19 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                     V${cornerRadius}
                     A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},0
                     Z`}
-                  strokeWidth={contourW}
-                  stroke="black"
-                  fill="#ff8b5d"/>
-
+                  className="card background">
+            </path>
+            <path d={`
+                M${cornerRadius},3
+                A${cornerRadius},${cornerRadius} 0 0,0 3,${cornerRadius}
+                V${cardH-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cornerRadius},${cardH-3}
+                H${cardW-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-3},${cardH-cornerRadius}
+                V${cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},3
+                Z`}
+                className="card stroke"/>
         </svg>
     );
 
