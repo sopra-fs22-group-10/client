@@ -7,7 +7,7 @@ export const cardShift= 1/5*cardWidth;
 
 const userId = parseInt(localStorage.getItem('UserID'));
 
-export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
+export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer, session}) => {//TODO REMOVE SESSION
     let handVis = [];
     let playedCardsVis = [];
     const hand = player.hand;
@@ -31,6 +31,8 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
                 selectedStat={selectedStat}
                 isCurrentPlayed={false}
                 hasWon={hasWon}
+                isActive={userId===currentPlayer} //TODO remove
+                session={session} //TODO remove
                 onClick={() => selectOpponent(player.playerId)}
             />);
     }

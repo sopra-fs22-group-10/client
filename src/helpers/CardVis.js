@@ -9,23 +9,40 @@ export const cornerRadius = 10;
 const statPadding = 2;
 const statCornerRadius = 2;
 
-export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCurrentPlayed, hasWon, onClick}) => {
+export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCurrentPlayed, hasWon, onClick, isActive, session}) => {//TODO REMOVE ISACTIVE, SESSION
 
-    const statHighlighting = (statName) => {
-        let statStyle = {}; //Stat highlighting
+    const statHighlighting = (statName) => { //TODO: fix
+        var statStyle = {}; //Stat highlighting
         if (statName === selectedStat && isCurrentPlayed){
             if (hasWon){
                 statStyle = {fill: "green", opacity: "50%"};
             }else
                 statStyle = {fill: "white", opacity: "50%"};
         }
+        console.log(session);
+        if (session.currentPlayer===parseInt(localStorage.getItem('UserID'))){
+            console.log("is active");
+            statStyle = {cursor:"pointer"};
+        }
+        //statStyle = {cursor:"pointer"};
         return statStyle;
     }
 
-    const cardContent = ([
-        <text className="game card title" x={cornerRadius} y={2*cornerRadius}>
-            {cardInfo.cardname}
-        </text>,
+    const cardContent = ([ //TODO: FIX TEXT
+        // <text className="game card title" x={cornerRadius} y={2*cornerRadius}>
+        //            {cardInfo.cardname}
+        // </text>,
+        <g> %TODO for making text scale to right size
+            <path id="svg-text" d={`M ${cornerRadius} ${2*cornerRadius} H 90`} fill="transparent" stroke="lightgray" />
+
+            <text font-size="10">
+                <textPath
+                    xlinkHref="#svg-text"
+                    method="stretch"
+                    lengthAdjust="spacingAndGlyphs"
+                >{cardInfo.cardname}</textPath>
+            </text>
+        </g>,
 
         cardInfo.cardstats.map(
             (stat, index) =>
