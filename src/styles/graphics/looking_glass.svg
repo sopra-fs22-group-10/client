@@ -1,0 +1,17 @@
+<svg id="Component_47_1" data-name="Component 47 – 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="451" height="452" viewBox="0 0 451 452">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.16" y1="0.149" x2="0.5" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#eadfce"/>
+      <stop offset="0.957" stop-color="#eadfce"/>
+      <stop offset="1" stop-color="#c8c6ae"/>
+    </linearGradient>
+  </defs>
+  <rect id="Rectangle_89" width="39" height="43" transform="translate(191.716 232.092) rotate(45)" fill="#7b977c"/>
+  <ellipse id="Ellipse_6" cx="40" cy="40.5" rx="40" ry="40.5" transform="translate(0 371)" fill="#c8c6ae"/>
+  <circle id="Ellipse_5" cx="146" cy="146" r="146" transform="translate(159)" fill="#174034"/>
+  <circle id="Ellipse_4" cx="118.5" cy="118.5" r="118.5" transform="translate(186 27)" fill="#c8c6ae"/>
+  <circle id="Ellipse_3" cx="106" cy="106" r="106" transform="translate(199 40)" fill="url(#linear-gradient)"/>
+  <rect id="Rectangle_90" width="80.55" height="175.746" transform="translate(135.942 258.399) rotate(45)" fill="#7b977c"/>
+  <path id="Path_43" d="M301.052,9734.4h28.815l27.37,27.548v29.813l-56.99-57.36Z" transform="translate(-164.337 -9476)" fill="#c8c6ae"/>
+  <rect id="Rectangle_91" width="31.55" height="175.746" transform="translate(145.134 267.592) rotate(45)" fill="#a3ae92"/>
+</svg>

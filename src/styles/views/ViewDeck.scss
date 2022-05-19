@@ -1,0 +1,154 @@
+@import 'styles/theme';
+
+.viewDeck {
+    &.container {
+        display: flex;
+        flex-direction: row;
+        align-items: left;
+    }
+    &.deck-view{
+        display: flex;
+        flex-direction: row;
+    }
+    &.template{
+        display: flex;
+        flex-direction: column;
+    }
+    &.title{
+        margin-left: 15px;
+        text-align: left;
+        font-size: 25px;
+        color: $accent1;
+        margin-top: 0;
+        margin-bottom: -7px;
+    }
+    &.deck-container {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        height: 38em;
+        width: 72.5%;
+        background: radial-gradient(closest-corner, $accent3, $accentDark);;
+        padding: 1.5em;
+        border-radius: $borderRadius;
+        display: flex;
+        flex-direction: row;
+        box-shadow: $dropShadow;
+        overflow:auto;
+    }
+    &.card-list {
+        width: 100%;
+        margin-top: 37px;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        overflow:auto;
+    }
+    .card-list::-webkit-scrollbar {/*overall style of the scroll*/
+        width: 10px;     /*size of scroll*/
+        height: 1px;
+    }
+    .card-list::-webkit-scrollbar-thumb {/*thumb of the scroll*/
+        border-radius: 10px;
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: $accent2
+    }
+    .card-list::-webkit-scrollbar-track {/*track of the scroll*/
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: lighten($background, 5);
+    }
+}
+
+.view-card {
+    &.container {
+        margin-right: 5px;
+        margin-bottom: 10px;
+        height: 15.5em;
+        width: 12em;
+        padding: 10px;
+        border-radius: $borderRadius;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        background: lighten($background, 5);
+    }
+    &.image{
+        height:6.5em;
+        width: 10em;
+        background-color: $accent1;
+        border-radius: $borderRadius;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 5px;
+    }
+    &.text{
+        display: flex;
+        margin-left: 7px;
+        text-align: left;
+        color: $accentDark;
+        margin-top: 0;
+        margin-bottom: auto;
+        height: 50px;
+    }
+}
+
+.view-template {
+    &.container{
+        margin-left: 15px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        width: 12em;
+        height: 14em;
+        padding: 10px;
+        border-radius: $borderRadius;
+        display: flex;
+        flex-direction: column;
+        background: lighten($background, 5);
+    }
+    &.edit-button{
+        margin-left: 7px;
+        width: 6em;
+        margin-top: 5px;
+    }
+    &.stat{
+        text-align: left;
+        font-size:5px;
+        color: $accent4;
+        background-color: $accent1;
+        padding-left: 5px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        width: 32em;
+        border-radius: 10px;
+        margin-bottom: 7px;
+        margin-left: -7em;
+    }
+    &.stat-list{
+        min-height: 60%;
+    }
+    &.button{
+        width: 14.8em;
+        display: flex;
+        flex-direction: column;
+        margin-left: 15px;
+        align-items: center;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    &.title{
+        margin-left: 7px;
+        text-align: left;
+        color: $accentDark;
+        margin-top: 0;
+        margin-bottom: -7px;
+    }
+    &.text{
+        margin-left: 7px;
+        text-align: left;
+        color: $accentDark;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+}

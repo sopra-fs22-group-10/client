@@ -14,7 +14,7 @@
     align-items: center;
   }
   &.container {
-    height: 33em;
+    height: 37em;
     background: radial-gradient(closest-corner, $accent3, $accentDark);;
     width: 30em;
     padding: 1.5em;
@@ -32,6 +32,19 @@
     color: $accent;
     display: flex;
     flex-direction: row;
+  }
+  &.search-image-text{
+    color: $accent4;
+    text-align: center;
+    margin-top: 25px;
+  }
+  &.search-image-button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 30.5em;
+    height: 19.8em;
+    border-radius: 10px;
+    background-color: $accent1;
   }
   &.title{
     width: 6.5em;
@@ -51,11 +64,11 @@
     background-color: $accent1;
     color: $textColor;
   }
-  &.image-container{
+  &.image{
     margin-top: 10px;
     margin-bottom: 10px;
     width: 25em;
-    height: 10em;
+    height: 16.25em;
     border-radius: 10px;
     background-color: $accent1;
   }

@@ -1,6 +1,7 @@
 import {useEffect, useState, useLayoutEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
+import {Button} from 'components/ui/Button';
 import CloseX from "../../styles/graphics/CloseX.svg";
 import {handleError} from 'helpers/api';
 import {HandVis} from "../../helpers/HandVis";
@@ -103,6 +104,7 @@ const Game = () => {
     localStorage.setItem('pathID', pathID);
     var roundEnd = Boolean(false);
     const [session, setSession] = useState(testSession);
+    var winnerName;
     var activePlayers = getActivePlayers(session.playerList);
 
     const quit = async () => {
@@ -121,9 +123,17 @@ const Game = () => {
         alert("Something went wrong while deleting the game! See the console for details.");
       }
     }
+    const leave = async () => {
+        localStorage.removeItem('pathID');
+        history.push(`/menu`);
+    }
+
+    const lobby = async () => {
+        history.push(`/game/${pathID}/lobby`)
+    }
 
     useEffect(() => {
-        async function fetchSession(pathID, setSessionFunc){
+        async function fetchSession(pathID, setSessionFunc, leaveFunc){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -131,6 +141,9 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
                 const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
                 await setSessionFunc(data);
                 activePlayers = getActivePlayers(session.playerList);
 
@@ -141,7 +154,8 @@ const Game = () => {
                  alert("Something went wrong while fetching game information! See the console for details.");
             }
         }
-        async function fetchSessionEnd(pathID, setSessionFunc){
+
+        async function fetchSessionEnd(pathID, setSessionFunc, leaveFunc){
             try {
                 const requestOptions = {
                                 method: 'GET',
@@ -149,6 +163,9 @@ const Game = () => {
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
                 const data = await response.json();
+                if (data.status == 404) {
+                    leaveFunc();
+                }
                 let newData = Object.assign({}, session);
                 Object.assign(newData, data);
                 await setSessionFunc(newData);
@@ -161,10 +178,9 @@ const Game = () => {
 
         const interval = setInterval(async () => {
             if (roundEnd === true) {
-                fetchSessionEnd(pathID, setSession);
+              fetchSessionEnd(pathID, setSession, leave);
             } else {
-                fetchSession(pathID, setSession);
-                await delay(5000);
+              fetchSession(pathID, setSession, leave);
             }
             roundEnd = (session.opponentPlayer != null);
         }, 500);
@@ -190,13 +206,34 @@ const Game = () => {
             />
         );
     }
+    let game;
+    if(session.winner) {
+        let winner = session.playerList.find(element => element.playerId === session.winner);
+        winnerName = winner.playerName;
+        game = (
+          <div className="game container">
+            <div className="game window">
+              <h2>{winnerName} has won!</h2>
+              <Button onClick={() => lobby()}>
+                Back to Lobby
+              </Button>
+            </div>
+          </div>
+        );
+    } else {
+        game = (
+          <div>
+            {handVis}
+          </div>
+        );
+    }
 
     return (
         <div className="game body">
         <div className="game close-container">
             <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
         </div>
-        {handVis}
+          {game}
         </div>
     );
 }

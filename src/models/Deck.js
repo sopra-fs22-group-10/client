@@ -8,8 +8,8 @@ class Deck {
       this.creator = data.creator;
       Object.assign(this, data);
     }
-
-    setCardname(newDeckname){
+  
+    setDeckname(newDeckname){
       this.deckname = newDeckname;
     }
 

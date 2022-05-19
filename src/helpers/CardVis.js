@@ -1,5 +1,6 @@
 import {StatVis} from "./StatVis";
 import {selectStat} from "../components/views/Game";
+import "styles/views/Game.scss";
 
 export const cardH = 150;
 export const cardW = 100;
@@ -11,8 +12,8 @@ const statCornerRadius = 2;
 
 export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCurrentPlayed, hasWon, onClick, isActive, session}) => {//TODO REMOVE ISACTIVE, SESSION
 
-    const statHighlighting = (statName) => { //TODO: fix
-        var statStyle = {}; //Stat highlighting
+    const statHighlighting = (statName) => {
+        let statStyle = {}; //Stat highlighting
         if (statName === selectedStat && isCurrentPlayed){
             if (hasWon){
                 statStyle = {fill: "green", opacity: "50%"};

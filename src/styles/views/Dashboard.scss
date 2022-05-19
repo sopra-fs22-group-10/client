@@ -6,7 +6,10 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width:720px;
+    max-height: 38em;
     box-shadow: $dropShadow;
+    margin-right: 3%;
   }
   &.hr.rounded {
     border-top: 2px solid $accent1;
@@ -15,8 +18,26 @@
     width: 100%
   }
   &.deck-list {
+    max-height: 30em;
     list-style: none;
-    padding-left: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    overflow:auto;
+  }
+  .deck-list::-webkit-scrollbar {/*overall style of the scroll*/
+    width: 10px;     /*size of scroll*/
+    height: 1px;
+  }
+  .deck-list::-webkit-scrollbar-thumb {/*thumb of the scroll*/
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      background: $accent2
+  }
+  .deck-list::-webkit-scrollbar-track {/*track of the scroll*/
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      background: lighten($background, 5);
   }
   &.deck-item {
     display: flex;
@@ -32,6 +53,7 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    padding-right: 10px;
     width: 100%
   }
   &.right {
@@ -127,5 +149,99 @@
     border-radius: 0.25em;
     background: $accent1;
     color: $textColor;
+  }
+}
+
+.deck-block{
+  &.container{
+      margin-bottom: 20px;       
+      margin-right: 10px;
+      margin-left: 10px;
+      height: 7em;
+      width: 46%;
+      background:$accent1;
+      padding: 10px;
+      border-radius: $borderRadius;
+      display: flex;
+      flex-direction: row;
+  }
+  &.title{
+      font-weight: 500;
+      font-size: 1.25em;
+      margin-left: 15px;
+      color: black;
+      margin-top: 0;
+  }
+  &.creator{
+      font-weight: 500;
+      margin-top: -10px;
+      margin-left: 15px;
+  }
+  &.text-container{
+      width: 70%;
+  }
+  &.button-container{
+      flex-direction: row;
+      margin-left: 12%;
+      width: 180%;
+      margin-top: -30px;
+  }
+  &.view-deck{
+      height: 2.5em;
+      width: 45%;
+      background-color: $accent;
+      margin-left:0;
+      margin-right: 10px;
+  }
+  &.add-deck{
+      height: 2.5em;
+      width: 45%;
+      background-color: $accent3;
+  }
+  &.image-container{
+      height: 5.8em;
+      width: 5.8em;
+      border-radius: 10px;
+      background:$accent2;
+  }
+  &.content-container{
+      display: flex;
+      flex-direction: column;
+  }
+}
+.search{
+  &.search-field-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  &.label{
+    font-size: 1.5em;
+  }
+  &.image{
+    height: 29px;
+  }
+  &.input{
+    width: -webkit-fill-available;
+    margin-left: 5px;
+    height: 35px;
+    padding-left: 15px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: $accent2;
+    background-color: $accent1;
+    color: $textColor;
+  }
+  &.search-button{
+    width: 12%;
+    margin-left: 10px;
+  }
+  &.cancel-button{
+    width: 12%;
+    margin-left: 10px;
+    background-color: $accent2;
+    padding-top: 7px;
   }
 }
