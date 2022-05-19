@@ -17,9 +17,14 @@ export const getPlayedCardTransform = ({cardPos, cardAmount, isActive}) => {
     }
 }
 
-export const getCardTransform = ({cardPos, cardAmount}) => {
-    return {
-        left: `${cardShift*(cardAmount-1-cardPos) + (handWidth-((cardAmount-1)*(cardShift)+cardWidth))/2}vw`,
+export const getCardTransform = ({cardPos, cardAmount, isClickable}) => {
+    let transform = {
+        left: `${cardShift * (cardAmount - 1 - cardPos) + (handWidth - ((cardAmount - 1) * (cardShift) + cardWidth)) / 2}vw`,
         width: `${cardWidth}vw`,
-        height: `${cardHeight}vw`}
+        height: `${cardHeight}vw`
+    };
+    if (isClickable){
+        transform["cursor"]="pointer";
+    }
+    return transform;
 }

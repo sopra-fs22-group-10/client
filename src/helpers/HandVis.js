@@ -7,7 +7,7 @@ export const cardShift= 1/5*cardWidth;
 
 const userId = parseInt(localStorage.getItem('UserID'));
 
-export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer, session}) => {//TODO REMOVE SESSION
+export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer, opponentPlayer}) => {
     let handVis = [];
     let playedCardsVis = [];
     const hand = player.hand;
@@ -25,14 +25,15 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
 
         cardVis.push(
             <CardVis
-                transform={getCardTransform({cardPos: cardIndex, cardAmount: hand.length})}
+                transform={getCardTransform({
+                    cardPos: cardIndex,
+                    cardAmount: hand.length,
+                    isClickable: userId===currentPlayer && player.playerId!==currentPlayer})}
                 cardInfo={card}
                 cardVisibility={cardVisibility}
                 selectedStat={selectedStat}
                 isCurrentPlayed={false}
                 hasWon={hasWon}
-                isActive={userId===currentPlayer} //TODO remove
-                session={session} //TODO remove
                 onClick={() => selectOpponent(player.playerId)}
             />);
     }
@@ -59,7 +60,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
             let card = playedCards[cardIndex];
 
             let cardVisibility = "hidden"
-            if (cardIndex!==playedCards.length-1 || [userId, currentPlayer].includes(player.playerId) || !(selectedStat===null || typeof selectedStat === 'undefined')){ //TODO fix if null is returned as string
+            if (cardIndex!==playedCards.length-1 || [userId, currentPlayer].includes(player.playerId) || !(selectedStat===null || typeof selectedStat === 'undefined')){
                 cardVisibility = "shown"
             }
 
@@ -73,6 +74,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
                                          cardVisibility={cardVisibility}
                                          selectedStat={selectedStat}
                                          isCurrentPlayed={cardIndex===playedCards.length-1}
+                                         clickableStats={userId===currentPlayer && cardIndex===playedCards.length-1}
                                          hasWon={hasWon}
             />);
         }

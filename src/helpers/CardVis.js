@@ -10,7 +10,7 @@ export const cornerRadius = 10;
 const statPadding = 2;
 const statCornerRadius = 2;
 
-export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCurrentPlayed, hasWon, onClick, isActive, session}) => {//TODO REMOVE ISACTIVE, SESSION
+export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCurrentPlayed, hasWon, onClick, clickableStats}) => {
 
     const statHighlighting = (statName) => {
         let statStyle = {}; //Stat highlighting
@@ -20,12 +20,9 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
             }else
                 statStyle = {fill: "white", opacity: "50%"};
         }
-        console.log(session);
-        if (session.currentPlayer===parseInt(localStorage.getItem('UserID'))){
-            console.log("is active");
+        if (clickableStats){
             statStyle = {cursor:"pointer"};
         }
-        //statStyle = {cursor:"pointer"};
         return statStyle;
     }
 

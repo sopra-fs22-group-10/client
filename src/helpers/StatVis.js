@@ -37,7 +37,7 @@ export const StatVis = ({stat, yPos}) => {
                     {stat.statvalue} {stat.valuestypes}
                 </text>
             );
-            break; //TODO: how should this visualised?
+            break;
 
         default:
             break;

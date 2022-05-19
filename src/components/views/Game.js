@@ -202,7 +202,6 @@ const Game = () => {
                 || (activePlayers[i].playerId===session.opponentPlayer && session.roundStatus==="lost")}
                 currentPlayer={session.currentPlayer}
                 opponentPlayer={session.opponentPlayer}
-                session={session}// TODO: remove test passing a session
             />
         );
     }
