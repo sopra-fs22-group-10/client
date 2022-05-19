@@ -198,8 +198,8 @@ const Game = () => {
                 player={activePlayers[i]}
                 transform={handTransformations[i]}
                 selectedStat={session.currentStatName}
-                hasWon={activePlayers[i].playerId===session.currentPlayer && session.roundStatus==="win"
-                        || activePlayers[i].playerId===session.opponentPlayer && session.roundStatus==="lost"}
+                hasWon={(activePlayers[i].playerId===session.currentPlayer && session.roundStatus==="win")
+                || (activePlayers[i].playerId===session.opponentPlayer && session.roundStatus==="lost")}
                 currentPlayer={session.currentPlayer}
                 opponentPlayer={session.opponentPlayer}
             />
