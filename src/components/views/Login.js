@@ -6,7 +6,7 @@ import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import FormField from "components/ui/FormField";
 import {getDomain} from "../../helpers/getDomain";
-import Header from "./Header";
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -55,12 +55,14 @@ const Login = () => {
                 <div className="login form">
                     <FormField
                         label="Username"
-                        value={username}
+                        placeholder="username..."
+                        value={username || ""}
                         onChange={un => setUsername(un)}
                     />
                     <FormField
                         label="Password"
-                        value={password}
+                        placeholder="password..."
+                        value={password || ""}
                         onChange={pw => setPassword(pw)}
                     />
                     <div className="login button-container">

@@ -18,7 +18,7 @@ const FormField = props => {
                 type="text"
                 className="join input"
                 placeholder="enter game code..."
-                value={props.value}
+                value={props.value || ""}
                 onChange={e => props.onChange(e.target.value)}
             />
         </div>
@@ -29,8 +29,8 @@ const Dashboard = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const [decks, setDecks] = useState(null);
-    const [joinId, setJoinId] = useState(null);
-    const [query, setQuery] = useState(null);
+    const [joinId, setJoinId] = useState("");
+    const [query, setQuery] = useState("");
 
     const host = () => {
       history.push('/menu/deckSelector');
