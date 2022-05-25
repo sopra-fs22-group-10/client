@@ -53,11 +53,13 @@ const Registration = () => {
                 <div className="login form">
                     <FormField
                         label="Username"
+                        placeholder="username..."
                         value={username}
                         onChange={un => setUsername(un)}
                     />
                     <FormField
                         label="Password"
+                        placeholder="password..."
                         value={password}
                         onChange={n => setPassword(n)}
                     />

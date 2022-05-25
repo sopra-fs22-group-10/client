@@ -46,11 +46,25 @@ async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
         const firstResponse = await fetch(`${getDomain()}/session/${pathID}`, requestOptions);
         const firstData = await firstResponse.json();
         const deckId = firstData.deckId;
+        const deckaccesscode = firstData.deckaccesscode;
         setHostIdFunc(firstData.hostId);
-
-        const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions);
-        const data = await response.json();
+        if(deckaccesscode != null){
+          const requestOptions2 = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication'), 'DeckAccessCode': deckaccesscode},
+          };
+          const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions2)
+          const data = await response.json();
         setDeckFunc(data);
+;
+            }
+            else{const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions);
+            const data = await response.json();
+            setDeckFunc(data);
+    };
+        
+        //const data = await response.json();
+        //setDeckFunc(data);
 
 
     } catch (error) {
@@ -120,7 +134,7 @@ const Lobby = () => {
     }, []);
 
     useEffect(() => {
-      //getDeck(pathID, setDeck, setHostId);
+      getDeck(pathID, setDeck, setHostId);
     }, []);
 
     let content;

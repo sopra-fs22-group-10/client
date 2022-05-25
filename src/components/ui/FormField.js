@@ -10,7 +10,7 @@ const FormField = props => {
                 type={props.label==="Password"?"password":"text"}
                 placeholder={props.placeholder}
                 className="login input"
-                value={props.value}
+                value={props.value|| ""}
                 onChange={e => props.onChange(e.target.value)}
             />
         </div>
