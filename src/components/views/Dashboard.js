@@ -29,7 +29,7 @@ const Dashboard = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const [decks, setDecks] = useState(null);
-    const [joinId, setJoinId] = useState("");
+    const [joinId, setJoinId] = useState(null);
     const [query, setQuery] = useState("");
 
     const host = () => {
@@ -197,6 +197,7 @@ const Dashboard = () => {
         <div className="dashboard top">
           <div className="join container">
             <FormField className="join field"
+              value= {joinId}
               onChange={i => setJoinId(i)}
             >
             </FormField>
