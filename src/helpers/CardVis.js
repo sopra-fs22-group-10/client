@@ -1,6 +1,7 @@
 import {StatVis} from "./StatVis";
 import {selectStat} from "../components/views/Game";
 import "styles/views/Game.scss";
+import React from "react";
 
 export const cardH = 150;
 export const cardW = 100;
@@ -38,9 +39,20 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
             </text>
         </g>)
 
+    const cardImage = (
+        <image href={cardInfo.image} x={cornerRadius-statPadding} y={cornerRadius+13}
+               height={cardH/2-cornerRadius-13} width={80+2*statPadding}
+               preserveAspectRatio="xMidYMid slice"
+        />
+    )
+    //     <img
+    // src={cardInfo.image}
+    // width="80%"
+    //     ></img>
+
     const cardContent = ([
         cardTitle,
-
+        cardImage,
         cardInfo.cardstats.map(
             (stat, index) =>
                 {
