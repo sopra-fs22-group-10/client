@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
 import {Button} from 'components/ui/Button';
 import CloseX from "../../styles/graphics/CloseX.svg";
+import helpQuestionmark from "../../styles/graphics/helpQuestionmark.svg";
 import {handleError} from 'helpers/api';
 import {HandVis} from "../../helpers/HandVis";
 import {getHandTrans} from "../../helpers/HandPositioning";
@@ -85,7 +86,45 @@ export const selectOpponent = async (opponentId) => {
     }
 }
 
+let showHelp = false;
+const toggleHelp = () => {
+    if (showHelp){showHelp = false}
+    else {showHelp = true}
+}
 
+const help = () => {
+    if (showHelp){
+        return (
+            <div className="game help-container">
+                <h3 className="game help-text">
+                    Goal
+                </h3>
+                <p className="game help-text" style={{"margin-top": "-13px"}}>
+                    Players take turns comparing the card at the top of their card stack with others.
+                    The player with the better card wins the compared cards and adds them to their stack.
+                    To win the game a player must gather all of the cards.
+                   </p>
+
+                <h3 className="game help-text">
+                    Instructions
+                </h3>
+                <p className="game help-text" style={{"margin-top": "-13px"}}>
+                    1. The player whose turn it is (indicated by a white shadow behind the player name) selects an opponent (indicated by a red shadow) to compare cards with. This is done by clicking on the opponents hand.
+
+                </p>
+                <p className="game help-text" style={{"margin-top": "-7px"}}>
+                    2. The cards to be compared move to the center of the screen, with the current players cards being shown on the left and the opponents cards on the right.
+                </p>
+                <p className="game help-text" style={{"margin-top": "-7px"}}>
+                    3. By clicking on a stat of the current played card, the active player selects which stat will be used for the comparison.
+                </p>
+                <p className="game help-text" style={{"margin-top": "-7px"}}>
+                    4. The cards are revealed and compared. If both stats are the same, the active player and opponent stay the same and we go back to step 2. Otherwise the player with the better stat wins all of the compared cards and is the new active player. We go back to step 1.
+                </p>
+            </div>
+        );
+    }
+}
 
 const getActivePlayers = (playerList) => {
     const activePlayers = [];
@@ -229,10 +268,10 @@ const Game = () => {
 
     return (
         <div className="game body">
-        <div className="game close-container">
-            <img className="game close-container" src={CloseX} alt="" onClick={() => quit()}></img>
-        </div>
-          {game}
+            <img className="game close-icon" src={CloseX} alt="" onClick={() => quit()}></img>
+            <img className="game help-icon" src={helpQuestionmark} alt="" onClick={() => toggleHelp()}></img>
+            {game}
+            {help()}
         </div>
     );
 }
