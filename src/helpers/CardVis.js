@@ -29,8 +29,8 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
 
     const cardTitle = (
         <g>
-            <path id="svg-text" d={`M ${cornerRadius} ${2*cornerRadius} H 90`} fill="transparent" stroke="transparent" />
-            <text font-size="10">
+            <path id="svg-text" d={`M ${cornerRadius-1.5*statPadding} ${2*cornerRadius-statPadding} H 94`} fill="transparent" stroke="transparent" />
+            <text font-size="8.5" font-weight="bold">
                 <textPath
                     xlinkHref="#svg-text"
                     method="stretch"
@@ -77,7 +77,7 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                               width={cardW-2*cornerRadius+2*statPadding} height={7 + 2*statPadding}
                               rx={statCornerRadius} ry={statCornerRadius}/>,
 
-                        <text className="game card value-name" x={cornerRadius} y={yStart + index*yStep}>
+                        <text className="game card value-name" x={cornerRadius} y={yStart + index*yStep + (7 + 2*statPadding)/7}>
                             {stat.statname}
                         </text>];
 
@@ -105,8 +105,19 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                     A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},0
                     Z`}
                   strokeWidth={contourW}
-                  stroke="black"
-                  fill="#ff8b5d"/>
+                  className="card background"/>
+
+            <path d={`
+                M${cornerRadius},3
+                A${cornerRadius},${cornerRadius} 0 0,0 3,${cornerRadius}
+                V${cardH-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cornerRadius},${cardH-3}
+                H${cardW-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-3},${cardH-cornerRadius}
+                V${cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},3
+                Z`}
+                className="card stroke"/>
 
             {cardContent}
         </svg>
@@ -114,11 +125,11 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
 
     const cardBack = (
         <svg xmlns="http://www.w3.org/2000/svg"
-             width={cardW+2*contourW}
-             height={cardH+2*contourW}
-             viewBox={`-${contourW} -${contourW} ${cardW+2*contourW} ${cardH+2*contourW}`}
-             style={transform}
-             onClick={onClick}>
+            width={cardW+2*contourW}
+            height={cardH+2*contourW}
+            viewBox={`-${contourW} -${contourW} ${cardW+2*contourW} ${cardH+2*contourW}`}
+            style={transform}
+            onClick={onClick}>
 
             <path d={`
                     M${cornerRadius},0
@@ -130,10 +141,19 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                     V${cornerRadius}
                     A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},0
                     Z`}
-                  strokeWidth={contourW}
-                  stroke="black"
-                  fill="#ff8b5d"/>
-
+                  className="card background">
+            </path>
+            <path d={`
+                M${cornerRadius},3
+                A${cornerRadius},${cornerRadius} 0 0,0 3,${cornerRadius}
+                V${cardH-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cornerRadius},${cardH-3}
+                H${cardW-cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-3},${cardH-cornerRadius}
+                V${cornerRadius}
+                A${cornerRadius},${cornerRadius} 0 0,0 ${cardW-cornerRadius},3
+                Z`}
+                className="card stroke"/>
         </svg>
     );
 
