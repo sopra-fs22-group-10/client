@@ -39,12 +39,22 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
             </text>
         </g>)
 
-    const cardImage = (
+    const cardImage = [
+        <defs>
+            <rect id="rect" x={cornerRadius-statPadding} y={cornerRadius+13}
+                  height={cardH/2-cornerRadius-13} width={80+2*statPadding}
+                  rx={statCornerRadius}/>
+            <clipPath id="clip">
+                <use href="#rect"/>
+            </clipPath>
+        </defs>,
         <image href={cardInfo.image} x={cornerRadius-statPadding} y={cornerRadius+13}
                height={cardH/2-cornerRadius-13} width={80+2*statPadding}
                preserveAspectRatio="xMidYMid slice"
+               clip-path="url(#clip)"
         />
-    )
+    ]
+
     //     <img
     // src={cardInfo.image}
     // width="80%"
