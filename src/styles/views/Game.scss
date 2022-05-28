@@ -17,6 +17,14 @@
     height: 2em;
   }
 
+  &.mute {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    top: 90px;
+    height: 2em;
+  }
+
   &.help-container {
     position: absolute;
     top: 50%;

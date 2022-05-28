@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="568.132" height="609.961" viewBox="0 0 568.132 609.961">
+  <g id="Component_48_1" transform="translate(0 21.209)">
+    <rect id="Rectangle_92" width="159" height="190" rx="29" transform="translate(0 188.791)" fill="#c8c6ae"/>
+    <path id="Polygon_5" d="M265.779,16.049a19,19,0,0,1,28.441,0L532,284.4c10.863,12.26,2.159,31.6-14.221,31.6H42.221C25.841,316,17.137,296.659,28,284.4Z" transform="translate(0 563.791) rotate(-90)" fill="#c8c6ae"/>
+    <path id="Path_44" d="M1653.921,9608.125c203.63,195.844,0,375,0,375" transform="translate(-1306 -9511.832)" fill="none" stroke="#c8c6ae" stroke-linecap="round" stroke-width="30"/>
+    <path id="Path_45" d="M1653.921,9608.125c252.713,243.049,0,465.386,0,465.386" transform="translate(-1271.656 -9557.026)" fill="none" stroke="#c8c6ae" stroke-linecap="round" stroke-width="30"/>
+    <path id="Path_46" d="M1653.921,9608.125c308.208,296.422,0,567.582,0,567.582" transform="translate(-1237.83 -9608.125)" fill="none" stroke="#c8c6ae" stroke-linecap="round" stroke-width="30"/>
+  </g>
+</svg>

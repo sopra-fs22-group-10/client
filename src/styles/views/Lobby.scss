@@ -67,10 +67,20 @@
   &.right {
     display: flex;
     flex-direction: column;
-    width: 30%;
     height: 20em;
     margin-top: auto;
     margin-left: 1em;
+  }
+  &.mute-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 30%;
+  }
+  &.mute {
+    height: 25px;
+    margin-bottom: 55px;
+    cursor: pointer;
   }
   &.left {
     display: flex;

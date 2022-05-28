@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
@@ -8,6 +8,9 @@ import "styles/views/Lobby.scss";
 import {getDomain} from 'helpers/getDomain';
 import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
+import Mute from '../../styles/graphics/mute.svg';
+import Unmute from '../../styles/graphics/unmute.svg';
+import lobbyMusic from '../../styles/music/Lobby_Music.mp3';
 import Deck from "models/Deck";
 
 async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code, setMin) {
@@ -86,7 +89,21 @@ const Lobby = () => {
     const [hostId, setHostId] = useState(null);
     const [min, setMin] = useState(null);
     const [pic, setPic] = useState(EmptyPicture);
-    //const [hasGame, setHasGame] = useState(Boolean);
+
+    const [audioStatus, changeAudioStatus] = useState(false);
+    const myRef = useRef();
+
+    const startAudio = () => {
+      myRef.current.play();
+      myRef.current.loop = true;
+
+      changeAudioStatus(true);
+    };
+
+    const pauseAudio = () => {
+      myRef.current.pause();
+      changeAudioStatus(false);
+    };
 
     const leave = async () => {
       try {
@@ -95,7 +112,7 @@ const Lobby = () => {
                         headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
         };
         const response = await fetch(`${getDomain()}/session/leave/${pathID}`, requestOptions);
-
+        pauseAudio();
         history.push(`/menu`);
       } catch (error) {
         console.error(`Something went wrong while deleting the session: \n${handleError(error)}`);
@@ -106,6 +123,7 @@ const Lobby = () => {
 
     const play = async (code) => {
       history.push(`play`);
+      pauseAudio();
     }
 
     const start = async () => {
@@ -116,7 +134,7 @@ const Lobby = () => {
         };
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         const data = await response.json();
-
+        pauseAudio();
         history.push(`play`);
       } catch (error) {
         console.error(`Something went wrong while starting the game: \n${handleError(error)}`);
@@ -134,7 +152,7 @@ const Lobby = () => {
     }, []);
 
     useEffect(() => {
-      getDeck(pathID, setDeck, setHostId, setPic);
+        getDeck(pathID, setDeck, setHostId, setPic);
     }, []);
 
     let content;
@@ -211,9 +229,20 @@ const Lobby = () => {
               {content}
             </div>
           </div>
-          <div className="lobby right">
-            {playdeck}
-            {buttons}
+          <div className="lobby mute-container">
+            <audio
+              ref={myRef}
+              src={lobbyMusic}
+            />
+            {audioStatus ? (
+              <img className="lobby mute" src={Mute} alt='' onClick={pauseAudio}/>
+            ) : (
+              <img className="lobby mute" src={Unmute} alt='' onClick={startAudio}/>
+            )}
+            <div className="lobby right">
+              {playdeck}
+              {buttons}
+            </div>
           </div>
         </BaseContainer>
     );
