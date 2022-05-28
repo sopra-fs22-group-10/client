@@ -1,4 +1,4 @@
-import {useEffect, useState, useLayoutEffect} from 'react';
+import {useEffect, useState, useLayoutEffect, useRef} from 'react';
 import {useHistory} from 'react-router-dom';
 import "styles/views/Game.scss";
 import {Button} from 'components/ui/Button';
@@ -9,6 +9,9 @@ import {HandVis} from "../../helpers/HandVis";
 import {getHandTrans} from "../../helpers/HandPositioning";
 import {useParams} from 'react-router-dom';
 import {getDomain} from 'helpers/getDomain';
+import Mute from '../../styles/graphics/muteGame.svg';
+import Unmute from '../../styles/graphics/unmuteGame.svg';
+import gameMusic from '../../styles/music/Game_Music.mp3';
 import {testSession} from "../../models/TestEntities"; //TODO: remove
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -179,6 +182,21 @@ const Game = () => {
     var winnerName;
     var activePlayers = getActivePlayers(session.playerList);
 
+    const [audioStatus, changeAudioStatus] = useState(false);
+    const myRef = useRef();
+
+    const startAudio = () => {
+      myRef.current.play();
+      myRef.current.loop = true;
+
+      changeAudioStatus(true);
+    };
+
+    const pauseAudio = () => {
+      myRef.current.pause();
+      changeAudioStatus(false);
+    };
+
     const quit = async () => {
       try {
         const requestOptions = {
@@ -188,6 +206,7 @@ const Game = () => {
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         console.log('deleted game');
         localStorage.removeItem('pathID');
+        pauseAudio();
         history.push(`/game/${pathID}/lobby`);
       } catch (error) {
         console.error(`Something went wrong while deleting the game: \n${handleError(error)}`);
@@ -195,7 +214,9 @@ const Game = () => {
         alert("Something went wrong while deleting the game! See the console for details.");
       }
     }
+
     const leave = async () => {
+        pauseAudio();
         localStorage.removeItem('pathID');
         history.push(`/game/${pathID}/lobby`);
     }
@@ -213,7 +234,8 @@ const Game = () => {
         console.error(`Something went wrong while deleting the game: \n${handleError(error)}`);
         console.error("Details:", error);
       }
-        history.push(`/game/${pathID}/lobby`)
+        history.push(`/game/${pathID}/lobby`);
+        pauseAudio();
     }
 
     useEffect(() => {
@@ -309,7 +331,17 @@ const Game = () => {
         <div className="game body">
             <img className="game close-icon" src={CloseX} alt="" onClick={() => quit()}></img>
             <img className="game help-icon" src={helpQuestionmark} alt="" onClick={() => toggleHelp()}></img>
+            <audio
+              ref={myRef}
+              src={gameMusic}
+            />
+            {audioStatus ? (
+              <img className="game mute" src={Mute} alt='' onClick={pauseAudio}/>
+            ) : (
+              <img className="game mute" src={Unmute} alt='' onClick={startAudio}/>
+            )}
             {turnIndicator(session.currentPlayer, session.opponentPlayer, session.playerList)}
+
             {game}
             {help()}
         </div>

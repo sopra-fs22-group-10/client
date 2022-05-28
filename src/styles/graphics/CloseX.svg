@@ -9,9 +9,9 @@
         L15,0
         A15,15 0 0,0 0,15
         Z"
-        fill="#ff8b5d"/>
+        fill="#C8C6AE"/>
   <line x1="20" y1="20" x2="80" y2="80"
-        stroke="red" stroke-width="15" stroke-linecap="round" />
+        stroke="#51806C" stroke-width="15" stroke-linecap="round" />
   <line x1="20" y1="80" x2="80" y2="20"
-        stroke="red" stroke-width="15" stroke-linecap="round" />
+        stroke="#51806C" stroke-width="15" stroke-linecap="round" />
 </svg>

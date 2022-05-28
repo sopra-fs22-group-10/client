@@ -1,0 +1,9 @@
+<svg id="Component_49_1" data-name="Component 49 – 1" xmlns="http://www.w3.org/2000/svg" width="724" height="724" viewBox="0 0 724 724">
+  <g id="Group_129" transform="translate(-649 -383.524)">
+    <circle id="Ellipse_9" cx="362" cy="362" r="362" transform="translate(649 383.524)" fill="#c8c6ae"/>
+    <path id="Path_45" d="M1394.12,9760.45,1621.09,9973v172.135L1391,9931.89Z" transform="translate(-547.045 -9118.135)" fill="#51806c"/>
+    <path id="Path_46" d="M1451.22,9939.18l169.871,126.393v-306.95l-184.831,165.6Z" transform="translate(-547.046 -9302.098)" fill="#51806c"/>
+    <line id="Line_128" x2="395" y2="367" transform="translate(813.5 540.5)" fill="none" stroke="#51806c" stroke-linecap="round" stroke-width="35"/>
+  </g>
+  <path id="Rectangle_92" d="M29,0H74a29,29,0,0,1,29,29V190H29A29,29,0,0,1,0,161V29A29,29,0,0,1,29,0Z" transform="translate(104 250.476)" fill="#51806c"/>
+</svg>
