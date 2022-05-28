@@ -14,4 +14,5 @@ export const toggleHover = (cardId) => {
     } else {
         toggleDict[cardId] = true;
     }
+    console.log("hovering");
 }
