@@ -151,7 +151,7 @@ const turnIndicator = (currentPlayer, opponentPlayer, playerList) => {
                 }
             }
             return (
-                <div className="game help-container" style={{"background": "none"}}>
+                <div className="game help-container" style={{"background": "none", "border": "none"}}>
                     <h3 className="game help-text" style={{"text-align": "center"}}>
                         {currentPlayerName} IS CHOOSING AN OPPONENT
                     </h3>
@@ -283,6 +283,10 @@ const Game = () => {
         }
         const interval = setInterval(async () => {
             await fetchSession(pathID, setSession, leave);
+            //console.log(session);
+            if (session.opponentPlayer != null) {
+                console.log("in the middle");
+            }
         }, 500);
 
         return () => clearInterval(interval);

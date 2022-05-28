@@ -1,6 +1,7 @@
 import {useEffect, useState, useRef} from 'react';
-import {api, handleError} from 'helpers/api';
+import {handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
+import Tooltip from '@mui/material/Tooltip';
 import {useHistory} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import {useParams} from 'react-router-dom';
@@ -10,8 +11,8 @@ import CardsSmall from '../../styles/graphics/CardsSmall.svg';
 import EmptyPicture from '../../styles/graphics/EmptyPicture.svg';
 import Mute from '../../styles/graphics/mute.svg';
 import Unmute from '../../styles/graphics/unmute.svg';
+import Copy from '../../styles/graphics/copy.svg';
 import lobbyMusic from '../../styles/music/Lobby_Music.mp3';
-import Deck from "models/Deck";
 
 async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code, setMin) {
     try {
@@ -126,6 +127,12 @@ const Lobby = () => {
       pauseAudio();
     }
 
+    const copy = (code) => {
+      console.log(code);
+      let toCopy = JSON.stringify(code.pathID);
+      navigator.clipboard.writeText(toCopy.slice(1, -1));
+    }
+
     const start = async () => {
       try {
         const requestOptions = {
@@ -219,6 +226,9 @@ const Lobby = () => {
             <div className="lobby header">
               <p>Game Code:</p>
               <h2 className="lobby code">{pathID}</h2>
+              <Tooltip title="Copy to clipboard" arrow>
+                <img className="lobby mute" src={Copy} alt='' onClick={() => copy({pathID})}/>
+              </Tooltip>
             </div>
             <div className="lobby players">
               <div className="lobby players-header">
