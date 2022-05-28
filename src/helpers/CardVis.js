@@ -1,5 +1,6 @@
 import {StatVis} from "./StatVis";
 import {selectStat} from "../components/views/Game";
+import {toggleHover} from "./cardHover";
 import "styles/views/Game.scss";
 import React from "react";
 
@@ -87,7 +88,9 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
              width={cardW+2*contourW}
              height={cardH+2*contourW}
              viewBox={`-${contourW} -${contourW} ${cardW+2*contourW} ${cardH+2*contourW}`}
-             style={transform}>
+             style={transform}
+             onMouseEnter={cardVisibility==="shown"? () => toggleHover(cardInfo.cardId):null}
+             onMouseLeave={cardVisibility==="shown"? () => toggleHover(cardInfo.cardId):null}>
 
             <path d={`
                     M${cornerRadius},0

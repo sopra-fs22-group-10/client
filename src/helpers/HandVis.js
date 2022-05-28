@@ -19,7 +19,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
         let card = hand[cardIndex];
 
         let cardVisibility = "hidden"
-        if (cardIndex===0 && player.playerId===userId && !hasPlayedCards){
+        if (cardIndex===0 && player.playerId===userId && (!hasPlayedCards || opponentPlayer===null)){
             cardVisibility = "shown"
         }
 
@@ -28,7 +28,10 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
                 transform={getCardTransform({
                     cardPos: cardIndex,
                     cardAmount: hand.length,
-                    isClickable: userId===currentPlayer && player.playerId!==currentPlayer})}
+                    isClickable: userId===currentPlayer && player.playerId!==currentPlayer,
+                    isOwnHand: userId===player.playerId,
+                    cardId: card.cardId
+                    })}
                 cardInfo={card}
                 cardVisibility={cardVisibility}
                 selectedStat={selectedStat}
