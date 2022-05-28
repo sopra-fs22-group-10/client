@@ -52,20 +52,21 @@ const getTransformation = (linePos) => {
     return handTransform;
 }
 
+export const ownHandScale = 1;
 const ownHandTrans = {
-    left: `${50-handWidth/2}vw`,
-    top: `${100-bottomBorder-window.innerWidth/window.innerHeight*cardHeight}vh`,
-    width: `${handWidth}vw`,
-    height: `${cardHeight}vw`};
+    left: `${50-ownHandScale*handWidth/2}vw`,
+    top: `${100-bottomBorder-window.innerWidth/window.innerHeight*ownHandScale*cardHeight}vh`,
+    width: `${ownHandScale*handWidth}vw`,
+    height: `${ownHandScale*cardHeight}vw`};
 
 const oppPlayedTrans = {
     right: `${50-handWidth}vw`,
-    top: `${50-zoomScale*cardHeight}vh`,
+    top: `${50.7-zoomScale*cardHeight}vh`,
     width: `${handWidth}vw`,
     height: `${zoomScale*cardHeight}vw`};
 const activePlayedTrans = {
     left: `${50-handWidth}vw`,
-    top: `${50-zoomScale*cardHeight}vh`,
+    top: `${50.7-zoomScale*cardHeight}vh`,
     width: `${handWidth}vw`,
     height: `${zoomScale*cardHeight}vw`};
 

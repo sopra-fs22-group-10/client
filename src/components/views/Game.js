@@ -129,18 +129,35 @@ const help = () => {
     }
 }
 
-const turnIndicator = (currentPlayer, opponentPlayer) => {
-    if (currentPlayer===parseInt(localStorage.getItem('UserID')) && opponentPlayer===null){
-        return (
-            <div className="game help-container" style={{"background": "none"}}>
-                <h3 className="game help-text" style={{"text-align": "center"}}>
-                    IT'S YOUR TURN!
-                </h3>
-                <p className="game help-text" style={{"text-align": "center", "margin-top": "-10px"}}>
-                    choose an opponent by clicking on a hand
-                </p>
-            </div>
-        );
+const turnIndicator = (currentPlayer, opponentPlayer, playerList) => {
+    if (opponentPlayer===null && currentPlayer!==null){
+        if (currentPlayer===parseInt(localStorage.getItem('UserID'))){
+            return (
+                <div className="game help-container" style={{"background": "none"}}>
+                    <h3 className="game help-text" style={{"text-align": "center"}}>
+                        IT'S YOUR TURN!
+                    </h3>
+                    <p className="game help-text" style={{"text-align": "center", "margin-top": "-10px"}}>
+                        choose an opponent by clicking on a hand
+                    </p>
+                </div>
+            );
+        } else {
+
+            let currentPlayerName = "";
+            for (const player of playerList) {
+                if (player.playerId === currentPlayer){
+                    currentPlayerName = player.playerName.toUpperCase();
+                }
+            }
+            return (
+                <div className="game help-container" style={{"background": "none"}}>
+                    <h3 className="game help-text" style={{"text-align": "center"}}>
+                        {currentPlayerName} IS CHOOSING AN OPPONENT
+                    </h3>
+                </div>
+            )
+        }
     }
 }
 
@@ -323,7 +340,8 @@ const Game = () => {
             ) : (
               <img className="game mute" src={Unmute} alt='' onClick={startAudio}/>
             )}
-            {turnIndicator(session.currentPlayer, session.opponentPlayer)}
+            {turnIndicator(session.currentPlayer, session.opponentPlayer, session.playerList)}
+
             {game}
             {help()}
         </div>
