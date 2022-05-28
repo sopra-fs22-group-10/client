@@ -28,7 +28,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
                 transform={getCardTransform({
                     cardPos: cardIndex,
                     cardAmount: hand.length,
-                    isClickable: userId===currentPlayer && player.playerId!==currentPlayer,
+                    isClickable: userId===currentPlayer && player.playerId!==currentPlayer && opponentPlayer===null,
                     isOwnHand: userId===player.playerId,
                     cardId: card.cardId
                     })}
@@ -37,7 +37,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
                 selectedStat={selectedStat}
                 isCurrentPlayed={false}
                 hasWon={hasWon}
-                onClick={() => selectOpponent(player.playerId)}
+                onClick={opponentPlayer===null? () => selectOpponent(player.playerId):null}
             />);
     }
 
