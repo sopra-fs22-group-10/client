@@ -26,7 +26,7 @@ export const getCardTransform = ({cardPos, cardAmount, isClickable, isOwnHand, c
         height: `${cardHeight}vw`
     };
 
-    if (isOwnHand && isHovered(cardId)){
+    if (isOwnHand && isHovered(cardId) && isClickable){
         transform = {
             left: `${cardShift * (cardAmount - 1 - cardPos) + (ownHandScale*handWidth - ((cardAmount - 1) * (cardShift) + ownHandScale*cardWidth)) / 2}vw`,
             width: `${ownHandScale*cardWidth}vw`,
