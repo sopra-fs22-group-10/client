@@ -51,7 +51,7 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
     handVis.push(
         <div className="game card-container" style={transform}>
             <h1 className="game card-container username" style={usernameStyle}>
-                {player.playerId===userId? (player.playerName + " (you)"):player.playerName}
+                {player.playerId===userId && currentPlayer!==null? (player.playerName + " (you)"):player.playerName}
             </h1>
             {cardVis}
         </div>);

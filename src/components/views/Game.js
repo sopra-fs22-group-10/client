@@ -127,7 +127,7 @@ const help = () => {
 }
 
 const turnIndicator = (currentPlayer, opponentPlayer, playerList) => {
-    if (opponentPlayer===null){
+    if (opponentPlayer===null && currentPlayer!==null){
         if (currentPlayer===parseInt(localStorage.getItem('UserID'))){
             return (
                 <div className="game help-container" style={{"background": "none"}}>
