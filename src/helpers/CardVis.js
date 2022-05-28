@@ -73,7 +73,7 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
                               width={cardW-2*cornerRadius+2*statPadding} height={7 + 2*statPadding}
                               rx={statCornerRadius} ry={statCornerRadius}/>,
 
-                        <text className="game card value-name" x={cornerRadius} y={yStart + index*yStep + (7 + 2*statPadding)/7}>
+                        <text className="game card value-name" x={cornerRadius-1} y={yStart + index*yStep + (7 + 2*statPadding)/7}>
                             {stat.statname}
                         </text>];
 

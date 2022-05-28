@@ -189,14 +189,6 @@ function CreateTemplate(){
     let editTemplateView = (
         <div className="editTemplate container">
             <div className="editTemplate title-container">
-                Themes
-            </div>
-            <div className="editTemplate themes-container">
-                <div className="editTemplate theme"></div>
-                <div className="editTemplate theme"></div>
-                <div className="editTemplate theme"></div>
-            </div>
-            <div className="editTemplate title-container">
                 Stats
             </div>
             <ul className="editTemplate stats-list">

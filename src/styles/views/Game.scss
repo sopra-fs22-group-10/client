@@ -33,7 +33,8 @@
     transform: translate(-50%, -50%);
     border-radius: 25px;
     max-width: 80%;
-    background: #FF8B5D;
+    background: $accent3;
+    border: 3px solid $accent1;
   }
 
   &.help-text {
@@ -117,7 +118,7 @@
   &.value-name {
     pointer-events: none;
     fill: $accent5;
-    font: 6px sans-serif;
+    font: 4.8px sans-serif;
   }
 }
 

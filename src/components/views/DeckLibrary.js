@@ -93,7 +93,7 @@ const DeckLibrary = () => {
       <h3 className='library title'>
         Deck Library
       </h3>
-      <hr width = "1530"/> 
+      <hr className='library hr rounded'/>
       <div className='library buttons-container'>
         <Button
           className= "library to-dashboard"

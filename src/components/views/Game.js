@@ -133,7 +133,7 @@ const turnIndicator = (currentPlayer, opponentPlayer, playerList) => {
     if (opponentPlayer===null && currentPlayer!==null){
         if (currentPlayer===parseInt(localStorage.getItem('UserID'))){
             return (
-                <div className="game help-container" style={{"background": "none"}}>
+                <div className="game help-container" style={{"background": "none", "border": "none"}}>
                     <h3 className="game help-text" style={{"text-align": "center"}}>
                         IT'S YOUR TURN!
                     </h3>
@@ -322,6 +322,7 @@ const Game = () => {
     } else {
         game = (
           <div>
+            {turnIndicator(session.currentPlayer, session.opponentPlayer, session.playerList)}
             {handVis}
           </div>
         );
@@ -340,7 +341,6 @@ const Game = () => {
             ) : (
               <img className="game mute" src={Unmute} alt='' onClick={startAudio}/>
             )}
-            {turnIndicator(session.currentPlayer, session.opponentPlayer, session.playerList)}
 
             {game}
             {help()}
