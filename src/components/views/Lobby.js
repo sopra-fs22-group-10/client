@@ -1,5 +1,5 @@
 import {useEffect, useState, useRef} from 'react';
-import {api, handleError} from 'helpers/api';
+import {handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import Tooltip from '@mui/material/Tooltip';
 import {useHistory} from 'react-router-dom';
@@ -13,7 +13,6 @@ import Mute from '../../styles/graphics/mute.svg';
 import Unmute from '../../styles/graphics/unmute.svg';
 import Copy from '../../styles/graphics/copy.svg';
 import lobbyMusic from '../../styles/music/Lobby_Music.mp3';
-import Deck from "models/Deck";
 
 async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, playFunc, setHostIdFunc, code, setMin) {
     try {
