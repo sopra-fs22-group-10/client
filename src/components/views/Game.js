@@ -126,6 +126,21 @@ const help = () => {
     }
 }
 
+const turnIndicator = (currentPlayer, opponentPlayer) => {
+    if (currentPlayer===parseInt(localStorage.getItem('UserID')) && opponentPlayer===null){
+        return (
+            <div className="game help-container" style={{"background": "none"}}>
+                <h3 className="game help-text" style={{"text-align": "center"}}>
+                    IT'S YOUR TURN!
+                </h3>
+                <p className="game help-text" style={{"text-align": "center", "margin-top": "-10px"}}>
+                    choose an opponent by clicking on a hand
+                </p>
+            </div>
+        );
+    }
+}
+
 const getActivePlayers = (playerList) => {
     const activePlayers = [];
     for (const player of playerList){
@@ -270,6 +285,7 @@ const Game = () => {
         <div className="game body">
             <img className="game close-icon" src={CloseX} alt="" onClick={() => quit()}></img>
             <img className="game help-icon" src={helpQuestionmark} alt="" onClick={() => toggleHelp()}></img>
+            {turnIndicator(session.currentPlayer, session.opponentPlayer)}
             {game}
             {help()}
         </div>

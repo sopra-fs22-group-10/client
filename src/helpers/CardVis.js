@@ -55,11 +55,6 @@ export const CardVis = ({transform, cardInfo, cardVisibility, selectedStat, isCu
         />
     ]
 
-    //     <img
-    // src={cardInfo.image}
-    // width="80%"
-    //     ></img>
-
     const cardContent = ([
         cardTitle,
         cardImage,
