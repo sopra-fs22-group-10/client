@@ -37,7 +37,7 @@ async function fetchPlayers(pathID, setPlayersFunc, setMaxFunc, setDeckIdFunc, p
     }
 }
 
-async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
+async function getDeck(pathID, setDeckFunc, setHostIdFunc, setPicFunc) {
     try {
         const requestOptions = {
                         method: 'GET',
@@ -56,15 +56,14 @@ async function getDeck(pathID, setDeckFunc, setHostIdFunc) {
           const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions2)
           const data = await response.json();
         setDeckFunc(data);
+        setPicFunc(data.deckImage);
 ;
             }
             else{const response = await fetch(`${getDomain()}/decks/${deckId}`, requestOptions);
             const data = await response.json();
             setDeckFunc(data);
+            setPicFunc(data.deckImage);
     };
-        
-        //const data = await response.json();
-        //setDeckFunc(data);
 
 
     } catch (error) {
@@ -86,6 +85,7 @@ const Lobby = () => {
     const [max, setMax] = useState(null);
     const [hostId, setHostId] = useState(null);
     const [min, setMin] = useState(null);
+    const [pic, setPic] = useState(EmptyPicture);
     //const [hasGame, setHasGame] = useState(Boolean);
 
     const leave = async () => {
@@ -134,7 +134,7 @@ const Lobby = () => {
     }, []);
 
     useEffect(() => {
-      getDeck(pathID, setDeck, setHostId);
+      getDeck(pathID, setDeck, setHostId, setPic);
     }, []);
 
     let content;
@@ -162,7 +162,7 @@ const Lobby = () => {
       const numCards = deck.cardList.length;
       playdeck = (
         <div className="play-deck container">
-          <img className="play-deck image" src={EmptyPicture} alt=''></img>
+          <img className="play-deck image" src={pic} alt=''></img>
           <h2 className="play-deck title">{deck.deckname}</h2>
           <div className="play-deck cards">
             <p className="play-deck cards-num">{numCards}</p>

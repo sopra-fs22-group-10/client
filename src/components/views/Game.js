@@ -157,6 +157,7 @@ const Game = () => {
     const {pathID} = useParams();
     localStorage.setItem('pathID', pathID);
     var roundEnd = Boolean(false);
+    var change = Boolean(false);
     const [session, setSession] = useState(testSession);
     var winnerName;
     var activePlayers = getActivePlayers(session.playerList);
@@ -170,7 +171,7 @@ const Game = () => {
         const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
         console.log('deleted game');
         localStorage.removeItem('pathID');
-        history.push(`/menu`);
+        history.push(`/game/${pathID}/lobby`);
       } catch (error) {
         console.error(`Something went wrong while deleting the game: \n${handleError(error)}`);
         console.error("Details:", error);
@@ -179,10 +180,22 @@ const Game = () => {
     }
     const leave = async () => {
         localStorage.removeItem('pathID');
-        history.push(`/menu`);
+        history.push(`/game/${pathID}/lobby`);
     }
 
     const lobby = async () => {
+      try {
+        const requestOptions = {
+                        method: 'DELETE',
+                        headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+        };
+        const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
+        console.log('deleted game');
+        localStorage.removeItem('pathID');
+      } catch (error) {
+        console.error(`Something went wrong while deleting the game: \n${handleError(error)}`);
+        console.error("Details:", error);
+      }
         history.push(`/game/${pathID}/lobby`)
     }
 
@@ -229,14 +242,8 @@ const Game = () => {
                  alert("Something went wrong while fetching round information! See the console for details.");
             }
         }
-
         const interval = setInterval(async () => {
-            if (roundEnd === true) {
-              fetchSessionEnd(pathID, setSession, leave);
-            } else {
-              fetchSession(pathID, setSession, leave);
-            }
-            roundEnd = (session.opponentPlayer != null);
+            await fetchSession(pathID, setSession, leave);
         }, 500);
 
         return () => clearInterval(interval);
