@@ -1,5 +1,5 @@
 import {CardVis} from "./CardVis";
-import {cardWidth, getPlayedHandTrans} from "./HandPositioning";
+import {cardHeight, cardWidth, getPlayedHandTrans, handWidth, zoomScale} from "./HandPositioning";
 import {getPlayedCardTransform, getCardTransform} from "./CardPositioning";
 import {selectOpponent} from "../components/views/Game";
 
@@ -43,15 +43,15 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
 
     var usernameStyle = {};
     if (player.playerId===opponentPlayer){
-        usernameStyle = {"text-shadow": "0px 0px 10px #FF8B5D, 0px 0px 10px #FF8B5D, 0px 0px 10px #FF8B5D"};
+        //usernameStyle = {"text-shadow": "0px 0px 10px #FF8B5D, 0px 0px 10px #FF8B5D, 0px 0px 10px yellow"};
     } else if (player.playerId===currentPlayer){
-        usernameStyle = {"text-shadow": "0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white"};
+        //usernameStyle = {"text-shadow": "0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white"};
     }
 
     handVis.push(
         <div className="game card-container" style={transform}>
             <h1 className="game card-container username" style={usernameStyle}>
-                {player.playerName}
+                {player.playerId===userId && currentPlayer!==null? (player.playerName + " (you)"):player.playerName}
             </h1>
             {cardVis}
         </div>);
@@ -83,10 +83,21 @@ export const HandVis = ({player, transform, selectedStat, hasWon, currentPlayer,
         }
 
         handVis.push(
-            <div className="game card-container" style={getPlayedHandTrans(player.playerId, currentPlayer, opponentPlayer)}>
+            <div className="game played-card-container" style={getPlayedHandTrans(player.playerId, currentPlayer, opponentPlayer)}>
+                <h1 className="game played-card-container username" style={player.playerId===currentPlayer? {"margin-right": "3vw", "text-align": "right"}:{"margin-left": "3vw", "text-align": "left"}}>
+                    {opponentPlayer!==null? (player.playerId===userId? "YOU":player.playerName.toUpperCase()):null}
+                </h1>
                 {playedCardsVis}
             </div>);
     }
+
+    //show vs text
+    if (opponentPlayer!=null)handVis.push(
+        <div className="game played-card-container" style={{left: `${50}vw`, top: `${50.7-zoomScale*cardHeight}vh`}}>
+            <h1 className="game played-card-container username" style={{"margin-left": "-1.4vw"}}>
+                VS
+            </h1>
+        </div>)
 
     return handVis;
 }

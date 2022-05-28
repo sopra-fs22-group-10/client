@@ -61,12 +61,12 @@ const ownHandTrans = {
 
 const oppPlayedTrans = {
     right: `${50-handWidth}vw`,
-    top: `${50-zoomScale*cardHeight}vh`,
+    top: `${50.7-zoomScale*cardHeight}vh`,
     width: `${handWidth}vw`,
     height: `${zoomScale*cardHeight}vw`};
 const activePlayedTrans = {
     left: `${50-handWidth}vw`,
-    top: `${50-zoomScale*cardHeight}vh`,
+    top: `${50.7-zoomScale*cardHeight}vh`,
     width: `${handWidth}vw`,
     height: `${zoomScale*cardHeight}vw`};
 
