@@ -17,6 +17,7 @@ import CreateCard from "components/views/CreateCard";
 import SearchImage from "components/views/SearchImage";
 import ViewDeck from "components/views/ViewDeck";
 import ViewCard from "components/views/ViewCard";
+import Header from "../../views/Header";
 
 const MenuRouter = props => {
     /**
@@ -26,11 +27,13 @@ const MenuRouter = props => {
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <Route exact path={`${props.base}/`}>
                 <GameGuard>
+                    <Header height="100"/>
                     <Dashboard/>
                 </GameGuard>
             </Route>
             <Route exact path={`${props.base}/deckLibrary`}>
                 <GameGuard>
+                    <Header height="100"/>
                     <DeckLibrary/>
                 </GameGuard>
             </Route>
@@ -81,6 +84,7 @@ const MenuRouter = props => {
             </Route>
             <Route exact path={`${props.base}/deckSelector`}>
                 <GameGuard>
+                    <Header height="100"/>
                     <DeckSelector/>
                 </GameGuard>
             </Route>

@@ -112,7 +112,7 @@ const help = () => {
                     Instructions
                 </h3>
                 <p className="game help-text" style={{"margin-top": "-13px"}}>
-                    1. The player whose turn it is (indicated by a white shadow behind the player name) selects an opponent (indicated by a red shadow) to compare cards with. This is done by clicking on the opponents hand.
+                    1. The player whose turn it is selects an opponent to compare cards with. This is done by clicking on the opponents hand.
 
                 </p>
                 <p className="game help-text" style={{"margin-top": "-7px"}}>
@@ -122,7 +122,7 @@ const help = () => {
                     3. By clicking on a stat of the current played card, the active player selects which stat will be used for the comparison.
                 </p>
                 <p className="game help-text" style={{"margin-top": "-7px"}}>
-                    4. The cards are revealed and compared. If both stats are the same, the active player and opponent stay the same and we go back to step 2. Otherwise the player with the better stat wins all of the compared cards and is the new active player. We go back to step 1.
+                    4. The cards are compared. If both stats are the same, the active player and opponent stay the same and we go back to step 2. Otherwise the player with the better stat wins all of the compared cards and is the new active player. We go back to step 1.
                 </p>
             </div>
         );
@@ -242,53 +242,25 @@ const Game = () => {
         async function fetchSession(pathID, setSessionFunc, leaveFunc){
             try {
                 const requestOptions = {
-                                method: 'GET',
-                                headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
                 };
                 const response = await fetch(`${getDomain()}/session/${pathID}/game`, requestOptions);
                 const data = await response.json();
+                activePlayers = getActivePlayers(data.playerList);
                 if (data.status == 404) {
                     leaveFunc();
                 }
                 await setSessionFunc(data);
-                activePlayers = getActivePlayers(session.playerList);
-
-
             } catch (error) {
                  console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
                  console.error("Details:", error);
                  alert("Something went wrong while fetching game information! See the console for details.");
             }
         }
-
-        async function fetchSessionEnd(pathID, setSessionFunc, leaveFunc){
-            try {
-                const requestOptions = {
-                                method: 'GET',
-                                headers: {'Content-Type': 'application/json', 'Authentication': localStorage.getItem('Authentication')},
-                };
-                const response = await fetch(`${getDomain()}/session/${pathID}/round`, requestOptions);
-                const data = await response.json();
-                if (data.status == 404) {
-                    leaveFunc();
-                }
-                let newData = Object.assign({}, session);
-                Object.assign(newData, data);
-                await setSessionFunc(newData);
-            } catch (error) {
-                 console.error(`Something went wrong while fetching game information: \n${handleError(error)}`);
-                 console.error("Details:", error);
-                 alert("Something went wrong while fetching round information! See the console for details.");
-            }
-        }
         const interval = setInterval(async () => {
             await fetchSession(pathID, setSession, leave);
-            //console.log(session);
-            if (session.opponentPlayer != null) {
-                console.log("in the middle");
-            }
         }, 500);
-
         return () => clearInterval(interval);
     }, []);
 
