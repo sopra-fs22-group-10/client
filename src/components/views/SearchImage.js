@@ -49,6 +49,11 @@ const SearchImage = () => {
         if(localStorage.getItem("isEdit")){
             var ids = localStorage.getItem("isEdit");
             history.push(`/menu/editCard/`+ids);
+        }else if(localStorage.getItem("isEditDeck")){
+            var deckId = localStorage.getItem("isEditDeck");
+            history.push(`/menu/deckOverview/${deckId}`);
+        }else if(localStorage.getItem("isCreateDeck")){
+            history.push(`/menu/createDeck`);
         }else{
             history.push(`/menu/createCard`);
         }
@@ -59,6 +64,11 @@ const SearchImage = () => {
         if(localStorage.getItem("isEdit")){
             var ids = localStorage.getItem("isEdit");
             history.push(`/menu/editCard/`+ids);
+        }else if(localStorage.getItem("isEditDeck")){
+            var deckId = localStorage.getItem("isEditDeck");
+            history.push(`/menu/deckOverview/${deckId}`);
+        }else if(localStorage.getItem("isCreateDeck")){
+            history.push(`/menu/createDeck`);
         }else{
             history.push(`/menu/createCard`);
         }

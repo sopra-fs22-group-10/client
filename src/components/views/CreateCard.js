@@ -94,6 +94,15 @@ const CreateCard = () => {
         }
     }
 
+    function isNumber(val){
+        var regPos = /^[0-9]+.?[0-9]*/; 
+        if(regPos.test(val) ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function getCard(){
         var cardname = name;
         var statCount = stats.length;

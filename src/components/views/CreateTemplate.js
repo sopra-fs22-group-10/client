@@ -145,6 +145,7 @@ function CreateTemplate(){
                 <div className="edit-template-stat name">
                     <input
                         placeholder={statname(stat)}
+                        maxLength = "11"
                         className="edit-template-stat input"
                         value= {statNameDic[index][0]}
                         onChange={e => statNameDic[index][1](e.target.value)}
@@ -188,14 +189,6 @@ function CreateTemplate(){
 
     let editTemplateView = (
         <div className="editTemplate container">
-            <div className="editTemplate title-container">
-                Themes
-            </div>
-            <div className="editTemplate themes-container">
-                <div className="editTemplate theme"></div>
-                <div className="editTemplate theme"></div>
-                <div className="editTemplate theme"></div>
-            </div>
             <div className="editTemplate title-container">
                 Stats
             </div>

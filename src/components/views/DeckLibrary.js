@@ -61,10 +61,23 @@ const DeckLibrary = () => {
     fetchData();
   }, []);
 
-  const DeckBlock = ({deck}) => (
-    <div className="deck container">
-      <div className="deck image-container">
-      </div>
+  function DeckBlock(deck){
+    let image = null;
+    if(deck.deckImage.includes('http')){
+      image = (
+        <img 
+          className="deck image-container"
+          src={deck.deckImage}
+        ></img>
+      );
+    }else{
+      image = (
+        <div className="deck image-container"></div>
+      );
+    }
+    return(
+      <div className="deck container">
+      {image}
       <div className="deck content-container">
         <div className="deck text-container">
           <h3 className="deck title">{deck.deckname}</h3>
@@ -86,7 +99,8 @@ const DeckLibrary = () => {
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className='library container'>
@@ -115,9 +129,7 @@ const DeckLibrary = () => {
         </Button>
       </div>
       <ul className="library deck-list">
-          {decks.map(deck => (
-            <DeckBlock deck={deck} key={deck.id}/>
-          ))}
+          {decks.map(deck => DeckBlock(deck))}
       </ul>
     </div>
   );
