@@ -5,26 +5,22 @@ import {api, handleError} from 'helpers/api';
 import "styles/views/CreateDeck.scss";
 import Select from 'react-select'
 import Card from 'models/Card';
+import Deck from 'models/Deck';
 
 const CreateDeck = () => {
   // use react-router-dom's hook to access the history
   const history = useHistory();
 
   const [deck, setDeck] = useState({});
+  const [pic, setPic] = useState('sth');
   const [template, setTemplate] = useState(undefined);
   const [deckName, setDeckName] = useState("");
   const [visability, setVisability] = useState(undefined);
-  const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
 
   const visability_options = [
     { value: 'PRIVATE', label: 'Private' },
     { value: 'PUBLIC', label: 'Public' }
-  ]
-
-  const fairness_options = [
-    { value: 'ON', label: 'on' },
-    { value: 'OFF', label: 'off' }
   ]
 
   const defaultVisability = () => {
@@ -37,24 +33,17 @@ const CreateDeck = () => {
     }
   }
 
-  const defaultFairness = () => {
-    if(!fairness){
-      return null;
-    }if(fairness.value == "ON"){
-      return(fairness_options[0]);
-    }else{
-      return(fairness_options[1]);
-    }
-  }
-
   const confirm = async() => {
-    var deckname = deckName;
-    var deckstatus = visability.value;
     var templatestats = template;
+
+    var newDeck = new Deck();
+    newDeck.setDeckname(deckName);
+    newDeck.setDeckImage(pic);
+    newDeck.setStatus(visability.value);
 
     const userId = localStorage.getItem('UserID');
 
-    const requestBody_createDeck = JSON.stringify({deckname});
+    const requestBody_createDeck = JSON.stringify(newDeck);
     const response_createDeck = await api.post(`/decks/users/${userId}`, requestBody_createDeck,{
       headers:{
         'Authentication':localStorage.getItem("Authentication")
@@ -86,9 +75,6 @@ const CreateDeck = () => {
 
   }
 
-  const editPicture = () => {
-  }
-
   const deleteCard = (card) => {
     var newCards = JSON.parse(localStorage.getItem('newCards'));
     newCards.splice(getCardIndex(card),1);
@@ -110,9 +96,6 @@ const CreateDeck = () => {
     if(visability){
       localStorage.setItem("visability",visability.value);
     }
-    if(fairness){
-      localStorage.setItem("fairness",fairness.value);
-    }
   }
 
   function clearDeck(){
@@ -121,6 +104,7 @@ const CreateDeck = () => {
     localStorage.removeItem("fairness");
     localStorage.removeItem("newCards");
     localStorage.removeItem("newStats");
+    localStorage.removeItem("selected pic");
   }
 
   const createCard = () => {
@@ -147,6 +131,11 @@ const CreateDeck = () => {
     saveDeck();
     localStorage.setItem('editCard',JSON.stringify(card));
     history.push(`/menu/createCard`);
+  }
+
+  const searchImage = () => {
+    localStorage.setItem("isCreateDeck",true);
+    history.push(`/menu/searchImage`);
   }
 
   useEffect(() => {
@@ -176,14 +165,11 @@ const CreateDeck = () => {
           }
           console.log(visability);
         }
-        var deckFairness = localStorage.getItem('fairness');
-        if(deckFairness){
-          if(deckFairness == "ON"){
-            setFairness(fairness_options[0]);
-          }else{
-            setFairness(fairness_options[1]);
-          }
-          console.log(fairness);
+
+        var picture = localStorage.getItem("selected pic");
+        localStorage.removeItem("isCreateDeck");
+        if(picture){
+            setPic(picture);
         }
 
         } catch (error) {
@@ -307,11 +293,33 @@ const CreateDeck = () => {
     </div>
   );
 
+  function imageBlock(){
+    if(pic){
+        if(pic.includes('http')){
+            return(
+                <img className= "overview image"
+                    src={pic}
+                    onClick = {() => searchImage()}
+                ></img>
+            );
+        }else{
+            return(
+                <Button 
+                    className="overview search-image-button"
+                    onClick={() => searchImage()}
+                >
+                    <h2 className="editCard search-image-text">
+                        + Add Image
+                    </h2>
+                </Button> 
+            );
+        }
+    }
+  }
+
   let editDeckView = (
     <div className="create-overview edit-container">
-      <div className="create-overview edit-picture-container"
-        onClick={() => editPicture()}>
-      </div>
+      {imageBlock()}
         <p className="create-overview edit-text">deck name</p>
         <input
           className="create-overview edit-input"
@@ -327,15 +335,8 @@ const CreateDeck = () => {
           options={visability_options} 
           onChange= {setVisability}
         />
-        <p className="create-overview edit-text">Fairness</p>
-        <Select 
-          defaultValue={defaultFairness}
-          className="create-overview edit-select"
-          options={fairness_options} 
-          onChange={setFairness}
-        />
         <Button
-          disabled={!template | !visability | !deckName | !fairness}
+          disabled={!template | !visability | !deckName}
           className="create-overview edit-button"
           width="100%"
           onClick={() => confirm()}

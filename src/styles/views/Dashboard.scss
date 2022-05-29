@@ -19,6 +19,7 @@
   }
   &.deck-list {
     max-height: 30em;
+    width: 720px;
     list-style: none;
     padding: 0;
     display: flex;
@@ -169,6 +170,7 @@
       font-weight: 500;
       font-size: 1.25em;
       margin-left: 15px;
+      height: 40px;
       color: black;
       margin-top: 0;
   }
@@ -188,14 +190,14 @@
   }
   &.view-deck{
       height: 2.5em;
-      width: 45%;
+      width: 80px;
       background-color: $accent;
       margin-left:0;
       margin-right: 10px;
   }
   &.add-deck{
       height: 2.5em;
-      width: 45%;
+      width: 80px;
       background-color: $accent3;
   }
   &.image-container{

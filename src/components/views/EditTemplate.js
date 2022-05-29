@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Button} from 'components/ui/Button';
 import {useHistory} from 'react-router-dom';
-import "styles/views/EditTemplate.scss";
 
 const type_options = [
     { value: 'STARS', label: '1-5 Stars' },
@@ -47,13 +46,11 @@ function EditTemplate(){
     const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
 
     const confirm = () => {
+        history.push(`/menu/deckOverview/${deckId}`);
     }
 
     const cancel = () => {
         history.push(`/menu/deckOverview/${deckId}`);
-    }
-
-    const addStats = () => {
     }
 
     function getDefaultType(stat){
@@ -174,14 +171,6 @@ function EditTemplate(){
             <ul className="editTemplate stats-list">
                 {stats.map(stat => statBlock(stat))}
             </ul>
-            <div className="editTemplate addStats-button-container">
-                <Button
-                width="100%"
-                onClick={() => addStats()}
-                >
-                    Add Stats
-                </Button>
-            </div>
             <div className="editTemplate button-wraper">
                 <div className="editTemplate button-container">
                     <Button

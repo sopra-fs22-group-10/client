@@ -124,10 +124,23 @@ const Dashboard = () => {
       fetchData();
     }, []);
 
-    const DeckBlock = ({deck}) => (
+    function DeckBlock(deck){
+      let image = null;
+      if(deck.deckImage.includes('http')){
+        image = (
+          <img 
+            className="deck-block image-container"
+            src={deck.deckImage}
+          ></img>
+        );
+      }else{
+        image = (
+          <div className="deck-block image-container"></div>
+        );
+      }
+      return(
       <div className="deck-block container">
-        <div className="deck-block image-container">
-        </div>
+        {image}
         <div className="deck-block content-container">
           <div className="deck-block text-container">
             <h3 className="deck-block title">{deck.deckname}</h3>
@@ -150,15 +163,14 @@ const Dashboard = () => {
         </div>
       </div>
     );
+  }
 
     let content;
     if(decks){
       content = (
         <div className="dashboard">
             <ul className="dashboard deck-list">
-              {decks.map(deck => (
-                <DeckBlock deck={deck} key={deck.id}/>
-              ))}
+              {decks.map(deck => DeckBlock(deck))}
             </ul>
         </div>
       );

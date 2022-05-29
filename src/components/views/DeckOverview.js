@@ -12,10 +12,10 @@ const DeckOverview = () => {
   const history = useHistory();
 
   const [deck, setDeck] = useState({});
+  const [pic, setPic] = useState('sth');
   const [template, setTemplate] = useState({});
   const [deckName, setDeckName] = useState(undefined);
   const [visability, setVisability] = useState(undefined);
-  const [fairness, setFairness] = useState(undefined);
   const [cardList, setCardList] = useState([]);
 
   const url = window.location.href;
@@ -26,19 +26,24 @@ const DeckOverview = () => {
     { value: 'PUBLIC', label: 'Public' }
   ]
 
-  const fairness_options = [
-    { value: 'on', label: 'on' },
-    { value: 'off', label: 'off' }
-  ]
-
-  const confirm = () => {
+  const confirm = async() => {
     var newDeck = new Deck(deck);
     newDeck.setDeckname(deckName);
+    newDeck.setDeckImage(pic);
     newDeck.setStatus(visability.value);
+    const requestBody = JSON.stringify(newDeck);
+    const response = await api.put(`/decks/${deckId}`, requestBody,{
+      headers:{
+        'Authentication':localStorage.getItem("Authentication")
+      }
+    });
+    localStorage.removeItem("selected pic");
     history.push('/menu/deckLibrary');
   }
 
-  const editPicture = () => {
+  const searchImage = () => {
+    localStorage.setItem("isEditDeck",deckId);
+    history.push(`/menu/searchImage`);
   }
 
   const deleteCard = async(cardId) => {
@@ -65,27 +70,16 @@ const DeckOverview = () => {
 
   const backToLibrary = async () => {
     localStorage.removeItem("deckId");
+    localStorage.removeItem("selected pic");
     history.push('/menu/deckLibrary');
   }
 
-  const defaultVisability = () => {
+  function defaultVisability(){
     if(visability == "PRIVATE"){
       return(visability_options[0]);
     }else{
       return(visability_options[1]);
     }
-  }
-
-  const defaultFairness = () => {
-    if(fairness == "ON"){
-      return(fairness_options[0]);
-    }else{
-      return(fairness_options[1]);
-    }
-  }
-
-  function editTemplate(deckId){
-    history.push(`/menu/editTemplate/${deckId}`);
   }
 
   function editCard(deckId,cardId){
@@ -105,6 +99,7 @@ const DeckOverview = () => {
 
         // Get the returned users and update the state.
         setDeck(response.data);
+        setPic(response.data.deckImage);
         setTemplate(response.data.template);
         setCardList(response.data.cardList);
         if(response.data.deckstatus == "PUBLIC"){
@@ -114,7 +109,11 @@ const DeckOverview = () => {
         }
         setDeckName(response.data.deckname);
 
-        // See here to get more data.
+        var picture = localStorage.getItem("selected pic");
+        localStorage.removeItem("isEditDeck");
+        if(picture){
+            setPic(picture);
+        }
 
         } catch (error) {
         console.error(`Something went wrong: \n${handleError(error)}`);
@@ -180,12 +179,6 @@ const DeckOverview = () => {
         <ul className="template stat-list">
           {template.templatestats.map(stat => statBlock(stat))}
         </ul>
-        <Button
-          className="template edit-button"
-          onClick={() => editTemplate(deck.deckId)}
-        >
-          edit
-        </Button>
       </div>
     );
   }
@@ -217,13 +210,35 @@ const DeckOverview = () => {
     </div>
   );
 
+  function imageBlock(){
+    if(pic){
+        if(pic.includes('http')){
+            return(
+                <img className= "overview image"
+                    src={pic}
+                    onClick = {() => searchImage()}
+                ></img>
+            );
+        }else{
+            return(
+                <Button 
+                    className="overview search-image-button"
+                    onClick={() => searchImage()}
+                >
+                    <h2 className="editCard search-image-text">
+                        + Add Image
+                    </h2>
+                </Button> 
+            );
+        }
+    }
+}
+
   let editDeckView = null;
   if(visability){
     editDeckView = (
       <div className="overview edit-container">
-        <div className="overview edit-picture-container"
-          onClick={() => editPicture()}>
-        </div>
+        {imageBlock()}
           <p className="overview edit-text">deck name</p>
           <input
             className="overview edit-input"
@@ -234,17 +249,10 @@ const DeckOverview = () => {
           />
           <p className="overview edit-text">Visability</p>
           <Select 
-            defaultValue={defaultVisability}
+            defaultValue={defaultVisability()}
             className="overview edit-select"
             options={visability_options} 
             onChange= {setVisability}
-          />
-          <p className="overview edit-text">Fairness</p>
-          <Select 
-            defaultValue={defaultFairness}
-            className="overview edit-select"
-            options={fairness_options} 
-            onChange={setFairness}
           />
           <Button
             className="overview edit-button"

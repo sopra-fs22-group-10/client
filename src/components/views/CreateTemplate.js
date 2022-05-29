@@ -145,6 +145,7 @@ function CreateTemplate(){
                 <div className="edit-template-stat name">
                     <input
                         placeholder={statname(stat)}
+                        maxLength = "11"
                         className="edit-template-stat input"
                         value= {statNameDic[index][0]}
                         onChange={e => statNameDic[index][1](e.target.value)}

@@ -7,6 +7,7 @@ import {api, handleError} from 'helpers/api';
 import "styles/views/EditCard.scss";
 import Stat from 'models/Stat';
 import Card from 'models/Card';
+import { fontGrid } from '@mui/material/styles/cssUtils';
 
 const stars_options = [
     { value: 1, label: '1 star' },
@@ -57,9 +58,6 @@ const EditCard = () => {
     function cancel(){
         localStorage.removeItem("selected pic");
         history.push(`/menu/deckOverview/${deckId}`);
-    }
-
-    function addStats(){
     }
 
     function getCard(){
@@ -146,6 +144,7 @@ const EditCard = () => {
             localStorage.removeItem("isEdit");
             if(picture){
                 setPic(picture);
+                localStorage.removeItem("selected pic");
             }
     
             } catch (error) {
@@ -157,7 +156,7 @@ const EditCard = () => {
     
         fetchData();
       }, []);
-
+    
     function blockContent(stat){
         if(stat.stattype == "STARS"){
             return(
