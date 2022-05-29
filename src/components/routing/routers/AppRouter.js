@@ -42,7 +42,6 @@ const AppRouter = () => {
         <Route path="/menu">
           <GameGuard>
             <div>
-              <Header height="100"/>
               <MenuRouter base={"/menu"}/>
             </div>
           </GameGuard>

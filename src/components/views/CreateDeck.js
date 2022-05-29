@@ -328,7 +328,7 @@ const CreateDeck = () => {
           value={deckName}
           onChange={dn => setDeckName(dn.target.value)}
         />
-        <p className="create-overview edit-text">Visability</p>
+        <p className="create-overview edit-text">Visibility</p>
         <Select 
           defaultValue={defaultVisability}
           className="create-overview edit-select"

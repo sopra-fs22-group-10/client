@@ -7,7 +7,7 @@
         margin-left: 20px;
         margin-right: 20px;
         margin-top: 15px;
-        height: 38em;
+        min-height: 28em;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
         padding: 1em;
         border-radius: $borderRadius;
@@ -45,7 +45,6 @@
         list-style: none;
         padding: 0;
         display: flex;
-        flex-direction: row;
         margin-left: 2px;
         margin-right: 2px;
         flex-flow: row wrap;

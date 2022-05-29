@@ -17,10 +17,10 @@
     &.deck-container {
         margin-left: 20px;
         margin-top: 15px;
-        height: 38em;
         width: 72.5%;
+        max-height: 38em;
         background: radial-gradient(closest-corner, $accent3, $accentDark);;
-        padding: 1.5em;
+        padding: 0.5em;
         border-radius: $borderRadius;
         display: flex;
         flex-direction: row;
@@ -53,6 +53,7 @@
     &.edit-container {
         margin-left: 1em;
         margin-top: 15px;
+        margin-right: 15px;
         height: 38em;
         width: 24.5%;
         background: radial-gradient(closest-corner, $accent3, $accentDark);

@@ -20,6 +20,7 @@ const DeckOverview = () => {
 
   const url = window.location.href;
   const deckId = url.substring(url.lastIndexOf('/')+1,url.length);
+  const height = window.innerHeight;
 
   const visability_options = [
     { value: 'PRIVATE', label: 'Private' },
@@ -186,7 +187,7 @@ const DeckOverview = () => {
   let overview = null;
 
   let deckView = (
-    <div className="overview deck-container">
+    <div maxHeight={height + "px"} className="overview deck-container">
       <div className = 'overview deck-view'>
         <div className = 'overview template'>
           {templateBlock}
@@ -247,7 +248,7 @@ const DeckOverview = () => {
             value={deckName}
             onChange={dn => setDeckName(dn.target.value)}
           />
-          <p className="overview edit-text">Visability</p>
+          <p className="overview edit-text">Visibility</p>
           <Select 
             defaultValue={defaultVisability()}
             className="overview edit-select"
