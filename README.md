@@ -33,7 +33,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-##High-level components
+## High-level components
 Most of the code can be found in the views directory. The [Game.js](https://github.com/sopra-fs22-group-10/client/blob/master/src/components/views/Game.js) is the main one for during the game and it employs most of the helper functions in the helpers directory.
 
 If you want to change anything about the structure of the views, don't forget to change the mappings in the routers directory as well.
